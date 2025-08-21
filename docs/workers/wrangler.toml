@@ -1,0 +1,26 @@
+name = "pravado-workers"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Bindings for environment variables (add as needed)
+[vars]
+ENV = "production"
+SUPABASE_URL = ""
+SUPABASE_SERVICE_KEY = ""
+SERP_API_KEY = ""
+PR_PROVIDER_KEY = ""
+STRIPE_SECRET = ""
+
+# KV/Durable Objects can be added later if needed:
+# [[kv_namespaces]]
+# binding = "PRAVADO_CACHE"
+# id = "xxxxxxxxxxxxxxxxxxxxx"
+
+[triggers]
+# Nightly visibility compute (03:00 UTC)
+crons = ["0 3 * * *"]
+
+# Example routes if you host API on Workers (optional for Phase A)
+# [routes]
+# pattern = "api.pravado.example.com/*"
+# zone_id = "your_zone_id"
