@@ -1,0 +1,48 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        // PRAVADO Design System - CSS Variables
+        bg: "var(--bg)",
+        surface: "var(--surface)",
+        text: "var(--text)",
+        primary: "var(--primary)",
+        ai: "var(--ai)",
+        premium: "var(--premium)",
+        success: "var(--success)",
+        warning: "var(--warning)",
+        danger: "var(--danger)",
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
+      fontSize: {
+        'display': ['2rem', { lineHeight: '2.5rem' }],   // 32px
+        'h1': ['1.75rem', { lineHeight: '2rem' }],      // 28px
+        'h2': ['1.375rem', { lineHeight: '1.75rem' }],  // 22px
+        'body': ['1rem', { lineHeight: '1.5rem' }],     // 16px
+        'meta': ['0.75rem', { lineHeight: '0.875rem' }], // 12px
+      },
+      boxShadow: {
+        sm: "0 1px 2px rgba(0,0,0,.06)",
+        md: "0 4px 12px rgba(0,0,0,.10)",
+        lg: "0 10px 20px rgba(0,0,0,.12)"
+      },
+      borderRadius: {
+        xl: "12px",
+        '2xl': "16px"
+      },
+      spacing: {
+        13: "3.25rem",
+        15: "3.75rem"
+      }
+    },
+  },
+  plugins: [],
+}
