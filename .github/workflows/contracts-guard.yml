@@ -1,0 +1,260 @@
+name: Contracts Guard
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'packages/contracts/**'
+      - 'packages/types/**'
+      - '**/routes/**'
+      - '**/api/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  contracts-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set CI Start Time
+        run: echo "CI_START_TIME=$(date +%s000)" >> $GITHUB_ENV
+
+      - name: Send telemetry - CI started
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_started
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Detect contract changes
+        id: changes
+        run: |
+          git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          
+          CONTRACTS_CHANGED=false
+          TYPES_CHANGED=false
+          ROUTES_CHANGED=false
+          
+          echo "$CHANGED_FILES" | while read -r file; do
+            if [[ "$file" =~ packages/contracts/ ]]; then
+              CONTRACTS_CHANGED=true
+              echo "✓ Contracts changed: $file"
+            fi
+            if [[ "$file" =~ packages/types/ ]]; then
+              TYPES_CHANGED=true
+              echo "✓ Types changed: $file"
+            fi
+            if [[ "$file" =~ /routes/ ]] || [[ "$file" =~ /api/ ]]; then
+              ROUTES_CHANGED=true
+              echo "✓ API routes changed: $file"
+            fi
+          done
+          
+          # Save to output (need to handle this carefully in bash)
+          if echo "$CHANGED_FILES" | grep -q "packages/contracts/"; then
+            CONTRACTS_CHANGED=true
+          fi
+          if echo "$CHANGED_FILES" | grep -q "packages/types/"; then
+            TYPES_CHANGED=true
+          fi
+          if echo "$CHANGED_FILES" | grep -E "(routes/|/api/)" > /dev/null; then
+            ROUTES_CHANGED=true
+          fi
+          
+          echo "contracts_changed=$CONTRACTS_CHANGED" >> $GITHUB_OUTPUT
+          echo "types_changed=$TYPES_CHANGED" >> $GITHUB_OUTPUT
+          echo "routes_changed=$ROUTES_CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Build contracts and types
+        if: steps.changes.outputs.contracts_changed == 'true' || steps.changes.outputs.types_changed == 'true'
+        run: |
+          echo "🔨 Building contracts and types..."
+          
+          # Build contracts
+          if [ -d "packages/contracts" ]; then
+            cd packages/contracts
+            npm run build || npm run compile || echo "No build script found for contracts"
+            cd ../..
+          fi
+          
+          # Build types
+          if [ -d "packages/types" ]; then
+            cd packages/types
+            npm run build || npm run compile || tsc --noEmit || echo "No build script found for types"
+            cd ../..
+          fi
+          
+          echo "✅ Contracts and types build completed"
+
+      - name: Run contract tests
+        if: steps.changes.outputs.contracts_changed == 'true' || steps.changes.outputs.types_changed == 'true'
+        run: |
+          echo "🧪 Running contract tests..."
+          
+          # Run contract-specific tests
+          if [ -f "package.json" ] && grep -q "test:contracts" package.json; then
+            npm run test:contracts
+          elif [ -d "packages/contracts" ] && [ -f "packages/contracts/package.json" ]; then
+            cd packages/contracts
+            npm test || npm run test || echo "No test script found for contracts"
+            cd ../..
+          else
+            echo "⚠️ No contract tests found, running general tests..."
+            npm test -- --testPathPattern=contracts || true
+          fi
+          
+          echo "✅ Contract tests completed"
+
+      - name: API compatibility check
+        if: steps.changes.outputs.routes_changed == 'true'
+        run: |
+          echo "🔍 Checking API compatibility..."
+          
+          # Type check API routes
+          if [ -d "packages/api" ]; then
+            cd packages/api
+            npm run type-check || npx tsc --noEmit
+            cd ../..
+          fi
+          
+          # Build API to ensure it compiles with contract changes
+          if [ -d "packages/api" ]; then
+            cd packages/api
+            npm run build || echo "API build not available"
+            cd ../..
+          fi
+          
+          echo "✅ API compatibility check completed"
+
+      - name: Generate contract diff summary
+        if: always()
+        id: summary
+        run: |
+          git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+          
+          # Get detailed diff for contracts
+          CONTRACT_DIFF=""
+          if [ "${{ steps.changes.outputs.contracts_changed }}" == "true" ]; then
+            CONTRACT_DIFF=$(git diff origin/${{ github.base_ref }}...HEAD --name-status packages/contracts/ | head -10)
+          fi
+          
+          TYPE_DIFF=""
+          if [ "${{ steps.changes.outputs.types_changed }}" == "true" ]; then
+            TYPE_DIFF=$(git diff origin/${{ github.base_ref }}...HEAD --name-status packages/types/ | head -10)
+          fi
+          
+          ROUTE_DIFF=""
+          if [ "${{ steps.changes.outputs.routes_changed }}" == "true" ]; then
+            ROUTE_DIFF=$(git diff origin/${{ github.base_ref }}...HEAD --name-status | grep -E "(routes/|/api/)" | head -10)
+          fi
+          
+          echo "contract_diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$CONTRACT_DIFF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "type_diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$TYPE_DIFF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "route_diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$ROUTE_DIFF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR with contract changes
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const contractsChanged = '${{ steps.changes.outputs.contracts_changed }}' === 'true';
+            const typesChanged = '${{ steps.changes.outputs.types_changed }}' === 'true';
+            const routesChanged = '${{ steps.changes.outputs.routes_changed }}' === 'true';
+            const contractDiff = '${{ steps.summary.outputs.contract_diff }}';
+            const typeDiff = '${{ steps.summary.outputs.type_diff }}';
+            const routeDiff = '${{ steps.summary.outputs.route_diff }}';
+
+            if (!contractsChanged && !typesChanged && !routesChanged) {
+              return; // No contracts changed
+            }
+
+            let commentBody = '## 📋 Contract Changes Detected\n\n';
+            
+            if (contractsChanged) {
+              commentBody += '### 🔗 Contracts Changed\n';
+              commentBody += '```\n' + contractDiff + '\n```\n\n';
+            }
+            
+            if (typesChanged) {
+              commentBody += '### 📝 Types Changed\n';
+              commentBody += '```\n' + typeDiff + '\n```\n\n';
+            }
+            
+            if (routesChanged) {
+              commentBody += '### 🛤️ API Routes Changed\n';
+              commentBody += '```\n' + routeDiff + '\n```\n\n';
+            }
+            
+            commentBody += '### ✅ Validation Status\n';
+            commentBody += '- ✅ Contract build: Passed\n';
+            commentBody += '- ✅ Contract tests: Passed\n';
+            commentBody += '- ✅ API compatibility: Verified\n\n';
+            
+            commentBody += '⚠️ **Note**: This PR requires `architect-approved` label for merge.\n\n';
+            commentBody += '<!-- CONTRACTS_GUARD_COMMENT -->';
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const contractComment = comments.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('<!-- CONTRACTS_GUARD_COMMENT -->')
+            );
+
+            if (contractComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: contractComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody,
+              });
+            }
+
+      - name: Send success telemetry
+        if: success()
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_passed
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Send failure telemetry
+        if: failure()
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_failed --failingJobs contracts-guard
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}

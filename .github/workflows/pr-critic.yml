@@ -1,0 +1,219 @@
+name: PR Critic
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  critic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set CI Start Time
+        run: echo "CI_START_TIME=$(date +%s000)" >> $GITHUB_ENV
+
+      - name: Send telemetry - PR opened
+        run: npx tsx scripts/devops/ph-event.ts dev_pr_opened --baseSha origin/${{ github.base_ref }} --headSha ${{ github.sha }}
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Analyze PR
+        id: analyze
+        run: |
+          # Check PR template sections
+          PR_BODY="${{ github.event.pull_request.body }}"
+          
+          # Required sections
+          MISSING_SECTIONS=""
+          if [[ ! "$PR_BODY" =~ "## Scope" && ! "$PR_BODY" =~ "# Scope" ]]; then
+            MISSING_SECTIONS="$MISSING_SECTIONS- Scope section\n"
+          fi
+          if [[ ! "$PR_BODY" =~ "## Contracts touched" && ! "$PR_BODY" =~ "# Contracts touched" ]]; then
+            MISSING_SECTIONS="$MISSING_SECTIONS- Contracts touched section\n"
+          fi
+          if [[ ! "$PR_BODY" =~ "## Endpoints" && ! "$PR_BODY" =~ "# Endpoints" ]]; then
+            MISSING_SECTIONS="$MISSING_SECTIONS- Endpoints section\n"
+          fi
+          if [[ ! "$PR_BODY" =~ "## Tests" && ! "$PR_BODY" =~ "# Tests" ]]; then
+            MISSING_SECTIONS="$MISSING_SECTIONS- Tests section\n"
+          fi
+          if [[ ! "$PR_BODY" =~ "## Screenshots" && ! "$PR_BODY" =~ "# Screenshots" ]]; then
+            MISSING_SECTIONS="$MISSING_SECTIONS- Screenshots section\n"
+          fi
+          if [[ ! "$PR_BODY" =~ "## Risk & Rollout" && ! "$PR_BODY" =~ "# Risk & Rollout" ]]; then
+            MISSING_SECTIONS="$MISSING_SECTIONS- Risk & Rollout section\n"
+          fi
+          if [[ ! "$PR_BODY" =~ "## Agent metadata" && ! "$PR_BODY" =~ "# Agent metadata" ]]; then
+            MISSING_SECTIONS="$MISSING_SECTIONS- Agent metadata section\n"
+          fi
+
+          # Check for changed files
+          git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          
+          CONTRACTS_CHANGED=false
+          SECURITY_REVIEW_NEEDED=false
+          ARCHITECT_APPROVAL_NEEDED=false
+          
+          echo "$CHANGED_FILES" | while read -r file; do
+            if [[ "$file" =~ packages/contracts/ ]]; then
+              CONTRACTS_CHANGED=true
+              ARCHITECT_APPROVAL_NEEDED=true
+            fi
+            if [[ "$file" =~ worker/ ]] || [[ "$file" =~ supabase/migrations/ ]]; then
+              SECURITY_REVIEW_NEEDED=true
+            fi
+          done
+          
+          # Check labels
+          LABELS="${{ toJson(github.event.pull_request.labels.*.name) }}"
+          ARCHITECT_APPROVED=false
+          SECURITY_REVIEWED=false
+          
+          if [[ "$LABELS" =~ "architect-approved" ]]; then
+            ARCHITECT_APPROVED=true
+          fi
+          if [[ "$LABELS" =~ "security-reviewed" ]]; then
+            SECURITY_REVIEWED=true
+          fi
+
+          # Output results
+          echo "missing_sections<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$MISSING_SECTIONS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "contracts_changed=$CONTRACTS_CHANGED" >> $GITHUB_OUTPUT
+          echo "security_review_needed=$SECURITY_REVIEW_NEEDED" >> $GITHUB_OUTPUT
+          echo "architect_approval_needed=$ARCHITECT_APPROVAL_NEEDED" >> $GITHUB_OUTPUT
+          echo "architect_approved=$ARCHITECT_APPROVED" >> $GITHUB_OUTPUT
+          echo "security_reviewed=$SECURITY_REVIEWED" >> $GITHUB_OUTPUT
+
+          # Count lines changed
+          LINES_CHANGED=$(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | grep -o '[0-9]\+ insertions\|[0-9]\+ deletions' | grep -o '[0-9]\+' | paste -sd+ | bc || echo "0")
+          echo "lines_changed=$LINES_CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Create or update PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('<!-- PR_CRITIC_CHECKLIST -->')
+            );
+
+            const missingSection = '${{ steps.analyze.outputs.missing_sections }}';
+            const contractsChanged = '${{ steps.analyze.outputs.contracts_changed }}' === 'true';
+            const securityNeeded = '${{ steps.analyze.outputs.security_review_needed }}' === 'true';
+            const architectNeeded = '${{ steps.analyze.outputs.architect_approval_needed }}' === 'true';
+            const architectApproved = '${{ steps.analyze.outputs.architect_approved }}' === 'true';
+            const securityReviewed = '${{ steps.analyze.outputs.security_reviewed }}' === 'true';
+            const linesChanged = parseInt('${{ steps.analyze.outputs.lines_changed }}') || 0;
+
+            let size = 'XS';
+            if (linesChanged >= 1000) size = 'XL';
+            else if (linesChanged >= 500) size = 'L';
+            else if (linesChanged >= 200) size = 'M';
+            else if (linesChanged >= 50) size = 'S';
+
+            let status = '✅ **PR Critic Check**\n\n';
+            let hasFailed = false;
+
+            // Template sections check
+            if (missingSection.trim()) {
+              status += '❌ **Missing PR template sections:**\n';
+              status += missingSection + '\n';
+              hasFailed = true;
+            } else {
+              status += '✅ PR template complete\n';
+            }
+
+            // Contract changes check
+            if (contractsChanged) {
+              if (architectApproved) {
+                status += '✅ Contracts changed - architect approved\n';
+              } else {
+                status += '❌ Contracts changed - requires `architect-approved` label\n';
+                hasFailed = true;
+              }
+            }
+
+            // Security review check
+            if (securityNeeded) {
+              if (securityReviewed) {
+                status += '✅ Security-sensitive changes - reviewed\n';
+              } else {
+                status += '❌ Security-sensitive changes - requires `security-reviewed` label\n';
+                hasFailed = true;
+              }
+            }
+
+            status += `\n**PR Stats:**\n`;
+            status += `- Size: ${size} (${linesChanged} lines changed)\n`;
+            status += `- Contracts touched: ${contractsChanged ? 'Yes' : 'No'}\n`;
+            status += `- Security review needed: ${securityNeeded ? 'Yes' : 'No'}\n`;
+
+            if (!hasFailed) {
+              status += '\n🎉 All checks passed! Ready for review.\n';
+            }
+
+            status += '\n<!-- PR_CRITIC_CHECKLIST -->';
+
+            const commentBody = status;
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody,
+              });
+            }
+
+            if (hasFailed) {
+              core.setFailed('PR does not meet quality requirements');
+            }
+
+      - name: Check failure status
+        if: failure()
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_failed
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Success telemetry
+        if: success()
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_passed
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}

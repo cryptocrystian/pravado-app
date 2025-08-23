@@ -351,7 +351,132 @@ User: Journalist: {{name}}, Beat: {{beat}}, Recent: {{titles[]}}. Pitch context:
 
 ---
 
-## 12) Acceptance Criteria (AC) & Quality Bars
+## 12) Agentic Observability & Analytics
+
+### 12.1 Agent Run Model
+
+**Agent Runs**: Each CiteMind job executes as a tracked agent run with complete observability.
+
+```sql
+-- agent_runs: Track job execution with budget controls
+CREATE TABLE agent_runs (
+    id UUID PRIMARY KEY,
+    org_id UUID REFERENCES tenants(id),
+    job_id UUID REFERENCES cm_jobs(id),
+    planner VARCHAR(100), -- 'citemind-orchestrator', 'pr-analyzer'
+    status VARCHAR(50), -- running, completed, failed, budget_exceeded
+    cost_usd DECIMAL(10, 6),
+    tokens_in INTEGER,
+    tokens_out INTEGER,
+    steps INTEGER,
+    started_at TIMESTAMP WITH TIME ZONE,
+    finished_at TIMESTAMP WITH TIME ZONE,
+    meta_json JSONB
+);
+
+-- agent_steps: Individual tool invocations within runs
+CREATE TABLE agent_steps (
+    id UUID PRIMARY KEY,
+    run_id UUID REFERENCES agent_runs(id),
+    step_no INTEGER,
+    tool VARCHAR(100), -- llm_call, web_search, db_query, citation_check
+    input_hash VARCHAR(64), -- SHA256 for deduplication
+    tokens_in INTEGER,
+    tokens_out INTEGER,
+    cost_usd DECIMAL(10, 6),
+    duration_ms INTEGER,
+    status VARCHAR(50),
+    output_ref VARCHAR(255)
+);
+```
+
+### 12.2 Governor & Critic Layers
+
+**Governor**: Budget enforcement with fail-closed semantics.
+- **AGENT_MAX_STEPS=12**: Hard limit on tool invocations per run
+- **AGENT_COST_CAP_USD=0.35**: Maximum spend per agent run
+- Pre-step cost estimation and validation
+- Emergency stop on budget violations
+
+**Critic**: Result validation before persistence.
+- Schema validation with Zod contracts
+- Confidence assessment (0.0 to 1.0)
+- Quality checks (completeness, consistency)
+- Minimum confidence threshold: 0.7
+
+### 12.3 CiteMind KPIs & Formulas
+
+**Citation Probability (0–1)**:
+```
+P(citation) = citations_found / total_queries_performed
+```
+
+**Platform Coverage (%)**:
+```
+Coverage = (platforms_with_citations / total_platforms) × 100
+Platforms: ChatGPT, Claude, Perplexity, Gemini
+```
+
+**Authority Signal Index (0–100)**:
+```
+ASI = (domain_authority × 0.4) + (backlink_count × 0.3) + (trust_flow × 0.3)
+```
+
+**Time-to-Citation (median, days)**:
+```
+TTC = median(citation_found_timestamp - content_published_timestamp)
+```
+
+### 12.4 Analytics Endpoints
+
+**Read-only endpoints** (no breaking changes to existing API):
+
+- `GET /analytics/citemind/summary?range=30d|90d` - KPI rollups
+- `GET /analytics/citemind/platforms?range=...` - Platform performance
+- `GET /analytics/citemind/ttc?range=...` - Time-to-citation analysis
+- `GET /analytics/citemind/visibility-mix?range=...` - Citation frequency vs content velocity
+
+**CSV Export**: All endpoints support `format=csv` parameter for data export.
+
+### 12.5 Frontend Analytics Integration
+
+**Analytics Tab**: New "CiteMind" section with charts:
+- **Line Chart**: Avg Citation Probability & Authority Index over time
+- **Bar Chart**: Platform Coverage by platform
+- **Histogram**: Time-to-Citation distribution
+- **Line Chart**: Citation Frequency vs Content Velocity
+
+**Dashboard Tiles**: KPI tiles with drill-down links to Analytics:
+- Citation Probability (current vs. previous period)
+- Platform Coverage percentage
+- Authority Index score
+- Time-to-Citation median
+
+### 12.6 Telemetry & Observability
+
+**PostHog Events**:
+- `citemind_job_enqueued`: Job queued for processing
+- `agent_run_completed`: Successful agent execution
+- `agent_budget_exceeded`: Budget violation detected
+- `analytics_export`: CSV/data export operations
+
+**Sentry Integration**:
+- PII-safe error tracking with org_id/job_id/run_id tags
+- Redacted sensitive payloads
+- Context-aware error grouping
+
+**Configuration**:
+```bash
+CITEMIND_ENABLED=true
+AGENT_MAX_STEPS=12
+AGENT_COST_CAP_USD=0.35
+MODEL_PRIMARY=anthropic/claude-3.7-sonnet
+MODEL_FALLBACK=anthropic/haiku-latest
+```
+
+---
+
+## 13) Acceptance Criteria (AC) & Quality Bars
 
 ### 12.1 Dashboard
 

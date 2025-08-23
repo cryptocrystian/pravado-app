@@ -1,0 +1,47 @@
+# CODEOWNERS file defines individuals or teams responsible for code in this repository
+# Order is important - the last matching pattern takes precedence
+
+# Default owners for everything in the repo
+* @saipienlabs
+
+# Core architecture and contracts require architect approval
+packages/contracts/ @saipienlabs @architect-team
+packages/types/ @saipienlabs @architect-team
+
+# API routes and backend architecture
+packages/api/src/routes/ @saipienlabs @backend-team
+packages/api/src/services/ @saipienlabs @backend-team
+
+# Database migrations require DBA review
+supabase/migrations/ @saipienlabs @dba-team
+
+# Worker configuration needs DevOps approval
+packages/api/wrangler.toml @saipienlabs @devops-team
+packages/api/worker-configuration.d.ts @saipienlabs @devops-team
+
+# CI/CD workflows require DevOps review
+.github/workflows/ @saipienlabs @devops-team
+.github/CODEOWNERS @saipienlabs @devops-team
+
+# Security-sensitive files require security team review
+scripts/devops/ph-event.ts @saipienlabs @security-team
+packages/api/src/lib/jwt.ts @saipienlabs @security-team
+packages/api/src/lib/auth.ts @saipienlabs @security-team
+
+# Frontend architecture requires frontend lead approval
+apps/ @saipienlabs @frontend-team
+packages/ui/ @saipienlabs @frontend-team
+
+# Documentation can be updated by any team member
+docs/ @saipienlabs
+*.md @saipienlabs
+README* @saipienlabs
+
+# Package configuration
+package.json @saipienlabs @devops-team
+package-lock.json @saipienlabs @devops-team
+tsconfig*.json @saipienlabs @devops-team
+
+# Agent and AI-related code
+packages/api/src/services/agentic/ @saipienlabs @ai-team
+packages/api/src/routes/analytics.ts @saipienlabs @ai-team

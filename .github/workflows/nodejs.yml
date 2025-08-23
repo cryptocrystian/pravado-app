@@ -1,34 +1,173 @@
-name: build-and-deploy
+name: Build and Deploy
 
 on:
   push:
     branches: [ main ]
   pull_request:
 
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  deployments: write
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'pnpm'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
-      # Adjust the build path if you change your app location
+      - name: Set CI Start Time
+        run: echo "CI_START_TIME=$(date +%s000)" >> $GITHUB_ENV
+
+      - name: Send telemetry - CI started
+        if: github.event_name == 'pull_request'
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_started
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Lint
+        run: |
+          echo "🧹 Running linter..."
+          npm run lint
+          echo "✅ Lint passed"
+
+      - name: Type check
+        run: |
+          echo "📝 Running type checks..."
+          npm run type-check
+          echo "✅ Type check passed"
+
+      - name: Unit tests with coverage
+        run: |
+          echo "🧪 Running unit tests with coverage..."
+          npm test -- --coverage --reporter=junit --outputFile=test-results.xml
+          echo "✅ Unit tests passed"
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Coverage comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let coverageData = {};
+            try {
+              const coverageJson = fs.readFileSync('./coverage/coverage-summary.json', 'utf8');
+              coverageData = JSON.parse(coverageJson);
+            } catch (e) {
+              console.log('No coverage summary found');
+              return;
+            }
+            
+            const { total } = coverageData;
+            const coverage = Math.round(total.lines.pct);
+            const coverageColor = coverage >= 80 ? '🟢' : coverage >= 60 ? '🟡' : '🔴';
+            
+            const commentBody = `## ${coverageColor} Test Coverage Report
+
+**Overall Coverage: ${coverage}%**
+
+| Metric | Coverage | 
+|--------|----------|
+| Lines | ${total.lines.pct.toFixed(1)}% (${total.lines.covered}/${total.lines.total}) |
+| Functions | ${total.functions.pct.toFixed(1)}% (${total.functions.covered}/${total.functions.total}) |
+| Branches | ${total.branches.pct.toFixed(1)}% (${total.branches.covered}/${total.branches.total}) |
+| Statements | ${total.statements.pct.toFixed(1)}% (${total.statements.covered}/${total.statements.total}) |
+
+${coverage < 80 ? '⚠️ Coverage below 80% threshold' : '✅ Coverage meets 80% threshold'}
+
+<!-- COVERAGE_COMMENT -->`;
+
+            // Find existing coverage comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const coverageComment = comments.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('<!-- COVERAGE_COMMENT -->')
+            );
+
+            if (coverageComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: coverageComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody,
+              });
+            }
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: |
+          echo "🔨 Building packages..."
+          npm run build
+          echo "✅ Build completed"
+
       - name: Build web app
-        run: pnpm -C apps/web build
+        if: hashFiles('apps/web/package.json') != ''
+        run: |
+          echo "🌐 Building web app..."
+          cd apps/web
+          npm run build
+          echo "✅ Web app built"
 
-      - name: Upload artifact to Cloudflare Pages
+      - name: Build worker
+        run: |
+          echo "⚡ Building worker..."
+          cd packages/api
+          npm run build
+          echo "✅ Worker built"
+
+      - name: Deploy to Cloudflare Pages
+        if: github.ref == 'refs/heads/main' && hashFiles('apps/web/package.json') != ''
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -36,3 +175,28 @@ jobs:
           projectName: pravado-app
           directory: apps/web/dist
           wranglerVersion: '3'
+
+      - name: Deploy Worker to Production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "🚀 Deploying worker to production..."
+          cd packages/api
+          npx wrangler deploy --env production
+          echo "✅ Worker deployed"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Send success telemetry
+        if: success() && github.event_name == 'pull_request'
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_passed
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Send failure telemetry
+        if: failure() && github.event_name == 'pull_request'
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_failed --failingJobs build-and-test
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}

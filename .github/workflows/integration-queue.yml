@@ -1,0 +1,356 @@
+name: Integration Queue
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+  actions: read
+
+jobs:
+  queue-check:
+    runs-on: ubuntu-latest
+    if: contains(github.event.label.name, 'ready-to-queue')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check PR status
+        id: pr-status
+        run: |
+          # Check if all required checks are passing
+          PR_NUMBER=${{ github.event.number }}
+          
+          echo "🔍 Checking PR #$PR_NUMBER status..."
+          
+          # Get PR status
+          PR_STATUS=$(gh api repos/${{ github.repository }}/pulls/$PR_NUMBER/commits/$(gh api repos/${{ github.repository }}/pulls/$PR_NUMBER --jq .head.sha)/status --jq .state)
+          
+          echo "PR Status: $PR_STATUS"
+          
+          if [ "$PR_STATUS" != "success" ]; then
+            echo "❌ PR checks are not all green"
+            echo "pr_ready=false" >> $GITHUB_OUTPUT
+            exit 1
+          else
+            echo "✅ PR checks are green"
+            echo "pr_ready=true" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send telemetry - Queue entered
+        if: steps.pr-status.outputs.pr_ready == 'true'
+        run: |
+          npx tsx scripts/devops/ph-event.ts dev_integration_queue_entered \
+            --integrationBranch "integ/batch-${{ github.run_id }}"
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+  integration:
+    needs: queue-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create integration branch
+        id: integration
+        run: |
+          INTEGRATION_BRANCH="integ/batch-${{ github.run_id }}"
+          PR_NUMBER=${{ github.event.number }}
+          
+          echo "🔄 Creating integration branch: $INTEGRATION_BRANCH"
+          
+          # Ensure we have latest main
+          git fetch origin main
+          
+          # Create integration branch from main
+          git checkout -b "$INTEGRATION_BRANCH" origin/main
+          
+          # Get PR info
+          PR_BRANCH=$(gh api repos/${{ github.repository }}/pulls/$PR_NUMBER --jq .head.ref)
+          PR_SHA=$(gh api repos/${{ github.repository }}/pulls/$PR_NUMBER --jq .head.sha)
+          
+          echo "PR Branch: $PR_BRANCH"
+          echo "PR SHA: $PR_SHA"
+          
+          # Fetch PR branch
+          git fetch origin "$PR_BRANCH:$PR_BRANCH"
+          
+          # Merge PR into integration branch (no squash)
+          git merge --no-ff "$PR_BRANCH" -m "Integration: Merge PR #$PR_NUMBER ($PR_BRANCH)"
+          
+          # Push integration branch
+          git push origin "$INTEGRATION_BRANCH"
+          
+          echo "integration_branch=$INTEGRATION_BRANCH" >> $GITHUB_OUTPUT
+          echo "pr_branch=$PR_BRANCH" >> $GITHUB_OUTPUT
+          echo "integration_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run full CI on integration branch
+        id: integration-ci
+        run: |
+          echo "🧪 Running full CI suite on integration branch..."
+          
+          INTEGRATION_BRANCH="${{ steps.integration.outputs.integration_branch }}"
+          
+          # Switch to integration branch
+          git checkout "$INTEGRATION_BRANCH"
+          
+          # Re-install to ensure clean state
+          rm -rf node_modules package-lock.json
+          npm ci
+          
+          echo "✅ Dependencies installed"
+
+      - name: Lint
+        run: |
+          echo "🧹 Running linter..."
+          npm run lint || exit 1
+          echo "✅ Lint passed"
+
+      - name: Type check
+        run: |
+          echo "📝 Running type checks..."
+          npm run type-check || exit 1
+          echo "✅ Type check passed"
+
+      - name: Unit tests
+        run: |
+          echo "🧪 Running unit tests..."
+          npm test || exit 1
+          echo "✅ Unit tests passed"
+
+      - name: Build
+        run: |
+          echo "🔨 Building project..."
+          npm run build || exit 1
+          echo "✅ Build passed"
+
+      - name: Worker deploy test
+        run: |
+          echo "⚡ Testing Worker deployment..."
+          cd packages/api
+          
+          if [ -n "${{ secrets.CLOUDFLARE_API_TOKEN }}" ]; then
+            # Deploy to test environment
+            npx wrangler deploy --name "pravado-api-integ-test" --env preview || exit 1
+            echo "✅ Worker deploy test passed"
+          else
+            echo "⚠️ Skipping Worker deploy (no token)"
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: E2E tests (if available)
+        run: |
+          echo "🎭 Running E2E tests..."
+          
+          if [ -f "package.json" ] && grep -q "test:e2e" package.json; then
+            npm run test:e2e || exit 1
+            echo "✅ E2E tests passed"
+          else
+            echo "⚠️ No E2E tests configured"
+          fi
+
+      - name: Integration success - Fast-forward main
+        id: merge-main
+        if: success()
+        run: |
+          INTEGRATION_BRANCH="${{ steps.integration.outputs.integration_branch }}"
+          INTEGRATION_SHA="${{ steps.integration.outputs.integration_sha }}"
+          
+          echo "🎉 Integration CI passed! Fast-forwarding main..."
+          
+          # Fetch latest main to ensure we're current
+          git fetch origin main
+          
+          # Switch to main and fast-forward
+          git checkout main
+          git merge --ff-only origin/main
+          
+          # Fast-forward to integration branch
+          git merge --ff-only "$INTEGRATION_SHA"
+          
+          # Push updated main
+          git push origin main
+          
+          echo "✅ Main branch fast-forwarded to integration"
+          
+          echo "merge_success=true" >> $GITHUB_OUTPUT
+
+      - name: Remove ready-to-queue label
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.number }},
+              name: 'ready-to-queue'
+            });
+            
+            // Add merged label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.number }},
+              labels: ['✅ integrated']
+            });
+
+      - name: Clean up integration branch
+        if: success()
+        run: |
+          INTEGRATION_BRANCH="${{ steps.integration.outputs.integration_branch }}"
+          
+          echo "🧹 Cleaning up integration branch: $INTEGRATION_BRANCH"
+          git push origin --delete "$INTEGRATION_BRANCH" || echo "Branch already deleted"
+
+      - name: Comment success on PR
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const integrationBranch = '${{ steps.integration.outputs.integration_branch }}';
+            const integrationSha = '${{ steps.integration.outputs.integration_sha }}';
+            
+            const commentBody = `🎉 **Integration Queue Success**
+
+Your PR has been successfully integrated into main!
+
+**Integration Details:**
+- Branch: \`${integrationBranch}\`
+- SHA: \`${integrationSha}\`
+- All CI checks: ✅ Passed
+- Main branch: ✅ Fast-forwarded
+
+The PR can now be closed as the changes are in main.
+
+<!-- INTEGRATION_SUCCESS_COMMENT -->`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.number }},
+              body: commentBody,
+            });
+
+      - name: Send success telemetry
+        if: success()
+        run: |
+          npx tsx scripts/devops/ph-event.ts dev_integration_ci_passed \
+            --integrationBranch "${{ steps.integration.outputs.integration_branch }}"
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Handle integration failure
+        if: failure()
+        run: |
+          INTEGRATION_BRANCH="${{ steps.integration.outputs.integration_branch }}"
+          
+          echo "❌ Integration CI failed"
+          
+          # Keep the integration branch for inspection
+          echo "🔍 Integration branch preserved for inspection: $INTEGRATION_BRANCH"
+
+      - name: Comment failure on PR
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const integrationBranch = '${{ steps.integration.outputs.integration_branch }}';
+            const failedStep = '${{ job.status }}';
+            
+            const commentBody = `❌ **Integration Queue Failed**
+
+The integration CI failed and your PR could not be merged to main.
+
+**Integration Details:**
+- Branch: \`${integrationBranch}\` (preserved for inspection)
+- Status: ❌ Failed
+- Failed step: ${failedStep}
+
+**Next Steps:**
+1. Check the [integration logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+2. Fix any issues in your PR
+3. Re-add the \`ready-to-queue\` label when ready
+
+The integration branch will remain available for debugging.
+
+<!-- INTEGRATION_FAILURE_COMMENT -->`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.number }},
+              body: commentBody,
+            });
+
+      - name: Send failure telemetry
+        if: failure()
+        run: |
+          npx tsx scripts/devops/ph-event.ts dev_integration_ci_failed \
+            --integrationBranch "${{ steps.integration.outputs.integration_branch }}" \
+            --failingJobs "integration-ci"
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Slack notification (if configured)
+        if: always() && env.SLACK_WEBHOOK_URL
+        run: |
+          STATUS="${{ job.status }}"
+          PR_NUMBER="${{ github.event.number }}"
+          INTEGRATION_BRANCH="${{ steps.integration.outputs.integration_branch }}"
+          
+          if [ "$STATUS" = "success" ]; then
+            MESSAGE="✅ Integration Queue Success: PR #$PR_NUMBER merged to main"
+            COLOR="good"
+          else
+            MESSAGE="❌ Integration Queue Failed: PR #$PR_NUMBER integration failed"
+            COLOR="danger"
+          fi
+          
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"attachments\":[{\"color\":\"$COLOR\",\"text\":\"$MESSAGE\",\"fields\":[{\"title\":\"Branch\",\"value\":\"$INTEGRATION_BRANCH\",\"short\":true},{\"title\":\"Run\",\"value\":\"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\",\"short\":true}]}]}" \
+            ${{ env.SLACK_WEBHOOK_URL }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

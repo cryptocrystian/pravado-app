@@ -1,0 +1,197 @@
+name: Size Labeler
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  size-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Calculate PR size
+        id: size
+        run: |
+          # Get the base and head branches
+          git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+          
+          # Calculate diff stats
+          DIFF_OUTPUT=$(git diff --numstat origin/${{ github.base_ref }}...HEAD)
+          
+          TOTAL_ADDITIONS=0
+          TOTAL_DELETIONS=0
+          
+          # Parse diff output
+          while IFS=$'\t' read -r additions deletions filename; do
+            if [[ "$additions" =~ ^[0-9]+$ ]]; then
+              TOTAL_ADDITIONS=$((TOTAL_ADDITIONS + additions))
+            fi
+            if [[ "$deletions" =~ ^[0-9]+$ ]]; then
+              TOTAL_DELETIONS=$((TOTAL_DELETIONS + deletions))
+            fi
+          done <<< "$DIFF_OUTPUT"
+          
+          TOTAL_CHANGES=$((TOTAL_ADDITIONS + TOTAL_DELETIONS))
+          
+          echo "Total additions: $TOTAL_ADDITIONS"
+          echo "Total deletions: $TOTAL_DELETIONS"
+          echo "Total changes: $TOTAL_CHANGES"
+          
+          # Determine size label
+          if [ $TOTAL_CHANGES -ge 1000 ]; then
+            SIZE="size/XL"
+            SIZE_NAME="XL"
+          elif [ $TOTAL_CHANGES -ge 500 ]; then
+            SIZE="size/L"
+            SIZE_NAME="L"
+          elif [ $TOTAL_CHANGES -ge 200 ]; then
+            SIZE="size/M"
+            SIZE_NAME="M"
+          elif [ $TOTAL_CHANGES -ge 50 ]; then
+            SIZE="size/S"
+            SIZE_NAME="S"
+          else
+            SIZE="size/XS"
+            SIZE_NAME="XS"
+          fi
+          
+          echo "size_label=$SIZE" >> $GITHUB_OUTPUT
+          echo "size_name=$SIZE_NAME" >> $GITHUB_OUTPUT
+          echo "total_changes=$TOTAL_CHANGES" >> $GITHUB_OUTPUT
+          echo "additions=$TOTAL_ADDITIONS" >> $GITHUB_OUTPUT
+          echo "deletions=$TOTAL_DELETIONS" >> $GITHUB_OUTPUT
+
+      - name: Remove existing size labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: labels } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const sizeLabels = labels.filter(label => label.name.startsWith('size/'));
+            
+            for (const label of sizeLabels) {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: label.name,
+              });
+            }
+
+      - name: Add size label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sizeLabel = '${{ steps.size.outputs.size_label }}';
+            const sizeName = '${{ steps.size.outputs.size_name }}';
+            const totalChanges = '${{ steps.size.outputs.total_changes }}';
+            const additions = '${{ steps.size.outputs.additions }}';
+            const deletions = '${{ steps.size.outputs.deletions }}';
+
+            // Ensure the size label exists
+            const colors = {
+              'size/XS': '0e8a16',  // green
+              'size/S': 'fbca04',   // yellow
+              'size/M': 'ff9500',   // orange
+              'size/L': 'ff6900',   // red-orange  
+              'size/XL': 'd73a49'   // red
+            };
+
+            try {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: sizeLabel,
+                color: colors[sizeLabel] || 'cccccc',
+                description: `Pull request size: ${sizeName} (${totalChanges} lines changed)`
+              });
+            } catch (error) {
+              // Label might already exist, that's ok
+              console.log('Label may already exist:', error.message);
+            }
+
+            // Add the label to the PR
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: [sizeLabel]
+            });
+
+      - name: Create or update size comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sizeName = '${{ steps.size.outputs.size_name }}';
+            const totalChanges = '${{ steps.size.outputs.total_changes }}';
+            const additions = '${{ steps.size.outputs.additions }}';
+            const deletions = '${{ steps.size.outputs.deletions }}';
+
+            const sizeEmojis = {
+              'XS': '🐭',
+              'S': '🐹', 
+              'M': '🐰',
+              'L': '🐺',
+              'XL': '🐘'
+            };
+
+            const sizeDescriptions = {
+              'XS': 'Very small change, quick to review',
+              'S': 'Small change, easy to review',
+              'M': 'Medium change, moderate review time',
+              'L': 'Large change, thorough review needed',
+              'XL': 'Very large change, requires careful review'
+            };
+
+            const emoji = sizeEmojis[sizeName] || '📏';
+            const description = sizeDescriptions[sizeName] || 'Change size calculated';
+
+            const commentBody = `${emoji} **PR Size: ${sizeName}**
+
+${description}
+
+**Stats:**
+- Total changes: ${totalChanges} lines
+- Additions: +${additions}
+- Deletions: -${deletions}
+
+<!-- SIZE_COMMENT -->`;
+
+            // Find existing size comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const sizeComment = comments.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('<!-- SIZE_COMMENT -->')
+            );
+
+            if (sizeComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: sizeComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody,
+              });
+            }

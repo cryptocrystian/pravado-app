@@ -1,0 +1,31 @@
+{
+  "name": "@pravado/api",
+  "version": "1.0.0",
+  "description": "PRAVADO Platform API - Cloudflare Worker",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "wrangler deploy --dry-run",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "zod": "^3.23.8",
+    "hono": "^4.6.3",
+    "jose": "^5.9.3",
+    "@sentry/cloudflare": "^8.30.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241022.0",
+    "wrangler": "^3.80.0",
+    "vitest": "^2.1.1",
+    "typescript": "^5.6.2",
+    "@types/node": "^22.7.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

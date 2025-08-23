@@ -1,0 +1,42 @@
+name = "pravado-api"
+main = "src/index.ts"
+compatibility_date = "2024-08-22"
+compatibility_flags = ["nodejs_compat"]
+
+# [build]
+# command = "npm run build"
+
+[env.development]
+name = "pravado-api-dev"
+
+[env.production]
+name = "pravado-api"
+
+# Environment variables (set these in Cloudflare dashboard or via CLI)
+[vars]
+ENVIRONMENT = "production"
+
+# Secrets (set via: wrangler secret put SECRET_NAME)
+# - SUPABASE_URL
+# - SUPABASE_SERVICE_KEY  
+# - JWT_SECRET
+# - ANTHROPIC_API_KEY
+# - PR_PARTNER_API_KEY
+# - PR_PARTNER_ALIAS
+# - SENTRY_DSN
+# - ALLOWED_ORIGINS
+
+# Durable Objects
+# [[durable_objects.bindings]]
+# name = "CITEMIND_ORCHESTRATOR"
+# class_name = "CiteMindOrchestrator"
+
+# Queue bindings for job processing
+# [[queues.producers]]
+# queue = "citemind-jobs"
+# binding = "CITEMIND_QUEUE"
+
+# [[queues.consumers]]
+# queue = "citemind-jobs"
+# max_batch_size = 1
+# max_batch_timeout = 30

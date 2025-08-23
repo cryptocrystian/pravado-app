@@ -1,0 +1,160 @@
+name: Security Scan
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set CI Start Time
+        run: echo "CI_START_TIME=$(date +%s000)" >> $GITHUB_ENV
+
+      - name: Send telemetry - CI started
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_started
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Install security tools
+        run: |
+          # Install gitleaks
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.18.0/gitleaks_8.18.0_linux_x64.tar.gz | tar -xz
+          sudo mv gitleaks /usr/local/bin/
+          
+          # Install OSV scanner
+          curl -sSfL https://github.com/google/osv-scanner/releases/download/v1.4.3/osv-scanner_1.4.3_linux_amd64.tar.gz | tar -xz
+          sudo mv osv-scanner /usr/local/bin/
+
+      - name: Run Gitleaks (Secrets Detection)
+        run: |
+          echo "🔍 Scanning for secrets..."
+          gitleaks detect --source . --verbose --report-format sarif --report-path gitleaks-report.sarif
+          if [ $? -eq 1 ]; then
+            echo "❌ Secrets detected!"
+            exit 1
+          else
+            echo "✅ No secrets found"
+          fi
+
+      - name: Run npm audit
+        run: |
+          echo "🔍 Running npm security audit..."
+          npm audit --audit-level=high --json > npm-audit.json || true
+          
+          # Check if there are high/critical vulnerabilities
+          HIGH_VULNS=$(cat npm-audit.json | jq -r '.metadata.vulnerabilities.high // 0')
+          CRITICAL_VULNS=$(cat npm-audit.json | jq -r '.metadata.vulnerabilities.critical // 0')
+          
+          echo "High vulnerabilities: $HIGH_VULNS"
+          echo "Critical vulnerabilities: $CRITICAL_VULNS"
+          
+          if [ "$HIGH_VULNS" -gt 0 ] || [ "$CRITICAL_VULNS" -gt 0 ]; then
+            echo "❌ High/Critical vulnerabilities found!"
+            npm audit --audit-level=high
+            exit 1
+          else
+            echo "✅ No high/critical vulnerabilities"
+          fi
+
+      - name: Run OSV Scanner
+        run: |
+          echo "🔍 Running OSV vulnerability scanner..."
+          osv-scanner --format sarif --output osv-report.sarif . || true
+          
+          # Check if critical vulnerabilities were found
+          if [ -f osv-report.sarif ]; then
+            CRITICAL_COUNT=$(cat osv-report.sarif | jq '[.runs[].results[]? | select(.level == "error")] | length')
+            if [ "$CRITICAL_COUNT" -gt 0 ]; then
+              echo "❌ Critical vulnerabilities found in dependencies!"
+              osv-scanner .
+              exit 1
+            else
+              echo "✅ No critical vulnerabilities in dependencies"
+            fi
+          fi
+
+      - name: Create security summary
+        if: success()
+        run: |
+          echo "## 🛡️ Security Scan Results" > security-summary.md
+          echo "" >> security-summary.md
+          echo "✅ **Secrets Scan**: No secrets detected" >> security-summary.md
+          echo "✅ **Dependency Audit**: No high/critical vulnerabilities" >> security-summary.md
+          echo "✅ **OSV Scanner**: No critical vulnerabilities in dependencies" >> security-summary.md
+          echo "" >> security-summary.md
+          echo "_Scanned on $(date)_" >> security-summary.md
+
+      - name: Upload SARIF reports
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: |
+            gitleaks-report.sarif
+            osv-report.sarif
+        continue-on-error: true
+
+      - name: Upload security artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            gitleaks-report.sarif
+            osv-report.sarif
+            npm-audit.json
+            security-summary.md
+          retention-days: 30
+
+      - name: Tag Sentry release (on success)
+        if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          if [ -n "${{ secrets.SENTRY_AUTH_TOKEN }}" ]; then
+            echo "🏷️ Creating Sentry release..."
+            curl -X POST https://sentry.io/api/0/organizations/pravado/releases/ \
+              -H "Authorization: Bearer ${{ secrets.SENTRY_AUTH_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"version\": \"${{ github.sha }}\",
+                \"projects\": [\"pravado-api\", \"pravado-web\"],
+                \"dateCreated\": \"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\",
+                \"ref\": \"${{ github.sha }}\"
+              }"
+          else
+            echo "⚠️ SENTRY_AUTH_TOKEN not available, skipping release"
+          fi
+
+      - name: Send success telemetry
+        if: success()
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_passed
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
+
+      - name: Send failure telemetry
+        if: failure()
+        run: npx tsx scripts/devops/ph-event.ts dev_ci_failed --failingJobs security-scan
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          GITHUB_PR_NUMBER: ${{ github.event.number }}
