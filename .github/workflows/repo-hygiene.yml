@@ -1,0 +1,233 @@
+name: Repository Hygiene Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  hygiene-audit:
+    runs-on: ubuntu-latest
+    
+    # NON-BLOCKING by default - uncomment 'continue-on-error: false' to make required after first review
+    continue-on-error: true
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: 🔍 Repository Hygiene Audit
+      id: audit
+      run: |
+        echo "::group::📊 Computing Repository Metrics"
+        
+        # Core metrics
+        TOTAL_FILES=$(git ls-files | wc -l)
+        SOURCEMAPS=$(git ls-files '*.map' | wc -l)
+        BUILD_ARTIFACTS=$(git ls-files 'dist/**' 'build/**' 'coverage/**' | wc -l)
+        
+        echo "total_files=${TOTAL_FILES}" >> $GITHUB_OUTPUT
+        echo "sourcemaps=${SOURCEMAPS}" >> $GITHUB_OUTPUT
+        echo "build_artifacts=${BUILD_ARTIFACTS}" >> $GITHUB_OUTPUT
+        
+        echo "Total tracked files: ${TOTAL_FILES}"
+        echo "Sourcemaps tracked: ${SOURCEMAPS}"
+        echo "Build artifacts: ${BUILD_ARTIFACTS}"
+        echo "::endgroup::"
+        
+        echo "::group::🚨 Critical Path Violations"
+        
+        # Check for banned paths
+        VIOLATIONS=0
+        
+        # Check for node_modules
+        if git ls-files | grep -q "node_modules/"; then
+          echo "❌ VIOLATION: node_modules/ directories are tracked"
+          git ls-files | grep "node_modules/" | head -10
+          echo "  ... (showing first 10 files)"
+          VIOLATIONS=$((VIOLATIONS + 1))
+        fi
+        
+        # Check for build caches
+        CACHE_PATHS=".vite/ .turbo/ .parcel-cache/ .cache/ playwright-report/ test-results/ storybook-static/"
+        for path in $CACHE_PATHS; do
+          if git ls-files | grep -q "$path"; then
+            echo "❌ VIOLATION: $path is tracked"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          fi
+        done
+        
+        echo "violations=${VIOLATIONS}" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+        
+        echo "::group::📏 Large File Analysis"
+        
+        # Find files >25MB (workflow will fail for these)
+        HUGE_FILES=0
+        while IFS= read -r file; do
+          if [ -f "$file" ]; then
+            SIZE=$(stat -c%s "$file" 2>/dev/null || echo 0)
+            SIZE_MB=$((SIZE / 1048576))
+            if [ "$SIZE_MB" -gt 25 ]; then
+              echo "❌ HUGE FILE: $file (${SIZE_MB}MB)"
+              HUGE_FILES=$((HUGE_FILES + 1))
+            fi
+          fi
+        done < <(git ls-files)
+        
+        echo "huge_files=${HUGE_FILES}" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+        
+        echo "::group::📋 Summary Report"
+        echo "| Metric | Count | Status |"
+        echo "|--------|-------|--------|"
+        echo "| Total Files | $TOTAL_FILES | $([ $TOTAL_FILES -lt 500 ] && echo "✅ Good" || echo "⚠️ High") |"
+        echo "| Sourcemaps | $SOURCEMAPS | $([ $SOURCEMAPS -eq 0 ] && echo "✅ Clean" || echo "❌ Bloated") |"
+        echo "| Build Artifacts | $BUILD_ARTIFACTS | $([ $BUILD_ARTIFACTS -eq 0 ] && echo "✅ Clean" || echo "❌ Tracked") |"
+        echo "| Path Violations | $VIOLATIONS | $([ $VIOLATIONS -eq 0 ] && echo "✅ Clean" || echo "❌ Critical") |"
+        echo "| Huge Files (>25MB) | $HUGE_FILES | $([ $HUGE_FILES -eq 0 ] && echo "✅ None" || echo "❌ Found") |"
+        echo "::endgroup::"
+        
+        # Set exit code for hard failures
+        if [ $HUGE_FILES -gt 0 ]; then
+          echo "::error::Repository contains files >25MB - this will break Git operations"
+          exit 1
+        fi
+        
+        if [ $VIOLATIONS -gt 5 ]; then
+          echo "::warning::High number of hygiene violations detected ($VIOLATIONS)"
+        fi
+
+    - name: 📈 Generate Detailed Report
+      if: always()
+      run: |
+        REPORT_DATE=$(date +%Y-%m-%d)
+        REPORT_FILE="docs/reports/repo-hygiene-${REPORT_DATE}.md"
+        
+        mkdir -p docs/reports
+        
+        cat > "$REPORT_FILE" <<EOF
+        # Repository Hygiene CI Report
+        
+        **Date:** $REPORT_DATE  
+        **Workflow:** GitHub Actions  
+        **Trigger:** ${{ github.event_name }} on ${{ github.ref }}  
+        
+        ## Quick Metrics
+        
+        | Metric | Value | Status |
+        |--------|-------|--------|
+        | Total Files | ${{ steps.audit.outputs.total_files }} | $([ ${{ steps.audit.outputs.total_files }} -lt 500 ] && echo "✅" || echo "⚠️") |
+        | Sourcemaps | ${{ steps.audit.outputs.sourcemaps }} | $([ ${{ steps.audit.outputs.sourcemaps }} -eq 0 ] && echo "✅" || echo "❌") |
+        | Build Artifacts | ${{ steps.audit.outputs.build_artifacts }} | $([ ${{ steps.audit.outputs.build_artifacts }} -eq 0 ] && echo "✅" || echo "❌") |
+        | Path Violations | ${{ steps.audit.outputs.violations }} | $([ ${{ steps.audit.outputs.violations }} -eq 0 ] && echo "✅" || echo "❌") |
+        | Huge Files | ${{ steps.audit.outputs.huge_files }} | $([ ${{ steps.audit.outputs.huge_files }} -eq 0 ] && echo "✅" || echo "❌") |
+        
+        ## Top Directories by File Count
+        
+        \`\`\`
+        $(git ls-files -z | xargs -0 -n1 dirname | sort | uniq -c | sort -nr | head -20)
+        \`\`\`
+        
+        ## Recommendations
+        
+        $([ ${{ steps.audit.outputs.violations }} -gt 0 ] && echo "- 🔥 **CRITICAL**: Remove tracked build artifacts and dependencies")
+        $([ ${{ steps.audit.outputs.sourcemaps }} -gt 0 ] && echo "- 📦 Remove sourcemaps from tracking (\`git rm --cached \\$(git ls-files '*.map')\`)")
+        $([ ${{ steps.audit.outputs.total_files }} -gt 1000 ] && echo "- 📏 Consider Git LFS for large binary assets")
+        
+        ---
+        *Generated by CI Hygiene Check*
+        EOF
+        
+        echo "Generated report: $REPORT_FILE"
+
+    - name: 📎 Upload Hygiene Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: repo-hygiene-report-${{ github.run_id }}
+        path: docs/reports/repo-hygiene-*.md
+        retention-days: 30
+
+    - name: 📊 Comment PR Summary
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const totalFiles = ${{ steps.audit.outputs.total_files }}
+          const violations = ${{ steps.audit.outputs.violations }}
+          const hugeFiles = ${{ steps.audit.outputs.huge_files }}
+          const sourcemaps = ${{ steps.audit.outputs.sourcemaps }}
+          
+          const status = violations === 0 && hugeFiles === 0 ? '✅' : '❌'
+          
+          const comment = `## ${status} Repository Hygiene Report
+          
+          | Metric | Count | Status |
+          |--------|-------|--------|
+          | **Total Files** | ${totalFiles} | ${totalFiles < 500 ? '✅ Good' : '⚠️ High'} |
+          | **Path Violations** | ${violations} | ${violations === 0 ? '✅ Clean' : '❌ Critical'} |
+          | **Huge Files (>25MB)** | ${hugeFiles} | ${hugeFiles === 0 ? '✅ None' : '❌ Found'} |
+          | **Sourcemaps** | ${sourcemaps} | ${sourcemaps === 0 ? '✅ Clean' : '❌ Bloated'} |
+          
+          ${violations > 0 ? '⚠️ **Action Required**: This PR introduces hygiene violations that should be fixed.' : ''}
+          ${hugeFiles > 0 ? '🚨 **Critical**: Files >25MB detected - consider Git LFS.' : ''}
+          
+          <details>
+          <summary>📋 View Full Report</summary>
+          
+          Download the detailed hygiene report from the workflow artifacts.
+          
+          </details>`
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          })
+
+    - name: 🎯 Hygiene Score
+      if: always()
+      run: |
+        TOTAL=${{ steps.audit.outputs.total_files }}
+        VIOLATIONS=${{ steps.audit.outputs.violations }}
+        HUGE=${{ steps.audit.outputs.huge_files }}
+        SOURCEMAPS=${{ steps.audit.outputs.sourcemaps }}
+        
+        # Calculate hygiene score (0-100)
+        SCORE=100
+        
+        # Deduct for violations
+        SCORE=$((SCORE - (VIOLATIONS * 20)))
+        SCORE=$((SCORE - (HUGE * 50)))
+        SCORE=$((SCORE - (SOURCEMAPS / 100)))
+        
+        # File count penalty
+        if [ $TOTAL -gt 1000 ]; then
+          SCORE=$((SCORE - 20))
+        elif [ $TOTAL -gt 500 ]; then
+          SCORE=$((SCORE - 10))
+        fi
+        
+        # Ensure score doesn't go negative
+        SCORE=$((SCORE < 0 ? 0 : SCORE))
+        
+        echo "🎯 Repository Hygiene Score: ${SCORE}/100"
+        
+        if [ $SCORE -ge 90 ]; then
+          echo "🏆 Excellent hygiene!"
+        elif [ $SCORE -ge 70 ]; then
+          echo "✅ Good hygiene"
+        elif [ $SCORE -ge 50 ]; then
+          echo "⚠️ Needs improvement"
+        else
+          echo "🚨 Critical hygiene issues"
+        fi
+        
+        # Set job summary
+        echo "## Repository Hygiene Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- **Score:** ${SCORE}/100" >> $GITHUB_STEP_SUMMARY
+        echo "- **Files:** $TOTAL" >> $GITHUB_STEP_SUMMARY
+        echo "- **Violations:** $VIOLATIONS" >> $GITHUB_STEP_SUMMARY
+        echo "- **Action:** $([ $VIOLATIONS -gt 0 ] && echo "Fix violations" || echo "Maintain current state")" >> $GITHUB_STEP_SUMMARY
