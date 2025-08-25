@@ -9,16 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.19.4'
-        cache: 'npm'
-        cache-dependency-path: apps/web/package-lock.json
 
     - name: Install dependencies
       working-directory: apps/web
@@ -30,4 +27,4 @@ jobs:
 
     - name: Run tests
       working-directory: apps/web
-      run: npm test -- --passWithNoTests
+      run: npm test
