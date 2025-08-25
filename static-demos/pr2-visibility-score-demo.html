@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR2 Demo: Visibility Score v1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg: #F8F6F2;
+            --surface: #E7ECEF;
+            --text: #1A1A1A;
+            --primary: #2B3A67;
+            --ai: #00A8A8;
+            --success: #22C55E;
+        }
+        body { background-color: var(--bg); color: var(--text); }
+        .card { background-color: var(--surface); }
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-secondary { border: 1px solid var(--primary); color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .text-success { color: var(--success); }
+        .ai-badge { background-color: rgba(0, 168, 168, 0.1); color: var(--ai); border: 1px solid rgba(0, 168, 168, 0.3); }
+        .breakdown-panel { display: none; }
+        .breakdown-panel.show { display: block; }
+    </style>
+</head>
+<body class="font-sans p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+        <!-- Header -->
+        <header>
+            <h1 class="text-3xl font-bold text-text">Marketing Command Center</h1>
+            <p class="text-gray-600 mt-2">Monitor your visibility and manage campaigns from your central dashboard</p>
+        </header>
+
+        <!-- Hero KPI - Visibility Score -->
+        <section class="card p-8 rounded-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="flex items-center gap-4 mb-2">
+                        <h2 class="text-lg font-semibold text-gray-700">Visibility Score</h2>
+                        <span class="ai-badge px-3 py-1 rounded-full text-sm font-medium">AI Powered</span>
+                    </div>
+                    
+                    <div class="flex items-baseline gap-4">
+                        <span class="text-5xl font-bold text-primary">87</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-success font-medium">+5</span>
+                            <!-- Sparkline SVG -->
+                            <svg class="w-16 h-8 text-success" viewBox="0 0 64 32">
+                                <defs>
+                                    <linearGradient id="sparklineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="currentColor" stop-opacity="0.3" />
+                                        <stop offset="100%" stop-color="currentColor" stop-opacity="0.1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Fill area under the line -->
+                                <polygon points="2,30 2,20 12,18 22,16 32,14 42,12 52,10 62,8 62,30" fill="url(#sparklineGradient)" />
+                                <!-- Main line -->
+                                <polyline points="2,20 12,18 22,16 32,14 42,12 52,10 62,8" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                                <!-- End point circle -->
+                                <circle cx="62" cy="8" r="2" fill="currentColor" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mt-2">Cross-pillar marketing performance index</p>
+                </div>
+                
+                <div class="text-right relative">
+                    <!-- Breakdown Button -->
+                    <button 
+                        id="breakdown-btn"
+                        class="btn-secondary px-4 py-2 rounded-lg mb-2 mr-2 hover:bg-gray-50"
+                    >
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Breakdown
+                    </button>
+                    
+                    <button class="btn-primary px-4 py-2 rounded-lg">
+                        View Details 
+                        <svg class="ml-2 h-4 w-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Breakdown Panel -->
+                    <div id="breakdown-panel" class="breakdown-panel absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-semibold text-gray-900">Score Breakdown</h4>
+                            <button id="close-breakdown" class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Content Cadence</div>
+                                        <div class="text-xs text-gray-500">Publishing frequency and recency</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-gray-900">82</div>
+                                    <div class="text-xs text-gray-500">16 pts (20%)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">CiteMind Score</div>
+                                        <div class="text-xs text-gray-500">Citation probability and authority</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-gray-900">91</div>
+                                    <div class="text-xs text-gray-500">36 pts (40%)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">PR Momentum</div>
+                                        <div class="text-xs text-gray-500">Press release submissions and coverage</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-gray-900">78</div>
+                                    <div class="text-xs text-gray-500">16 pts (20%)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">SEO Baseline</div>
+                                        <div class="text-xs text-gray-500">Keywords and backlink performance</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-gray-900">85</div>
+                                    <div class="text-xs text-gray-500">17 pts (20%)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3 pt-3 border-t border-gray-200">
+                            <div class="text-xs text-gray-500">
+                                Weights can be adjusted in settings
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Features -->
+        <div class="p-4 bg-blue-50 rounded-lg">
+            <h3 class="font-semibold text-blue-900 mb-2">📊 PR2 Demo Features:</h3>
+            <ul class="text-blue-800 space-y-1 text-sm">
+                <li>• <strong>AI-Powered Scoring:</strong> Intelligent 0-100 scoring system</li>
+                <li>• <strong>Component Breakdown:</strong> Click "Breakdown" button to see weighted components</li>
+                <li>• <strong>Trend Visualization:</strong> Sparkline shows 30-day historical performance</li>
+                <li>• <strong>Weighted Algorithm:</strong> Cadence (20%), CiteMind (40%), PR (20%), SEO (20%)</li>
+                <li>• <strong>Daily Snapshots:</strong> Automated score computation and storage</li>
+                <li>• <strong>Configurable Weights:</strong> Admin interface for score customization</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Interactive breakdown panel
+        document.addEventListener('DOMContentLoaded', function() {
+            const breakdownBtn = document.getElementById('breakdown-btn');
+            const breakdownPanel = document.getElementById('breakdown-panel');
+            const closeBreakdown = document.getElementById('close-breakdown');
+            
+            breakdownBtn.addEventListener('click', function() {
+                breakdownPanel.classList.toggle('show');
+            });
+            
+            closeBreakdown.addEventListener('click', function() {
+                breakdownPanel.classList.remove('show');
+            });
+            
+            // Close panel when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!breakdownPanel.contains(event.target) && !breakdownBtn.contains(event.target)) {
+                    breakdownPanel.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

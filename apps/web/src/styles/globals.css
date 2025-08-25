@@ -1,0 +1,404 @@
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+/* PRAVADO Design System - CSS Variables */
+:root {
+  /* Light (Beige-first) */
+  --bg: #F8F6F2;           /* Soft beige content background */
+  --surface: #E7ECEF;      /* Elevated cards */
+  --text: #1A1A1A;         /* Primary text */
+  --primary: #2B3A67;      /* Slate Blue */
+  --ai: #00A8A8;           /* AI Teal */
+  --premium: #D4A017;      /* Gold */
+  --success: #22C55E;      /* Green */
+  --warning: #F59E0B;      /* Amber */
+  --danger: #DC2626;       /* Red */
+}
+
+/* Dark theme variables */
+.dark {
+  --bg: #1E2A4A;      /* Deep Slate */
+  --surface: #2B3A67; /* Dark card */
+  --text: #FFFFFF;    /* Inverted text */
+}
+
+/* Base styles */
+* {
+  border-color: var(--surface);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
+  line-height: 1.5;
+}
+
+/* Typography scales from spec */
+.display {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.h2 {
+  font-size: 1.375rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.meta {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+/* Component utilities */
+.card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.10);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.ai-badge {
+  background-color: rgb(0 168 168 / 0.1);
+  color: var(--ai);
+  border: 1px solid rgb(0 168 168 / 0.3);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Theme Tokens v2 - Dark Foundation + Light Content Islands */
+:root {
+  /* light mode (only used when explicitly toggled) */
+  --bg: 0 0% 100%;
+  --fg: 222 47% 10%;
+  --panel: 0 0% 100%;
+  --panel-2: 210 20% 98%;
+  --border: 214 17% 92%;
+
+  /* brand hooks (map to existing brand tokens) */
+  --brand: 231 42% 39%;  /* PRAVADO slate blue from original design system */
+  --brand-foreground: 0 0% 100%;
+
+  /* states */
+  --success: 152 64% 35%;
+  --warning: 43 96% 52%;
+  --danger: 0 84% 58%;
+
+  /* P4 brand system - base accents */
+  --ai-teal-500: 170 72% 45%;
+  --ai-gold-500: 40 92% 52%;
+
+  /* P4 brand system - derived scales */
+  --ai-teal-600: 170 76% 38%;
+  --ai-teal-300: 170 70% 60%;
+  --ai-gold-600: 40 94% 44%;
+  --ai-gold-300: 40 90% 66%;
+
+  /* P4 strokes & glass */
+  --glass-fill: 220 18% 12% / 0.72;
+  --glass-stroke: 210 18% 98% / 0.08;
+  --glass-stroke-strong: 210 18% 98% / 0.14;
+
+  /* legacy support */
+  --ai-teal: var(--ai-teal-500);
+  --ai-gold: var(--ai-gold-500);
+  --brand-grad-start: var(--ai-teal-500);
+  --brand-grad-end: var(--ai-gold-500);
+
+  /* depth */
+  --glass-bg: 0 0% 100% / 0.06;    /* white @6% */
+  --glass-border: 0 0% 100% / 0.10;/* white @10% */
+  --noise-opacity: 0.035;
+}
+
+/* dark-first application shell */
+:root.dark {
+  --bg: 222 47% 6%;
+  --fg: 210 20% 98%;
+  --panel: 222 22% 12%;
+  --panel-2: 222 18% 16%;
+  --border: 222 16% 26%;
+}
+
+/* light "content island" within dark shell */
+[data-surface="content"] {
+  --panel: 210 20% 99%;    /* Off-white to reduce glare */
+  --panel-2: 210 20% 98%;
+  --fg: 222 47% 10%;
+  --border: 214 17% 92%;
+}
+
+/* global bindings */
+* { border-color: hsl(var(--border)); }
+body { background: hsl(var(--bg)); color: hsl(var(--fg)); position: relative; }
+
+/* dark shell background enhancement (subtle vignette + grid) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 800px at 10% -10%, hsl(var(--brand-grad-start)/0.12), transparent 60%),
+    radial-gradient(1000px 600px at 110% 10%, hsl(var(--brand-grad-end)/0.10), transparent 55%),
+    linear-gradient(to bottom, transparent, transparent);
+  z-index: 0;
+}
+
+/* P4 Glass card utility with gradient micro-strokes */
+.glass-card {
+  position: relative;
+  background: hsl(var(--glass-fill));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--glass-stroke));
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Gradient hairline */
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  background: linear-gradient(90deg, hsl(var(--ai-teal-600)), hsl(var(--ai-gold-600)));
+  -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: .18;
+}
+
+.glass-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' opacity='0.35'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.05'/></svg>");
+  opacity: var(--noise-opacity);
+  mix-blend-mode: soft-light;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.glass-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* UI Polish P2 - Enterprise Brand Application */
+
+/* Standardized focus rings */
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid hsl(var(--ai-teal) / 0.7);
+  outline-offset: 2px;
+}
+
+/* Brand button variants */
+.btn-primary {
+  background: hsl(var(--brand));
+  color: hsl(var(--brand-foreground));
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.btn-primary:hover {
+  background: hsl(var(--brand) / 0.9);
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+.btn-secondary {
+  background: hsl(var(--panel-2));
+  color: hsl(var(--fg));
+  border: 1px solid hsl(var(--border));
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: hsl(var(--panel-2) / 0.8);
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: hsl(var(--fg));
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+  background: hsl(var(--panel-2) / 0.6);
+}
+
+.btn-ghost:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+/* Interactive links */
+.link-brand {
+  color: hsl(var(--brand));
+  transition: opacity 0.2s;
+}
+
+.link-brand:hover {
+  opacity: 0.9;
+}
+
+.link-brand:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+/* Status chips */
+.chip-success {
+  background: hsl(var(--success) / 0.1);
+  color: hsl(var(--success));
+  border: 1px solid hsl(var(--success) / 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chip-warning {
+  background: hsl(var(--warning) / 0.1);
+  color: hsl(var(--warning));
+  border: 1px solid hsl(var(--warning) / 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chip-danger {
+  background: hsl(var(--danger) / 0.1);
+  color: hsl(var(--danger));
+  border: 1px solid hsl(var(--danger) / 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* P4 Enterprise table styles */
+.table-enterprise {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-enterprise th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.813rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  color: hsl(var(--fg) / 0.7);
+  white-space: nowrap;
+}
+
+.table-enterprise td {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  color: hsl(var(--fg) / 0.9);
+}
+
+.table-enterprise tbody tr:nth-child(even) {
+  background: hsl(var(--panel-2) / 0.3);
+}
+
+.table-enterprise tbody tr {
+  transition: all 0.15s ease;
+}
+
+.table-enterprise tbody tr:hover {
+  background: hsl(var(--ai-teal-500) / 0.02);
+  box-shadow: inset 0 0 0 1px hsl(var(--ai-teal-500) / 0.08);
+}
+
+.table-enterprise .numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+}
+
+/* Table density variants */
+.table-compact td,
+.table-compact th {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.table-comfortable td,
+.table-comfortable th {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
