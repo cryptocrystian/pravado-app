@@ -12,6 +12,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "echo \"No tests yet\" && exit 0",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
