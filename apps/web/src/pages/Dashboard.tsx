@@ -1,6 +1,7 @@
-import { Brain, Calendar, Activity, TrendingUp } from 'lucide-react'
+import { Brain, Calendar, Activity, TrendingUp, FileText, Megaphone, Link2, Download } from 'lucide-react'
 import { KPIHero } from '../components/KPIHero'
 import { SectionCard } from '../components/SectionCard'
+import { useNavigate } from 'react-router-dom'
 
 const mockData = {
   visibilityScore: 74,
@@ -35,6 +36,20 @@ const mockData = {
 }
 
 export function Dashboard() {
+  const navigate = useNavigate()
+  
+  // Quick action handlers
+  const handleQuickAction = (action: string, route?: string) => {
+    // Track action in PostHog
+    if (window.posthog) {
+      window.posthog.capture('quick_action_clicked', { action })
+    }
+    
+    if (route) {
+      navigate(route)
+    }
+  }
+
   return (
     <div className="min-h-screen p-4 lg:p-6 space-y-10 md:space-y-12">
       {/* Content wrapper with individual content islands per card */}
@@ -58,6 +73,59 @@ export function Dashboard() {
               onViewDetails={() => console.log('View details clicked')}
               onBreakdown={() => console.log('Breakdown clicked')}
             />
+          </div>
+
+          {/* Quick Actions Row (12 columns) */}
+          <div className="col-span-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <button
+                onClick={() => handleQuickAction('new_content', '/content/new')}
+                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-ai-teal-600/10 to-ai-teal-600/5 border border-ai-teal-600/20 p-4 text-left transition-all hover:border-ai-teal-600/40 hover:shadow-lg hover:shadow-ai-teal-600/10"
+              >
+                <div className="relative z-10">
+                  <FileText className="h-5 w-5 text-ai-teal-500 mb-2" />
+                  <h3 className="font-medium text-sm text-foreground mb-1">New Content</h3>
+                  <p className="text-xs text-foreground/60">Start writing instantly</p>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-ai-teal-600/0 to-ai-teal-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+
+              <button
+                onClick={() => handleQuickAction('new_press_release', '/press-releases/new')}
+                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-ai-gold-600/10 to-ai-gold-600/5 border border-ai-gold-600/20 p-4 text-left transition-all hover:border-ai-gold-600/40 hover:shadow-lg hover:shadow-ai-gold-600/10"
+              >
+                <div className="relative z-10">
+                  <Megaphone className="h-5 w-5 text-ai-gold-500 mb-2" />
+                  <h3 className="font-medium text-sm text-foreground mb-1">New Press Release</h3>
+                  <p className="text-xs text-foreground/60">Announce to media</p>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-ai-gold-600/0 to-ai-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+
+              <button
+                onClick={() => handleQuickAction('analyze_url', '/citemind')}
+                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-ai-teal-600/10 to-ai-teal-600/5 border border-ai-teal-600/20 p-4 text-left transition-all hover:border-ai-teal-600/40 hover:shadow-lg hover:shadow-ai-teal-600/10"
+              >
+                <div className="relative z-10">
+                  <Link2 className="h-5 w-5 text-ai-teal-500 mb-2" />
+                  <h3 className="font-medium text-sm text-foreground mb-1">Analyze URL</h3>
+                  <p className="text-xs text-foreground/60">CiteMind insights</p>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-ai-teal-600/0 to-ai-teal-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+
+              <button
+                onClick={() => handleQuickAction('export_analytics', '/analytics/export')}
+                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-foreground/5 to-foreground/2 border border-foreground/10 p-4 text-left transition-all hover:border-foreground/20 hover:shadow-lg"
+              >
+                <div className="relative z-10">
+                  <Download className="h-5 w-5 text-foreground/70 mb-2" />
+                  <h3 className="font-medium text-sm text-foreground mb-1">Export Analytics</h3>
+                  <p className="text-xs text-foreground/60">Download reports</p>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-foreground/0 to-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+            </div>
           </div>
 
           {/* Row 2: AI Recommendations (6 columns) */}

@@ -18,12 +18,21 @@ interface DataTableProps<T> {
 }
 
 function DifficultyChip({ value }: { value: number }) {
-  let chipClass = 'chip-success'
-  if (value > 70) chipClass = 'chip-danger'
-  else if (value > 40) chipClass = 'chip-warning'
+  const getChipStyles = () => {
+    if (value <= 40) {
+      return 'bg-ai-teal-600/20 text-ai-teal-300 border-ai-teal-600/30'
+    } else if (value <= 70) {
+      return 'bg-ai-gold-600/16 text-ai-gold-300 border-ai-gold-600/30'
+    } else {
+      return 'bg-danger/20 text-danger border-danger/30'
+    }
+  }
 
   return (
-    <span className={chipClass}>
+    <span className={cn(
+      "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border",
+      getChipStyles()
+    )}>
       {value}
     </span>
   )
@@ -59,8 +68,8 @@ export function DataTable<T extends Record<string, any>>({
                 className={cn(
                   "px-3 py-1 text-xs font-medium transition-colors",
                   density === 'comfortable'
-                    ? "bg-ai-teal text-white"
-                    : "bg-panel text-foreground hover:bg-panel-elevated hover:glass-bg hover:backdrop-blur-sm"
+                    ? "bg-ai-teal-500 text-white"
+                    : "bg-panel text-foreground hover:bg-panel-elevated"
                 )}
               >
                 Comfortable
@@ -70,8 +79,8 @@ export function DataTable<T extends Record<string, any>>({
                 className={cn(
                   "px-3 py-1 text-xs font-medium transition-colors",
                   density === 'compact'
-                    ? "bg-ai-teal text-white"
-                    : "bg-panel text-foreground hover:bg-panel-elevated hover:glass-bg hover:backdrop-blur-sm"
+                    ? "bg-ai-teal-500 text-white"
+                    : "bg-panel text-foreground hover:bg-panel-elevated"
                 )}
               >
                 Compact
@@ -82,19 +91,21 @@ export function DataTable<T extends Record<string, any>>({
       )}
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-border">
+      <div className="overflow-x-auto rounded-xl border border-border/50 shadow-sm">
         <table className={cn(
           "table-enterprise",
           density === 'compact' ? "table-compact" : "table-comfortable"
         )}>
           <thead>
-            <tr>
+            <tr className="border-b border-border/50">
               {columns.map((column) => (
                 <th
                   key={String(column.key)}
                   className={cn(
+                    "sticky top-0 z-10 bg-panel-elevated/80 backdrop-blur-sm",
                     column.align === 'right' && 'text-right',
-                    column.align === 'center' && 'text-center'
+                    column.align === 'center' && 'text-center',
+                    column.numeric && 'font-mono'
                   )}
                 >
                   {column.label}

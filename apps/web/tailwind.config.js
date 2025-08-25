@@ -26,8 +26,18 @@ export default {
         panel: { DEFAULT: 'hsl(var(--panel))', elevated: 'hsl(var(--panel-2))' },
         brand: { DEFAULT: 'hsl(var(--brand))', foreground: 'hsl(var(--brand-foreground))' },
         ai: { 
-          teal: 'hsl(var(--ai-teal))', 
-          gold: 'hsl(var(--ai-gold))' 
+          teal: {
+            300: 'hsl(var(--ai-teal-300))',
+            500: 'hsl(var(--ai-teal-500))',
+            600: 'hsl(var(--ai-teal-600))',
+            DEFAULT: 'hsl(var(--ai-teal-500))'
+          },
+          gold: {
+            300: 'hsl(var(--ai-gold-300))',
+            500: 'hsl(var(--ai-gold-500))',
+            600: 'hsl(var(--ai-gold-600))',
+            DEFAULT: 'hsl(var(--ai-gold-500))'
+          }
         },
         glass: {
           bg: 'hsla(var(--glass-bg))',
@@ -50,7 +60,7 @@ export default {
         lg: "0 10px 20px rgba(0,0,0,.12)",
         card: '0 8px 24px rgba(0,0,0,0.22)',
         pop: '0 12px 32px rgba(0,0,0,0.28)',
-        glass: '0 8px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06)',
+        glass: '0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
       },
       borderRadius: {
         xl: "12px",

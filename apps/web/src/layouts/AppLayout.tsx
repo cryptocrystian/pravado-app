@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { 
   Menu,
@@ -7,11 +7,13 @@ import {
   User,
   Moon,
   Sun,
-  Search
+  Search,
+  Command
 } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useTheme } from '../hooks/useTheme'
 import { AppSidebar } from '../components/AppSidebar'
+import { CommandPalette } from '../components/CommandPalette'
 
 interface AppLayoutProps {
   children: ReactNode
@@ -20,7 +22,21 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+
+  // Handle keyboard shortcut for command palette
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setCommandPaletteOpen(true)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -52,15 +68,17 @@ export function AppLayout({ children }: AppLayoutProps) {
           </button>
 
           <div className="flex items-center gap-4 ml-auto">
-            {/* Search */}
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-foreground/60" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-64 pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
-              />
-            </div>
+            {/* Command/Search */}
+            <button
+              onClick={() => setCommandPaletteOpen(true)}
+              className="hidden md:flex items-center gap-2 px-3 py-2 bg-background border border-border rounded-lg text-sm hover:border-ai-teal-500/50 transition-colors group"
+            >
+              <Search className="h-4 w-4 text-foreground/60" />
+              <span className="text-foreground/60">Search or command...</span>
+              <kbd className="ml-8 text-xs font-medium text-foreground/40 bg-white/5 px-1.5 py-0.5 rounded group-hover:text-foreground/60">
+                ⌘K
+              </kbd>
+            </button>
 
             {/* Theme toggle */}
             <button
@@ -102,6 +120,12 @@ export function AppLayout({ children }: AppLayoutProps) {
           <X className="h-5 w-5" />
         </button>
       )}
+
+      {/* Command Palette */}
+      <CommandPalette 
+        isOpen={commandPaletteOpen} 
+        onClose={() => setCommandPaletteOpen(false)} 
+      />
     </div>
   )
 }

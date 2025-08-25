@@ -127,11 +127,26 @@ body {
   --warning: 43 96% 52%;
   --danger: 0 84% 58%;
 
-  /* brand accents */
-  --ai-teal: 170 72% 45%;   /* AI teal */
-  --ai-gold: 40 90% 52%;    /* Gold */
-  --brand-grad-start: var(--ai-teal);
-  --brand-grad-end: var(--ai-gold);
+  /* P4 brand system - base accents */
+  --ai-teal-500: 170 72% 45%;
+  --ai-gold-500: 40 92% 52%;
+
+  /* P4 brand system - derived scales */
+  --ai-teal-600: 170 76% 38%;
+  --ai-teal-300: 170 70% 60%;
+  --ai-gold-600: 40 94% 44%;
+  --ai-gold-300: 40 90% 66%;
+
+  /* P4 strokes & glass */
+  --glass-fill: 220 18% 12% / 0.72;
+  --glass-stroke: 210 18% 98% / 0.08;
+  --glass-stroke-strong: 210 18% 98% / 0.14;
+
+  /* legacy support */
+  --ai-teal: var(--ai-teal-500);
+  --ai-gold: var(--ai-gold-500);
+  --brand-grad-start: var(--ai-teal-500);
+  --brand-grad-end: var(--ai-gold-500);
 
   /* depth */
   --glass-bg: 0 0% 100% / 0.06;    /* white @6% */
@@ -173,13 +188,31 @@ body::before {
   z-index: 0;
 }
 
-/* Glass card utility */
+/* P4 Glass card utility with gradient micro-strokes */
 .glass-card {
-  background: hsla(var(--glass-bg));
-  backdrop-filter: blur(12px);
-  border: 1px solid hsla(var(--glass-border));
-  box-shadow: 0 8px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06);
   position: relative;
+  background: hsl(var(--glass-fill));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--glass-stroke));
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Gradient hairline */
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  background: linear-gradient(90deg, hsl(var(--ai-teal-600)), hsl(var(--ai-gold-600)));
+  -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: .18;
 }
 
 .glass-card::after {
@@ -314,42 +347,47 @@ a:focus-visible,
   font-weight: 500;
 }
 
-/* Enterprise table styles */
+/* P4 Enterprise table styles */
 .table-enterprise {
   width: 100%;
   border-collapse: collapse;
 }
 
 .table-enterprise th {
-  position: sticky;
-  top: 0;
-  background: hsl(var(--panel));
-  border-bottom: 1px solid hsl(var(--border));
   padding: 0.75rem 1rem;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 0.813rem;
   font-weight: 600;
-  color: hsl(var(--fg) / 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  color: hsl(var(--fg) / 0.7);
+  white-space: nowrap;
 }
 
 .table-enterprise td {
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
-  border-bottom: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  color: hsl(var(--fg) / 0.9);
 }
 
 .table-enterprise tbody tr:nth-child(even) {
   background: hsl(var(--panel-2) / 0.3);
 }
 
+.table-enterprise tbody tr {
+  transition: all 0.15s ease;
+}
+
 .table-enterprise tbody tr:hover {
-  background: hsla(var(--glass-bg));
-  backdrop-filter: blur(4px);
+  background: hsl(var(--ai-teal-500) / 0.02);
+  box-shadow: inset 0 0 0 1px hsl(var(--ai-teal-500) / 0.08);
 }
 
 .table-enterprise .numeric {
   text-align: right;
   font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
 }
 
 /* Table density variants */
