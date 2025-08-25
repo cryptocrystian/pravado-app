@@ -68,10 +68,11 @@ export function AppLayout({ children }: AppLayoutProps) {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "group flex items-center px-3 py-2 text-sm font-medium rounded-lg mb-1 transition-colors",
+                  "group flex items-center px-3 py-2 text-sm font-medium rounded-lg mb-1 transition-colors relative",
                   isActive
-                    ? "bg-brand text-brand-foreground"
-                    : "text-foreground hover:bg-panel-elevated"
+                    ? "bg-brand text-brand-foreground shadow-sm"
+                    : "text-foreground hover:bg-panel-elevated",
+                  "focus-visible:outline-2 focus-visible:outline-brand/70 focus-visible:outline-offset-2"
                 )}
                 onClick={() => setSidebarOpen(false)}
               >
