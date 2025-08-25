@@ -1,0 +1,21 @@
+{
+  "name": "@pravado/workers",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "hono": "^3.12.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231121.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.1.0",
+    "wrangler": "^3.22.0"
+  }
+}

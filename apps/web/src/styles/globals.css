@@ -1,0 +1,315 @@
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+/* PRAVADO Design System - CSS Variables */
+:root {
+  /* Light (Beige-first) */
+  --bg: #F8F6F2;           /* Soft beige content background */
+  --surface: #E7ECEF;      /* Elevated cards */
+  --text: #1A1A1A;         /* Primary text */
+  --primary: #2B3A67;      /* Slate Blue */
+  --ai: #00A8A8;           /* AI Teal */
+  --premium: #D4A017;      /* Gold */
+  --success: #22C55E;      /* Green */
+  --warning: #F59E0B;      /* Amber */
+  --danger: #DC2626;       /* Red */
+}
+
+/* Dark theme variables */
+.dark {
+  --bg: #1E2A4A;      /* Deep Slate */
+  --surface: #2B3A67; /* Dark card */
+  --text: #FFFFFF;    /* Inverted text */
+}
+
+/* Base styles */
+* {
+  border-color: var(--surface);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
+  line-height: 1.5;
+}
+
+/* Typography scales from spec */
+.display {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.h2 {
+  font-size: 1.375rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.meta {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+/* Component utilities */
+.card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.10);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.ai-badge {
+  background-color: rgb(0 168 168 / 0.1);
+  color: var(--ai);
+  border: 1px solid rgb(0 168 168 / 0.3);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Theme Tokens v2 - Dark Foundation + Light Content Islands */
+:root {
+  /* light mode (only used when explicitly toggled) */
+  --bg: 0 0% 100%;
+  --fg: 222 47% 10%;
+  --panel: 0 0% 100%;
+  --panel-2: 210 20% 98%;
+  --border: 214 17% 92%;
+
+  /* brand hooks (map to existing brand tokens) */
+  --brand: 231 42% 39%;  /* PRAVADO slate blue from original design system */
+  --brand-foreground: 0 0% 100%;
+
+  /* states */
+  --success: 152 64% 35%;
+  --warning: 43 96% 52%;
+  --danger: 0 84% 58%;
+}
+
+/* dark-first application shell */
+:root.dark {
+  --bg: 222 47% 6%;
+  --fg: 210 20% 98%;
+  --panel: 222 22% 12%;
+  --panel-2: 222 18% 16%;
+  --border: 222 16% 26%;
+}
+
+/* light "content island" within dark shell */
+[data-surface="content"] {
+  --panel: 0 0% 100%;
+  --panel-2: 210 20% 98%;
+  --fg: 222 47% 10%;
+  --border: 214 17% 92%;
+}
+
+/* global bindings */
+* { border-color: hsl(var(--border)); }
+body { background: hsl(var(--bg)); color: hsl(var(--fg)); }
+
+/* UI Polish P2 - Enterprise Brand Application */
+
+/* Standardized focus rings */
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+/* Brand button variants */
+.btn-primary {
+  background: hsl(var(--brand));
+  color: hsl(var(--brand-foreground));
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.btn-primary:hover {
+  background: hsl(var(--brand) / 0.9);
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+.btn-secondary {
+  background: hsl(var(--panel-2));
+  color: hsl(var(--fg));
+  border: 1px solid hsl(var(--border));
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: hsl(var(--panel-2) / 0.8);
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: hsl(var(--fg));
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+  background: hsl(var(--panel-2) / 0.6);
+}
+
+.btn-ghost:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+/* Interactive links */
+.link-brand {
+  color: hsl(var(--brand));
+  transition: opacity 0.2s;
+}
+
+.link-brand:hover {
+  opacity: 0.9;
+}
+
+.link-brand:focus-visible {
+  outline: 2px solid hsl(var(--brand) / 0.7);
+  outline-offset: 2px;
+}
+
+/* Status chips */
+.chip-success {
+  background: hsl(var(--success) / 0.1);
+  color: hsl(var(--success));
+  border: 1px solid hsl(var(--success) / 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chip-warning {
+  background: hsl(var(--warning) / 0.1);
+  color: hsl(var(--warning));
+  border: 1px solid hsl(var(--warning) / 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chip-danger {
+  background: hsl(var(--danger) / 0.1);
+  color: hsl(var(--danger));
+  border: 1px solid hsl(var(--danger) / 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Enterprise table styles */
+.table-enterprise {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-enterprise th {
+  position: sticky;
+  top: 0;
+  background: hsl(var(--panel));
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--fg) / 0.8);
+}
+
+.table-enterprise td {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.table-enterprise tbody tr:nth-child(even) {
+  background: hsl(var(--panel-2) / 0.3);
+}
+
+.table-enterprise tbody tr:hover {
+  background: hsl(var(--panel-2) / 0.5);
+}
+
+.table-enterprise .numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Table density variants */
+.table-compact td,
+.table-compact th {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.table-comfortable td,
+.table-comfortable th {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
