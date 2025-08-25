@@ -133,9 +133,11 @@ body {
 
   /* P4 brand system - derived scales */
   --ai-teal-600: 170 76% 38%;
-  --ai-teal-300: 170 70% 60%;
+  --ai-teal-300: 170 70% 58%;
+  --ai-teal-700: 170 78% 34%;
   --ai-gold-600: 40 94% 44%;
-  --ai-gold-300: 40 90% 66%;
+  --ai-gold-300: 40 92% 66%;
+  --ai-gold-700: 40 94% 40%;
 
   /* P4 strokes & glass */
   --glass-fill: 220 18% 12% / 0.72;
@@ -415,6 +417,9 @@ a:focus-visible,
 
   /* Canonical gradient */
   --brand-grad: linear-gradient(90deg, hsl(var(--ai-teal-500)), hsl(var(--ai-gold-500)));
+  
+  /* Ensure gradient works with backdrop-filter contexts */
+  --brand-grad-static: linear-gradient(90deg, hsl(170 72% 45%), hsl(40 92% 52%));
 
   /* Glass + strokes (on dark shell) */
   --glass-fill: 220 18% 12% / .72;
@@ -448,14 +453,30 @@ a:focus-visible,
   mask-composite: exclude;
 }
 
-/* P5 Global Link Colors (no default blue) */
+/* P5 Global Link Colors - Complete Browser Override */
 a {
-  color: hsl(var(--ai-teal-300));
+  color: hsl(var(--ai-teal-300)) !important;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: hsl(var(--ai-teal-500));
+  color: hsl(var(--ai-teal-500)) !important;
+}
+
+a:visited {
+  color: hsl(var(--ai-teal-300)) !important;
+}
+
+a:active {
+  color: hsl(var(--ai-teal-700)) !important;
+}
+
+/* Brand buttons should maintain their styling */
+a.btn-primary,
+a.btn-secondary,
+a.btn-ghost,
+button a {
+  color: inherit !important;
 }
 
 /* P5 Focus Rings - Brand Enforcement */

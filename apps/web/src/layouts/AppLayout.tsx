@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useTheme } from '../hooks/useTheme'
-import { AppSidebar } from '../components/ui/AppSidebar'
+import { AppSidebar } from '../components/v2/AppSidebar'
 import { CommandPalette } from '../components/CommandPalette'
 
 interface AppLayoutProps {
@@ -49,14 +49,14 @@ export function AppLayout({ children }: AppLayoutProps) {
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out lg:translate-x-0 p-4",
+        "fixed inset-y-0 left-0 z-50 w-60 transform transition-transform duration-300 ease-in-out lg:translate-x-0 p-4",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <AppSidebar />
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-64">
+      <div className="lg:pl-60">
         {/* Top bar */}
         <header className="h-16 bg-panel border-b border-border flex items-center justify-between px-4 lg:px-6">
           <button
@@ -105,7 +105,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="p-4 lg:p-6">
+        <main>
           {children}
         </main>
       </div>

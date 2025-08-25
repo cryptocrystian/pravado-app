@@ -43,7 +43,7 @@ export function QuickActions({ onAction }: QuickActionsProps) {
   }
 
   return (
-    <div className="glass-card p-6">
+    <div className="glass-card p-6" data-testid="quick-actions">
       <h3 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <QuickAction
@@ -54,9 +54,9 @@ export function QuickActions({ onAction }: QuickActionsProps) {
         />
         <QuickAction
           icon={Megaphone}
-          label="New Press Release"
+          label="Submit PR"
           description="Announce to media"
-          onClick={() => handleAction('new_press_release', '/pr/new')}
+          onClick={() => handleAction('submit_pr', '/pr/new')}
         />
         <QuickAction
           icon={Link2}

@@ -9,6 +9,7 @@ import { PR } from './pages/PR'
 import { Analytics } from './pages/Analytics'
 import { Copilot } from './pages/Copilot'
 import { Settings } from './pages/Settings'
+import ComponentGallery from './pages/ComponentGallery'
 import './styles/globals.css'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/copilot" element={<Copilot />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/component-gallery" element={<ComponentGallery />} />
         </Routes>
       </AppLayout>
     </Router>
