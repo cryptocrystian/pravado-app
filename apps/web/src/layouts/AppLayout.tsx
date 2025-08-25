@@ -42,7 +42,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <div className="min-h-screen bg-bg text-text">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div 
@@ -53,11 +53,11 @@ export function AppLayout({ children }: AppLayoutProps) {
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-surface border-r border-surface/50 transform transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "fixed inset-y-0 left-0 z-50 w-64 bg-panel border-r border-border transform transition-transform duration-300 ease-in-out lg:translate-x-0",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex h-16 items-center px-6 border-b border-surface/50">
-          <span className="text-xl font-bold text-primary">PRAVADO</span>
+        <div className="flex h-16 items-center px-6 border-b border-border">
+          <span className="text-xl font-bold text-brand">PRAVADO</span>
         </div>
         
         <nav className="mt-6 px-3">
@@ -70,14 +70,14 @@ export function AppLayout({ children }: AppLayoutProps) {
                 className={cn(
                   "group flex items-center px-3 py-2 text-sm font-medium rounded-lg mb-1 transition-colors",
                   isActive
-                    ? "bg-primary text-white"
-                    : "text-text hover:bg-surface/50"
+                    ? "bg-brand text-brand-foreground"
+                    : "text-foreground hover:bg-panel-elevated"
                 )}
                 onClick={() => setSidebarOpen(false)}
               >
                 <item.icon className={cn(
                   "mr-3 h-5 w-5 flex-shrink-0",
-                  isActive ? "text-white" : "text-text/60"
+                  isActive ? "text-brand-foreground" : "text-foreground/60"
                 )} />
                 {item.name}
               </Link>
@@ -89,10 +89,10 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Top bar */}
-        <header className="h-16 bg-surface border-b border-surface/50 flex items-center justify-between px-4 lg:px-6">
+        <header className="h-16 bg-panel border-b border-border flex items-center justify-between px-4 lg:px-6">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 text-text hover:bg-surface/50 rounded-lg"
+            className="lg:hidden p-2 text-foreground hover:bg-panel-elevated rounded-lg"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -100,18 +100,18 @@ export function AppLayout({ children }: AppLayoutProps) {
           <div className="flex items-center gap-4 ml-auto">
             {/* Search */}
             <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-text/60" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-foreground/60" />
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-64 pl-10 pr-4 py-2 bg-bg border border-surface/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="w-64 pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
               />
             </div>
 
             {/* Theme toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 text-text hover:bg-surface/50 rounded-lg transition-colors"
+              className="p-2 text-foreground hover:bg-panel-elevated rounded-lg transition-colors"
             >
               {theme === 'dark' ? (
                 <Sun className="h-5 w-5" />
@@ -121,13 +121,13 @@ export function AppLayout({ children }: AppLayoutProps) {
             </button>
 
             {/* Notifications */}
-            <button className="p-2 text-text hover:bg-surface/50 rounded-lg relative">
+            <button className="p-2 text-foreground hover:bg-panel-elevated rounded-lg relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
             </button>
 
             {/* Profile */}
-            <button className="p-2 text-text hover:bg-surface/50 rounded-lg">
+            <button className="p-2 text-foreground hover:bg-panel-elevated rounded-lg">
               <User className="h-5 w-5" />
             </button>
           </div>
@@ -143,7 +143,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {sidebarOpen && (
         <button
           onClick={() => setSidebarOpen(false)}
-          className="fixed top-4 right-4 z-50 p-2 bg-surface text-text rounded-lg lg:hidden"
+          className="fixed top-4 right-4 z-50 p-2 bg-panel text-foreground rounded-lg lg:hidden"
         >
           <X className="h-5 w-5" />
         </button>

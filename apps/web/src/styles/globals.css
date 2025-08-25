@@ -108,3 +108,43 @@ body {
   font-size: 0.75rem;
   font-weight: 500;
 }
+
+/* Theme Tokens v2 - Dark Foundation + Light Content Islands */
+:root {
+  /* light mode (only used when explicitly toggled) */
+  --bg: 0 0% 100%;
+  --fg: 222 47% 10%;
+  --panel: 0 0% 100%;
+  --panel-2: 210 20% 98%;
+  --border: 214 17% 92%;
+
+  /* brand hooks (map to existing brand tokens) */
+  --brand: var(--primary);
+  --brand-foreground: var(--primary-foreground);
+
+  /* states */
+  --success: 152 64% 35%;
+  --warning: 43 96% 52%;
+  --danger: 0 84% 58%;
+}
+
+/* dark-first application shell */
+:root.dark {
+  --bg: 222 47% 6%;
+  --fg: 210 20% 98%;
+  --panel: 222 22% 12%;
+  --panel-2: 222 18% 16%;
+  --border: 222 16% 26%;
+}
+
+/* light "content island" within dark shell */
+[data-surface="content"] {
+  --panel: 0 0% 100%;
+  --panel-2: 210 20% 98%;
+  --fg: 222 47% 10%;
+  --border: 214 17% 92%;
+}
+
+/* global bindings */
+* { border-color: hsl(var(--border)); }
+body { background: hsl(var(--bg)); color: hsl(var(--fg)); }

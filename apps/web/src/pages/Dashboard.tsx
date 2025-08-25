@@ -53,13 +53,13 @@ function KPICard({
   return (
     <div 
       className={cn(
-        "card p-6 cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5",
-        onClick && "hover:border-primary/20"
+        "bg-panel shadow-card rounded-2xl p-6 text-foreground cursor-pointer transition-all duration-200 hover:shadow-pop hover:-translate-y-0.5",
+        onClick && "hover:border-brand/20"
       )}
       onClick={onClick}
     >
       <div className="flex items-center justify-between mb-4">
-        <Icon className="h-6 w-6 text-primary" />
+        <Icon className="h-6 w-6 text-brand" />
         {trend && (
           <span className="text-xs font-medium text-success flex items-center">
             <TrendingUp className="h-3 w-3 mr-1" />
@@ -69,9 +69,9 @@ function KPICard({
       </div>
       <div className="space-y-1">
         <p className="text-2xl font-bold">{value}</p>
-        <p className="text-sm font-medium text-text/80">{title}</p>
+        <p className="text-sm font-medium text-foreground/80">{title}</p>
         {subtitle && (
-          <p className="text-xs text-text/60">{subtitle}</p>
+          <p className="text-xs text-foreground/60">{subtitle}</p>
         )}
       </div>
     </div>
@@ -85,32 +85,34 @@ export function Dashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-text">Marketing Command Center</h1>
-        <p className="text-text/60 mt-2">Monitor your visibility and manage campaigns from your central dashboard</p>
+        <h1 className="text-3xl font-bold text-foreground">Marketing Command Center</h1>
+        <p className="text-foreground/60 mt-2">Monitor your visibility and manage campaigns from your central dashboard</p>
       </div>
 
       {/* Hero KPI - Visibility Score */}
-      <div className="card p-8">
+      <div className="bg-panel shadow-card rounded-2xl p-6 md:p-8 text-foreground" data-surface="content">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-4 mb-2">
-              <h2 className="text-lg font-semibold text-text/80">Visibility Score</h2>
+              <h2 className="text-lg font-semibold text-foreground/80">Visibility Score</h2>
               <span className="ai-badge">AI Powered</span>
             </div>
             <div className="flex items-baseline gap-4">
-              <span className="text-5xl font-bold text-primary">{mockData.visibilityScore}</span>
+              <span className="text-5xl font-metric text-brand">{mockData.visibilityScore}</span>
               <div className="flex items-center gap-2">
                 <span className="text-success font-medium">{mockData.trend}</span>
-                <Sparkline 
-                  data={sparklineData} 
-                  className="text-success" 
-                />
+                <div className="bg-panel-elevated p-1 rounded">
+                  <Sparkline 
+                    data={sparklineData} 
+                    className="text-success" 
+                  />
+                </div>
               </div>
             </div>
-            <p className="text-text/60 mt-2">Cross-pillar marketing performance index</p>
+            <p className="text-foreground/60 mt-2">Cross-pillar marketing performance index</p>
           </div>
           <div className="text-right">
-            <button className="btn-primary">
+            <button className="bg-brand text-brand-foreground px-6 py-2 rounded-lg hover:bg-brand/90 transition-colors">
               View Details <ArrowRight className="ml-2 h-4 w-4" />
             </button>
           </div>
@@ -118,7 +120,7 @@ export function Dashboard() {
       </div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-surface="content">
         <KPICard
           title="Active Campaigns"
           value={mockData.activeCampaigns}
@@ -155,14 +157,14 @@ export function Dashboard() {
       </div>
 
       {/* AI Recommendations */}
-      <div className="card p-6">
+      <div className="bg-panel shadow-card rounded-2xl p-6 text-foreground" data-surface="content">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <Brain className="h-6 w-6 text-ai" />
+            <Brain className="h-6 w-6 text-brand" />
             <h3 className="text-lg font-semibold">AI Recommendations</h3>
             <span className="ai-badge">Live Insights</span>
           </div>
-          <button className="text-sm text-primary hover:underline">View All</button>
+          <button className="text-sm text-brand hover:underline">View All</button>
         </div>
         
         <div className="space-y-4">
@@ -186,11 +188,11 @@ export function Dashboard() {
               confidence: 'High'
             }
           ].map((rec, index) => (
-            <div key={index} className="border border-surface/50 rounded-lg p-4 hover:border-primary/20 transition-colors">
+            <div key={index} className="border border-border rounded-lg p-4 hover:border-brand/20 transition-colors">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">
+                    <span className="text-xs font-medium text-brand bg-brand/10 px-2 py-1 rounded">
                       {rec.type}
                     </span>
                     <span className={cn(
@@ -203,11 +205,11 @@ export function Dashboard() {
                     </span>
                   </div>
                   <p className="font-medium mb-1">{rec.title}</p>
-                  <p className="text-sm text-text/60">{rec.description}</p>
+                  <p className="text-sm text-foreground/60">{rec.description}</p>
                 </div>
                 <div className="flex gap-2 ml-4">
-                  <button className="btn-secondary text-sm py-1 px-3">Dismiss</button>
-                  <button className="btn-primary text-sm py-1 px-3">Apply</button>
+                  <button className="bg-panel-elevated text-foreground border border-border text-sm py-1 px-3 rounded hover:bg-panel-elevated/80 transition-colors">Dismiss</button>
+                  <button className="bg-brand text-brand-foreground text-sm py-1 px-3 rounded hover:bg-brand/90 transition-colors">Apply</button>
                 </div>
               </div>
             </div>
@@ -216,7 +218,7 @@ export function Dashboard() {
       </div>
 
       {/* Activity Timeline */}
-      <div className="card p-6">
+      <div className="bg-panel shadow-card rounded-2xl p-6 text-foreground" data-surface="content">
         <h3 className="text-lg font-semibold mb-6">Recent Activity</h3>
         <div className="space-y-4">
           {[
@@ -228,14 +230,14 @@ export function Dashboard() {
             <div key={index} className="flex items-start gap-3">
               <div className={cn(
                 "w-2 h-2 rounded-full mt-2",
-                activity.type === 'campaign' && "bg-primary",
+                activity.type === 'campaign' && "bg-brand",
                 activity.type === 'pr' && "bg-success",
                 activity.type === 'content' && "bg-warning",
-                activity.type === 'seo' && "bg-ai"
+                activity.type === 'seo' && "bg-brand"
               )} />
               <div className="flex-1">
                 <p className="text-sm">{activity.event}</p>
-                <p className="text-xs text-text/60">{activity.time}</p>
+                <p className="text-xs text-foreground/60">{activity.time}</p>
               </div>
             </div>
           ))}

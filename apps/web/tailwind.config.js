@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // PRAVADO Design System - CSS Variables
+        // PRAVADO Design System - CSS Variables (Legacy)
         bg: "var(--bg)",
         surface: "var(--surface)",
         text: "var(--text)",
@@ -18,6 +18,13 @@ export default {
         success: "var(--success)",
         warning: "var(--warning)",
         danger: "var(--danger)",
+        
+        // Theme Tokens v2 - Dark Foundation + Light Content Islands
+        background: 'hsl(var(--bg))',
+        foreground: 'hsl(var(--fg))',
+        border: 'hsl(var(--border))',
+        panel: { DEFAULT: 'hsl(var(--panel))', elevated: 'hsl(var(--panel-2))' },
+        brand: { DEFAULT: 'hsl(var(--brand))', foreground: 'hsl(var(--brand-foreground))' },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
@@ -32,7 +39,9 @@ export default {
       boxShadow: {
         sm: "0 1px 2px rgba(0,0,0,.06)",
         md: "0 4px 12px rgba(0,0,0,.10)",
-        lg: "0 10px 20px rgba(0,0,0,.12)"
+        lg: "0 10px 20px rgba(0,0,0,.12)",
+        card: '0 8px 24px rgba(0,0,0,0.22)',
+        pop: '0 12px 32px rgba(0,0,0,0.28)',
       },
       borderRadius: {
         xl: "12px",
@@ -41,7 +50,10 @@ export default {
       spacing: {
         13: "3.25rem",
         15: "3.75rem"
-      }
+      },
+      fontWeight: { 
+        metric: 700 
+      },
     },
   },
   plugins: [],
