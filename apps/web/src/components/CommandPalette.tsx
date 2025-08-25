@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Search, FileText, Megaphone, Link2, Download, X } from 'lucide-react'
+import { Search, FileText, Megaphone, Link2, Download } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '../lib/utils'
 

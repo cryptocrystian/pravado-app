@@ -1,4 +1,4 @@
-import { TrendingUp, ArrowRight, MoreHorizontal, Activity, Zap, Clock, Calendar } from 'lucide-react'
+import { TrendingUp, ArrowRight, Activity, Clock, Calendar } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useEffect, useRef } from 'react'
 

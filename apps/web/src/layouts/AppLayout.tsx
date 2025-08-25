@@ -7,8 +7,7 @@ import {
   User,
   Moon,
   Sun,
-  Search,
-  Command
+  Search
 } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useTheme } from '../hooks/useTheme'
