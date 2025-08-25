@@ -1,7 +1,8 @@
-import { Brain, Calendar, Activity, TrendingUp, FileText, Megaphone, Link2, Download } from 'lucide-react'
-import { KPIHero } from '../components/KPIHero'
+import { Brain, Calendar, Activity, TrendingUp } from 'lucide-react'
+import { KPIHero } from '../components/ui/KPIHero'
+import { QuickActions } from '../components/ui/QuickActions'
 import { SectionCard } from '../components/SectionCard'
-import { useNavigate } from 'react-router-dom'
+import { cn } from '../lib/utils'
 
 const mockData = {
   visibilityScore: 74,
@@ -36,20 +37,6 @@ const mockData = {
 }
 
 export function Dashboard() {
-  const navigate = useNavigate()
-  
-  // Quick action handlers
-  const handleQuickAction = (action: string, route?: string) => {
-    // Track action in PostHog
-    if (window.posthog) {
-      window.posthog.capture('quick_action_clicked', { action })
-    }
-    
-    if (route) {
-      navigate(route)
-    }
-  }
-
   return (
     <div className="min-h-screen p-4 lg:p-6 space-y-10 md:space-y-12">
       {/* Content wrapper with individual content islands per card */}
@@ -75,60 +62,12 @@ export function Dashboard() {
             />
           </div>
 
-          {/* Quick Actions Row (12 columns) */}
+          {/* Row 2: Quick Actions (12 columns) */}
           <div className="col-span-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <button
-                onClick={() => handleQuickAction('new_content', '/content/new')}
-                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-ai-teal-600/10 to-ai-teal-600/5 border border-ai-teal-600/20 p-4 text-left transition-all hover:border-ai-teal-600/40 hover:shadow-lg hover:shadow-ai-teal-600/10"
-              >
-                <div className="relative z-10">
-                  <FileText className="h-5 w-5 text-ai-teal-500 mb-2" />
-                  <h3 className="font-medium text-sm text-foreground mb-1">New Content</h3>
-                  <p className="text-xs text-foreground/60">Start writing instantly</p>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-ai-teal-600/0 to-ai-teal-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-
-              <button
-                onClick={() => handleQuickAction('new_press_release', '/press-releases/new')}
-                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-ai-gold-600/10 to-ai-gold-600/5 border border-ai-gold-600/20 p-4 text-left transition-all hover:border-ai-gold-600/40 hover:shadow-lg hover:shadow-ai-gold-600/10"
-              >
-                <div className="relative z-10">
-                  <Megaphone className="h-5 w-5 text-ai-gold-500 mb-2" />
-                  <h3 className="font-medium text-sm text-foreground mb-1">New Press Release</h3>
-                  <p className="text-xs text-foreground/60">Announce to media</p>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-ai-gold-600/0 to-ai-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-
-              <button
-                onClick={() => handleQuickAction('analyze_url', '/citemind')}
-                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-ai-teal-600/10 to-ai-teal-600/5 border border-ai-teal-600/20 p-4 text-left transition-all hover:border-ai-teal-600/40 hover:shadow-lg hover:shadow-ai-teal-600/10"
-              >
-                <div className="relative z-10">
-                  <Link2 className="h-5 w-5 text-ai-teal-500 mb-2" />
-                  <h3 className="font-medium text-sm text-foreground mb-1">Analyze URL</h3>
-                  <p className="text-xs text-foreground/60">CiteMind insights</p>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-ai-teal-600/0 to-ai-teal-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-
-              <button
-                onClick={() => handleQuickAction('export_analytics', '/analytics/export')}
-                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-foreground/5 to-foreground/2 border border-foreground/10 p-4 text-left transition-all hover:border-foreground/20 hover:shadow-lg"
-              >
-                <div className="relative z-10">
-                  <Download className="h-5 w-5 text-foreground/70 mb-2" />
-                  <h3 className="font-medium text-sm text-foreground mb-1">Export Analytics</h3>
-                  <p className="text-xs text-foreground/60">Download reports</p>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-foreground/0 to-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-            </div>
+            <QuickActions onAction={(action) => console.log(`Quick action: ${action}`)} />
           </div>
 
-          {/* Row 2: AI Recommendations (6 columns) */}
+          {/* Row 3: AI Recommendations (6 columns) */}
           <div className="col-span-12 lg:col-span-6">
             <SectionCard
               title="AI Recommendations"
@@ -136,9 +75,9 @@ export function Dashboard() {
               icon={Brain}
               badge="7 Active"
               action={
-                <button className="link-brand text-sm font-medium">
+                <a href="#" className="text-sm font-medium text-ai-teal-300 hover:text-ai-teal-500">
                   View All
-                </button>
+                </a>
               }
             >
               <div className="space-y-4">
@@ -150,12 +89,15 @@ export function Dashboard() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xs font-medium text-ai-teal bg-ai-teal/10 border border-ai-teal/30 px-2 py-1 rounded">
+                          <span className="text-xs font-medium text-ai-teal-300 bg-ai-teal-300/10 border border-ai-teal-300/30 px-2 py-1 rounded">
                             {rec.type}
                           </span>
-                          <span className={
-                            rec.confidence === 'High' ? 'chip-success' : 'chip-warning'
-                          }>
+                          <span className={cn(
+                            "text-xs font-medium px-2 py-1 rounded",
+                            rec.confidence === 'High' 
+                              ? 'text-ai-teal-300 bg-ai-teal-300/10 border border-ai-teal-300/30'
+                              : 'text-ai-gold-500 bg-ai-gold-500/10 border border-ai-gold-500/30'
+                          )}>
                             {rec.confidence} Confidence
                           </span>
                         </div>
@@ -163,8 +105,8 @@ export function Dashboard() {
                         <p className="text-sm text-foreground/60">{rec.description}</p>
                       </div>
                       <div className="flex gap-2 ml-4">
-                        <button className="btn-ghost text-sm">Dismiss</button>
-                        <button className="btn-primary text-sm">Apply</button>
+                        <button className="px-3 py-1.5 text-sm text-foreground/80 hover:text-foreground hover:bg-white/5 rounded transition-all focus:outline-2 focus:outline-ai-teal-500">Dismiss</button>
+                        <button className="px-3 py-1.5 text-sm bg-[var(--brand-grad)] text-white rounded hover:opacity-95 transition-opacity focus:outline-2 focus:outline-ai-teal-500">Apply</button>
                       </div>
                     </div>
                   </div>
@@ -173,26 +115,26 @@ export function Dashboard() {
             </SectionCard>
           </div>
 
-          {/* Row 2: Recent Activity (6 columns) */}
+          {/* Row 3: Recent Activity (6 columns) */}
           <div className="col-span-12 lg:col-span-6">
             <SectionCard
               title="Recent Activity"
               subtitle="Latest updates across all channels"
               icon={Activity}
               action={
-                <button className="link-brand text-sm font-medium">
+                <a href="#" className="text-sm font-medium text-ai-teal-300 hover:text-ai-teal-500">
                   View Timeline
-                </button>
+                </a>
               }
             >
               <div className="space-y-4">
                 {mockData.recentActivity.map((activity, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className={`w-2 h-2 rounded-full mt-2 ${
-                      activity.type === 'campaign' ? 'bg-ai-teal' :
+                      activity.type === 'campaign' ? 'bg-ai-teal-500' :
                       activity.type === 'pr' ? 'bg-success' :
-                      activity.type === 'content' ? 'bg-ai-gold' :
-                      'bg-ai-teal'
+                      activity.type === 'content' ? 'bg-ai-gold-500' :
+                      'bg-ai-teal-500'
                     }`} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-foreground">{activity.event}</p>
@@ -204,7 +146,7 @@ export function Dashboard() {
             </SectionCard>
           </div>
 
-          {/* Row 3: SEO Summary (12 columns) */}
+          {/* Row 4: SEO Summary (12 columns) */}
           <div className="col-span-12">
             <SectionCard
               title="SEO Performance Overview"
@@ -212,10 +154,10 @@ export function Dashboard() {
               icon={TrendingUp}
               action={
                 <div className="flex gap-2">
-                  <button className="btn-secondary">
+                  <button className="px-4 py-2 text-sm border border-border rounded-lg text-foreground hover:bg-white/5 transition-all focus:outline-2 focus:outline-ai-teal-500">
                     Full Report
                   </button>
-                  <button className="btn-primary">
+                  <button className="px-4 py-2 text-sm bg-[var(--brand-grad)] text-white rounded-lg hover:opacity-95 transition-opacity focus:outline-2 focus:outline-ai-teal-500">
                     Optimize Now
                   </button>
                 </div>
@@ -223,27 +165,27 @@ export function Dashboard() {
             >
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold text-ai-teal">142</div>
+                  <div className="text-2xl font-bold text-ai-teal-300">142</div>
                   <div className="text-sm text-foreground/60">Tracked Keywords</div>
                   <div className="flex items-center gap-1 text-xs">
-                    <TrendingUp className="h-3 w-3 text-success" />
-                    <span className="chip-success">+8 this week</span>
+                    <TrendingUp className="h-3 w-3 text-ai-teal-300" />
+                    <span className="text-ai-teal-300 bg-ai-teal-300/10 border border-ai-teal-300/30 px-2 py-1 rounded text-xs">+8 this week</span>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold text-ai-teal">23</div>
+                  <div className="text-2xl font-bold text-ai-teal-300">23</div>
                   <div className="text-sm text-foreground/60">Top 10 Rankings</div>
                   <div className="flex items-center gap-1 text-xs">
-                    <TrendingUp className="h-3 w-3 text-success" />
-                    <span className="chip-success">+3 improved</span>
+                    <TrendingUp className="h-3 w-3 text-ai-teal-300" />
+                    <span className="text-ai-teal-300 bg-ai-teal-300/10 border border-ai-teal-300/30 px-2 py-1 rounded text-xs">+3 improved</span>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold text-ai-gold">67</div>
+                  <div className="text-2xl font-bold text-ai-gold-500">67</div>
                   <div className="text-sm text-foreground/60">Backlinks</div>
                   <div className="flex items-center gap-1 text-xs">
-                    <TrendingUp className="h-3 w-3 text-success" />
-                    <span className="chip-success">+12 acquired</span>
+                    <TrendingUp className="h-3 w-3 text-ai-gold-500" />
+                    <span className="text-ai-gold-500 bg-ai-gold-500/10 border border-ai-gold-500/30 px-2 py-1 rounded text-xs">+12 acquired</span>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -251,7 +193,7 @@ export function Dashboard() {
                   <div className="text-sm text-foreground/60">Opportunities</div>
                   <div className="flex items-center gap-1 text-xs">
                     <Calendar className="h-3 w-3 text-warning" />
-                    <span className="chip-warning">High priority</span>
+                    <span className="text-warning bg-warning/10 border border-warning/30 px-2 py-1 rounded text-xs">High priority</span>
                   </div>
                 </div>
               </div>

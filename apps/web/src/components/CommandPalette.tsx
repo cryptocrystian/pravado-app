@@ -23,15 +23,15 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
 
   const commands: CommandItem[] = [
     {
-      id: 'new-content',
-      label: 'Start Press Release',
+      id: 'start-pr',
+      label: 'Start PR',
       shortcut: '⌘P',
       icon: Megaphone,
       action: () => {
-        navigate('/press-releases/new')
+        navigate('/pr/new')
         onClose()
         if (window.posthog) {
-          window.posthog.capture('flow_path_len', { flow: 'press_release', steps: 1 })
+          window.posthog.capture('flow_path_len', { flow: 'start_pr', steps: 1 })
         }
       }
     },
@@ -70,7 +70,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         navigate('/analytics/export')
         onClose()
         if (window.posthog) {
-          window.posthog.capture('flow_path_len', { flow: 'export_analytics', steps: 1 })
+          window.posthog.capture('flow_path_len', { flow: 'export_analytics', steps: 2 })
         }
       }
     }
@@ -123,34 +123,40 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 lg:bg-transparent lg:backdrop-blur-none"
         onClick={onClose}
       />
 
-      {/* Command Palette */}
-      <div className="fixed top-[20%] left-1/2 transform -translate-x-1/2 w-full max-w-2xl z-50">
-        <div className="glass-card mx-4 overflow-hidden">
+      {/* Right Drawer */}
+      <div className="fixed inset-y-0 right-0 w-full max-w-md z-50">
+        <div className="h-full glass-card rounded-none lg:rounded-l-2xl overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center gap-3 p-4 border-b border-[hsl(var(--glass-stroke))]">
+            <Search className="h-5 w-5 text-ai-teal-300" />
+            <h2 className="text-lg font-semibold text-foreground flex-1">Copilot</h2>
+            <kbd className="text-xs font-medium text-foreground/60 bg-white/5 px-2 py-1 rounded focus:outline-2 focus:outline-ai-teal-500">
+              ⌘K
+            </kbd>
+          </div>
+
           {/* Search Input */}
-          <div className="flex items-center gap-3 p-4 border-b border-border/50">
-            <Search className="h-5 w-5 text-foreground/60" />
+          <div className="p-4 border-b border-[hsl(var(--glass-stroke))]">
             <input
               ref={input => input?.focus()}
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Type a command or search..."
-              className="flex-1 bg-transparent text-foreground placeholder:text-foreground/60 focus:outline-none"
+              placeholder="Search commands..."
+              className="w-full bg-white/5 border border-[hsl(var(--glass-stroke))] rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:outline-2 focus:outline-ai-teal-500"
             />
-            <kbd className="text-xs font-medium text-foreground/60 bg-white/5 px-2 py-1 rounded">
-              ESC
-            </kbd>
           </div>
 
-          {/* Command List */}
-          <div className="max-h-96 overflow-y-auto">
-            {filteredCommands.length > 0 ? (
-              <div className="p-2">
-                {filteredCommands.map((command, index) => {
+          {/* Quick Shortcuts Section */}
+          <div className="p-4">
+            <h3 className="text-sm font-semibold text-foreground/80 mb-3">Quick Actions</h3>
+            <div className="space-y-2">
+              {filteredCommands.length > 0 ? (
+                filteredCommands.map((command, index) => {
                   const Icon = command.icon
                   return (
                     <button
@@ -158,41 +164,45 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                       onClick={command.action}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all",
-                        "hover:bg-white/5",
+                        "hover:bg-white/5 focus:outline-2 focus:outline-ai-teal-500",
                         selectedIndex === index && "bg-ai-teal-500/10 ring-1 ring-inset ring-ai-teal-500/30"
                       )}
                     >
-                      <Icon className="h-5 w-5 text-ai-teal-500" />
-                      <span className="flex-1 text-sm font-medium">{command.label}</span>
+                      <Icon className="h-4 w-4 text-ai-teal-300" />
+                      <span className="flex-1 text-sm font-medium text-foreground">{command.label}</span>
                       {command.shortcut && (
-                        <kbd className="text-xs font-medium text-foreground/60 bg-white/5 px-2 py-1 rounded">
+                        <kbd className="text-xs font-medium text-foreground/60 bg-white/5 px-1.5 py-0.5 rounded">
                           {command.shortcut}
                         </kbd>
                       )}
                     </button>
                   )
-                })}
-              </div>
-            ) : (
-              <div className="p-8 text-center text-foreground/60 text-sm">
-                No commands found
-              </div>
-            )}
+                })
+              ) : (
+                <div className="p-4 text-center text-foreground/60 text-sm">
+                  No commands found
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Footer */}
-          <div className="px-4 py-3 border-t border-border/50 flex items-center justify-between text-xs text-foreground/60">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1">
-                <kbd className="bg-white/5 px-1.5 py-0.5 rounded">↑↓</kbd>
-                Navigate
-              </span>
-              <span className="flex items-center gap-1">
-                <kbd className="bg-white/5 px-1.5 py-0.5 rounded">↵</kbd>
-                Select
-              </span>
+          {/* Tips Section */}
+          <div className="p-4 border-t border-[hsl(var(--glass-stroke))] mt-auto">
+            <h3 className="text-sm font-semibold text-foreground/80 mb-3">Tips</h3>
+            <div className="space-y-2 text-xs text-foreground/60">
+              <div className="flex items-center gap-2">
+                <kbd className="bg-white/5 px-1.5 py-0.5 rounded text-xs">⌘K</kbd>
+                <span>Open this panel</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <kbd className="bg-white/5 px-1.5 py-0.5 rounded text-xs">↵</kbd>
+                <span>Execute selected action</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <kbd className="bg-white/5 px-1.5 py-0.5 rounded text-xs">ESC</kbd>
+                <span>Close panel</span>
+              </div>
             </div>
-            <span>Copilot Ready</span>
           </div>
         </div>
       </div>

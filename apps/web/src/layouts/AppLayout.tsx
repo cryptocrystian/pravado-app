@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useTheme } from '../hooks/useTheme'
-import { AppSidebar } from '../components/AppSidebar'
+import { AppSidebar } from '../components/ui/AppSidebar'
 import { CommandPalette } from '../components/CommandPalette'
 
 interface AppLayoutProps {
@@ -70,10 +70,10 @@ export function AppLayout({ children }: AppLayoutProps) {
             {/* Command/Search */}
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="hidden md:flex items-center gap-2 px-3 py-2 bg-background border border-border rounded-lg text-sm hover:border-ai-teal-500/50 transition-colors group"
+              className="hidden md:flex items-center gap-2 px-3 py-2 bg-background border border-border rounded-lg text-sm hover:border-ai-teal-500/50 transition-colors group focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
             >
-              <Search className="h-4 w-4 text-foreground/60" />
-              <span className="text-foreground/60">Search or command...</span>
+              <Search className="h-4 w-4 text-ai-teal-300" />
+              <span className="text-foreground/60">Copilot...</span>
               <kbd className="ml-8 text-xs font-medium text-foreground/40 bg-white/5 px-1.5 py-0.5 rounded group-hover:text-foreground/60">
                 ⌘K
               </kbd>

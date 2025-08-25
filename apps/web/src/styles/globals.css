@@ -165,10 +165,9 @@ body {
 
 /* light "content island" within dark shell */
 [data-surface="content"] {
-  --panel: 210 20% 99%;    /* Off-white to reduce glare */
-  --panel-2: 210 20% 98%;
-  --fg: 222 47% 10%;
-  --border: 214 17% 92%;
+  --panel: 210 20% 98%;    /* P5 light island background */
+  --border: 214 17% 88%;   /* P5 light island borders */
+  --fg: 222 47% 10%;       /* Dark text on light background */
 }
 
 /* global bindings */
@@ -401,4 +400,68 @@ a:focus-visible,
 .table-comfortable th {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+/* P5 Canonical Brand Tokens (single source of truth) */
+:root {
+  /* Brand accents (exact, single source of truth) */
+  --ai-teal-300: 170 70% 58%;
+  --ai-teal-500: 170 72% 45%;   /* primary accent */
+  --ai-teal-700: 170 78% 34%;
+
+  --ai-gold-300: 40 92% 66%;
+  --ai-gold-500: 40 92% 52%;   /* secondary accent */
+  --ai-gold-700: 40 94% 40%;
+
+  /* Canonical gradient */
+  --brand-grad: linear-gradient(90deg, hsl(var(--ai-teal-500)), hsl(var(--ai-gold-500)));
+
+  /* Glass + strokes (on dark shell) */
+  --glass-fill: 220 18% 12% / .72;
+  --glass-stroke: 210 18% 98% / .10;
+  --glass-stroke-strong: 210 18% 98% / .16;
+}
+
+/* P5 Glass Cards - Real Depth */
+.glass-card {
+  position: relative;
+  background: rgba(255,255,255,.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--glass-stroke));
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: var(--brand-grad);
+  opacity: .18;
+  mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  padding: 1px;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* P5 Global Link Colors (no default blue) */
+a {
+  color: hsl(var(--ai-teal-300));
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: hsl(var(--ai-teal-500));
+}
+
+/* P5 Focus Rings - Brand Enforcement */
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid hsl(var(--ai-teal-500));
+  outline-offset: 2px;
 }

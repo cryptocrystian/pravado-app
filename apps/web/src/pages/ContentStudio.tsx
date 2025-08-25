@@ -11,13 +11,13 @@ export function ContentStudio() {
         <p className="text-foreground/60 mt-2">Create, edit, and optimize content with AI assistance</p>
       </div>
 
-      {/* Main Content Area - wrapped in content surface */}
-      <section data-surface="content" className="rounded-2xl border border-border/50 bg-[hsl(var(--panel))] p-6">
+      {/* Main Content Area - wrapped in true light island */}
+      <section data-surface="content" className="glass-card p-6">
         <div className="grid grid-cols-12 gap-6 h-[calc(100vh-280px)]">
           {/* Left Panel - Brief & AI */}
           <div className="col-span-12 lg:col-span-4 space-y-6">
             {/* Content Brief */}
-            <div className="glass-card p-6 h-fit">
+            <div className="bg-white/50 border border-border rounded-lg p-6 h-fit shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <Target className="h-5 w-5 text-ai-teal-500" />
               <h3 className="font-semibold text-foreground">Content Brief</h3>
@@ -81,7 +81,7 @@ export function ContentStudio() {
           </div>
 
           {/* AI Assistance Panel */}
-          <div className="glass-card p-6">
+          <div className="bg-white/50 border border-border rounded-lg p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <Wand2 className="h-5 w-5 text-ai-teal-500" />
               <h3 className="font-semibold text-foreground">AI Assistant</h3>
@@ -133,7 +133,7 @@ export function ContentStudio() {
 
         {/* Editor Area */}
         <div className="col-span-12 lg:col-span-8">
-          <div className="glass-card p-6 h-full flex flex-col">
+          <div className="bg-white/50 border border-border rounded-lg p-6 h-full flex flex-col shadow-sm">
             {/* Editor Header */}
             <div className="flex items-center justify-between mb-4 pb-4 border-b border-ai-teal-500/20">
               <div className="flex items-center gap-2 relative">
@@ -196,7 +196,7 @@ The editor supports markdown formatting and will auto-save your progress."
       </div>
       </section>
       
-      {/* Right rail - Versions & Timeline */}
+      {/* Right rail - Versions & Timeline (outside content island) */}
       <aside className="absolute top-24 right-6 w-64 space-y-4">
         <div className="glass-card p-4">
           <h4 className="text-sm font-semibold text-foreground mb-3">Versions</h4>
@@ -216,7 +216,7 @@ The editor supports markdown formatting and will auto-save your progress."
         
         <div className="glass-card p-4">
           <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-            <Wand2 className="h-4 w-4 text-ai-gold-500" />
+            <Wand2 className="h-4 w-4 text-ai-gold-300" />
             Copilot Tips
           </h4>
           <div className="text-xs text-foreground/70 space-y-2">

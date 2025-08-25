@@ -29,13 +29,13 @@ export default {
           teal: {
             300: 'hsl(var(--ai-teal-300))',
             500: 'hsl(var(--ai-teal-500))',
-            600: 'hsl(var(--ai-teal-600))',
+            700: 'hsl(var(--ai-teal-700))',
             DEFAULT: 'hsl(var(--ai-teal-500))'
           },
           gold: {
             300: 'hsl(var(--ai-gold-300))',
             500: 'hsl(var(--ai-gold-500))',
-            600: 'hsl(var(--ai-gold-600))',
+            700: 'hsl(var(--ai-gold-700))',
             DEFAULT: 'hsl(var(--ai-gold-500))'
           }
         },
