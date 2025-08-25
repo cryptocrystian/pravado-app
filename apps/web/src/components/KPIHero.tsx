@@ -50,7 +50,7 @@ export function KPIHero({
 }: KPIHeroProps) {
   return (
     <div 
-      className="bg-panel shadow-card rounded-2xl p-8 md:p-10 border border-border" 
+      className="glass-card rounded-2xl p-8 md:p-10" 
       data-surface="content"
       data-testid="kpi-hero"
     >
@@ -60,16 +60,18 @@ export function KPIHero({
           <div className="space-y-2">
             <div className="flex items-baseline gap-4">
               <span 
-                className="text-6xl md:text-7xl font-metric text-brand leading-none"
+                className="text-6xl md:text-7xl font-metric bg-gradient-to-r from-ai-teal to-ai-gold bg-clip-text text-transparent leading-none"
                 aria-label={`Score: ${score}`}
               >
                 {score}
               </span>
               <div className="flex items-center gap-1">
-                <TrendingUp className="h-4 w-4 text-success" />
+                <TrendingUp className="h-4 w-4 text-ai-teal" />
                 <span className={cn(
-                  "text-sm font-medium px-2 py-1 rounded",
-                  delta.positive ? "chip-success" : "chip-danger"
+                  "text-sm font-medium px-2 py-1 rounded border",
+                  delta.positive 
+                    ? "bg-ai-teal/10 text-ai-teal border-ai-teal/30" 
+                    : "chip-danger"
                 )}>
                   {delta.positive ? '▲' : '▼'} {delta.value}
                 </span>
@@ -91,7 +93,7 @@ export function KPIHero({
               </div>
               <div className="text-xs text-foreground/60 space-y-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-brand rounded-full"></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-ai-teal to-ai-gold rounded-full"></div>
                   <span>Performance Index</span>
                 </div>
               </div>

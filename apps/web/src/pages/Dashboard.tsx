@@ -36,9 +36,8 @@ const mockData = {
 
 export function Dashboard() {
   return (
-    <div className="min-h-screen">
-      {/* Content wrapper with content island */}
-      <section data-surface="content" className="p-4 lg:p-6 space-y-10 md:space-y-12">
+    <div className="min-h-screen p-4 lg:p-6 space-y-10 md:space-y-12">
+      {/* Content wrapper with individual content islands per card */}
         
         {/* Page header */}
         <div>
@@ -78,12 +77,12 @@ export function Dashboard() {
                 {mockData.recommendations.map((rec, index) => (
                   <div 
                     key={index} 
-                    className="border border-border rounded-lg p-4 hover:bg-panel-elevated/30 transition-colors"
+                    className="border border-border rounded-lg p-4 hover:bg-glass-bg hover:backdrop-blur-sm transition-all duration-200 hover:shadow-sm hover:border-ai-teal/20"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xs font-medium text-brand bg-brand/10 px-2 py-1 rounded">
+                          <span className="text-xs font-medium text-ai-teal bg-ai-teal/10 border border-ai-teal/30 px-2 py-1 rounded">
                             {rec.type}
                           </span>
                           <span className={
@@ -122,10 +121,10 @@ export function Dashboard() {
                 {mockData.recentActivity.map((activity, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className={`w-2 h-2 rounded-full mt-2 ${
-                      activity.type === 'campaign' ? 'bg-brand' :
+                      activity.type === 'campaign' ? 'bg-ai-teal' :
                       activity.type === 'pr' ? 'bg-success' :
-                      activity.type === 'content' ? 'bg-warning' :
-                      'bg-brand'
+                      activity.type === 'content' ? 'bg-ai-gold' :
+                      'bg-ai-teal'
                     }`} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-foreground">{activity.event}</p>
@@ -156,7 +155,7 @@ export function Dashboard() {
             >
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold text-brand">142</div>
+                  <div className="text-2xl font-bold text-ai-teal">142</div>
                   <div className="text-sm text-foreground/60">Tracked Keywords</div>
                   <div className="flex items-center gap-1 text-xs">
                     <TrendingUp className="h-3 w-3 text-success" />
@@ -164,7 +163,7 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold text-brand">23</div>
+                  <div className="text-2xl font-bold text-ai-teal">23</div>
                   <div className="text-sm text-foreground/60">Top 10 Rankings</div>
                   <div className="flex items-center gap-1 text-xs">
                     <TrendingUp className="h-3 w-3 text-success" />
@@ -172,7 +171,7 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold text-brand">67</div>
+                  <div className="text-2xl font-bold text-ai-gold">67</div>
                   <div className="text-sm text-foreground/60">Backlinks</div>
                   <div className="flex items-center gap-1 text-xs">
                     <TrendingUp className="h-3 w-3 text-success" />
@@ -192,7 +191,6 @@ export function Dashboard() {
           </div>
 
         </div>
-      </section>
     </div>
   )
 }

@@ -23,7 +23,7 @@ export function SectionCard({
   return (
     <div 
       className={cn(
-        "bg-panel shadow-card rounded-2xl p-6 md:p-8 border border-border",
+        "glass-card rounded-2xl p-6 md:p-8",
         className
       )}
       data-surface="content"

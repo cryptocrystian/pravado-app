@@ -1,44 +1,25 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { Link, useLocation } from 'react-router-dom'
 import { 
-  LayoutDashboard, 
-  Megaphone, 
-  Database, 
-  FileText, 
-  Search, 
-  BarChart3, 
-  Bot, 
-  Settings,
   Menu,
   X,
   Bell,
   User,
   Moon,
-  Sun
+  Sun,
+  Search
 } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useTheme } from '../hooks/useTheme'
+import { AppSidebar } from '../components/AppSidebar'
 
 interface AppLayoutProps {
   children: ReactNode
 }
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Campaigns', href: '/campaigns', icon: Megaphone },
-  { name: 'Media DB', href: '/media', icon: Database },
-  { name: 'Content Studio', href: '/content', icon: FileText },
-  { name: 'SEO/GEO', href: '/seo', icon: Search },
-  { name: 'PR & Outreach', href: '/pr', icon: BarChart3 },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-  { name: 'Copilot', href: '/copilot', icon: Bot },
-  { name: 'Settings', href: '/settings', icon: Settings },
-]
 
 export function AppLayout({ children }: AppLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const location = useLocation()
   const { theme, toggleTheme } = useTheme()
 
   return (
@@ -53,38 +34,10 @@ export function AppLayout({ children }: AppLayoutProps) {
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-panel border-r border-border transform transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out lg:translate-x-0 p-4",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex h-16 items-center px-6 border-b border-border">
-          <span className="text-xl font-bold text-brand">PRAVADO</span>
-        </div>
-        
-        <nav className="mt-6 px-3">
-          {navigation.map((item) => {
-            const isActive = location.pathname === item.href
-            return (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "group flex items-center px-3 py-2 text-sm font-medium rounded-lg mb-1 transition-colors relative",
-                  isActive
-                    ? "bg-brand text-brand-foreground shadow-sm"
-                    : "text-foreground hover:bg-panel-elevated",
-                  "focus-visible:outline-2 focus-visible:outline-brand/70 focus-visible:outline-offset-2"
-                )}
-                onClick={() => setSidebarOpen(false)}
-              >
-                <item.icon className={cn(
-                  "mr-3 h-5 w-5 flex-shrink-0",
-                  isActive ? "text-brand-foreground" : "text-foreground/60"
-                )} />
-                {item.name}
-              </Link>
-            )
-          })}
-        </nav>
+        <AppSidebar />
       </div>
 
       {/* Main content */}

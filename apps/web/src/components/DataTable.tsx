@@ -59,8 +59,8 @@ export function DataTable<T extends Record<string, any>>({
                 className={cn(
                   "px-3 py-1 text-xs font-medium transition-colors",
                   density === 'comfortable'
-                    ? "bg-brand text-brand-foreground"
-                    : "bg-panel text-foreground hover:bg-panel-elevated"
+                    ? "bg-ai-teal text-white"
+                    : "bg-panel text-foreground hover:bg-panel-elevated hover:glass-bg hover:backdrop-blur-sm"
                 )}
               >
                 Comfortable
@@ -70,8 +70,8 @@ export function DataTable<T extends Record<string, any>>({
                 className={cn(
                   "px-3 py-1 text-xs font-medium transition-colors",
                   density === 'compact'
-                    ? "bg-brand text-brand-foreground"
-                    : "bg-panel text-foreground hover:bg-panel-elevated"
+                    ? "bg-ai-teal text-white"
+                    : "bg-panel text-foreground hover:bg-panel-elevated hover:glass-bg hover:backdrop-blur-sm"
                 )}
               >
                 Compact
