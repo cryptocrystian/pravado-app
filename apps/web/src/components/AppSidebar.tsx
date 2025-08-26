@@ -32,7 +32,7 @@ function SidebarItem({ icon: Icon, label, active = false, onClick, count }: Side
       onClick={onClick}
       className={cn(
         "flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm font-medium transition-all relative",
-        "text-foreground/80 hover:text-foreground hover:bg-white/5",
+        "text-foreground/80 hover:text-foreground hover:bg-foreground/5",
         active && "text-ai-teal-300"
       )}
     >
@@ -90,7 +90,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
             </nav>
 
             {/* Organization card - glass style */}
-            <div className="mt-6 p-4 bg-white/3 border border-[hsl(var(--glass-stroke-strong))] rounded-xl">
+            <div className="mt-6 p-4 bg-foreground/3 border border-[hsl(var(--glass-stroke-strong))] rounded-xl" data-surface="content">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-7 h-7 bg-gradient-to-br from-ai-teal-600/20 to-ai-gold-600/20 rounded-lg flex items-center justify-center text-sm text-ai-teal-300 font-semibold border border-ai-teal-600/20">
                   O
@@ -99,7 +99,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
               </div>
               <div className="space-y-1.5">
                 <div className="text-xs text-foreground/60">Monthly usage</div>
-                <div className="w-full bg-white/5 rounded-full h-1.5">
+                <div className="w-full bg-foreground/5 rounded-full h-1.5">
                   <div 
                     className="bg-gradient-to-r from-ai-teal-500 to-ai-teal-600 h-1.5 rounded-full transition-all duration-500 relative overflow-hidden"
                     style={{ width: '68%' }}

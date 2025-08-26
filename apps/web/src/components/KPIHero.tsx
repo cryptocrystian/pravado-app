@@ -40,8 +40,8 @@ function Sparkline({ data, className }: { data: number[], className?: string }) 
     
     // Create gradient
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0)
-    gradient.addColorStop(0, 'hsl(170, 72%, 45%)')
-    gradient.addColorStop(1, 'hsl(170, 76%, 38%)')
+    gradient.addColorStop(0, 'hsl(var(--ai-teal-500))')
+    gradient.addColorStop(1, 'hsl(var(--ai-teal-700))')
     
     // Draw sparkline
     ctx.strokeStyle = gradient
@@ -95,7 +95,7 @@ function MiniStat({
       href={link}
       className={cn(
         "flex items-center gap-3 p-3 rounded-lg transition-all",
-        link && "hover:bg-white/5 cursor-pointer"
+        link && "hover:bg-foreground/5 cursor-pointer"
       )}
     >
       <div className={cn("p-2 rounded-lg", colorClasses[color])}>
@@ -182,7 +182,7 @@ export function KPIHero({
               </button>
               <button
                 onClick={onBreakdown}
-                className="px-4 py-2.5 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+                className="px-4 py-2.5 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
                 aria-label="View breakdown details"
               >
                 Breakdown

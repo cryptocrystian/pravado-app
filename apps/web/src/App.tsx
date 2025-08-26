@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AppLayout } from './layouts/AppLayout'
+import { DashboardAI } from './pages/DashboardAI'
 import { Dashboard } from './pages/Dashboard'
 import { Campaigns } from './pages/Campaigns'
 import { MediaDB } from './pages/MediaDB'
@@ -18,7 +19,8 @@ function App() {
       <AppLayout>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<DashboardAI />} />
+          <Route path="/dashboard/legacy" element={<Dashboard />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/media" element={<MediaDB />} />
           <Route path="/content" element={<ContentStudio />} />

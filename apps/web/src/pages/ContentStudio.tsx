@@ -17,7 +17,7 @@ export function ContentStudio() {
           {/* Left Panel - Brief & AI */}
           <div className="col-span-12 lg:col-span-4 space-y-6">
             {/* Content Brief */}
-            <div className="bg-white/50 border border-border rounded-lg p-6 h-fit shadow-sm">
+            <div className="bg-panel/50 border border-border rounded-lg p-6 h-fit shadow-sm" data-surface="content">
             <div className="flex items-center gap-2 mb-4">
               <Target className="h-5 w-5 text-ai-teal-500" />
               <h3 className="font-semibold text-foreground">Content Brief</h3>
@@ -26,7 +26,7 @@ export function ContentStudio() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Content Type</label>
-                <select className="w-full p-2.5 border border-border rounded-lg bg-white/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all">
+                <select className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all">
                   <option>Blog Post</option>
                   <option>Press Release</option>
                   <option>Social Post</option>
@@ -57,13 +57,13 @@ export function ContentStudio() {
                 <input 
                   type="text" 
                   placeholder="marketing automation, AI tools..."
-                  className="w-full p-2.5 border border-border rounded-lg bg-white/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all"
+                  className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium mb-2">Tone & Style</label>
-                <select className="w-full p-2.5 border border-border rounded-lg bg-white/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all">
+                <select className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all">
                   <option>Professional & Authoritative</option>
                   <option>Conversational & Friendly</option>
                   <option>Technical & Detailed</option>
@@ -74,14 +74,14 @@ export function ContentStudio() {
                 <label className="block text-sm font-medium mb-2">SERP Intent</label>
                 <textarea 
                   placeholder="What user problem does this content solve?"
-                  className="w-full p-2.5 h-20 border border-border rounded-lg bg-white/50 resize-none focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all"
+                  className="w-full p-2.5 h-20 border border-border rounded-lg bg-panel/50 resize-none focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all"
                 />
               </div>
             </div>
           </div>
 
           {/* AI Assistance Panel */}
-          <div className="bg-white/50 border border-border rounded-lg p-6 shadow-sm">
+          <div className="bg-panel/50 border border-border rounded-lg p-6 shadow-sm" data-surface="content">
             <div className="flex items-center gap-2 mb-4">
               <Wand2 className="h-5 w-5 text-ai-teal-500" />
               <h3 className="font-semibold text-foreground">AI Assistant</h3>
@@ -133,7 +133,7 @@ export function ContentStudio() {
 
         {/* Editor Area */}
         <div className="col-span-12 lg:col-span-8">
-          <div className="bg-white/50 border border-border rounded-lg p-6 h-full flex flex-col shadow-sm">
+          <div className="bg-panel/50 border border-border rounded-lg p-6 h-full flex flex-col shadow-sm" data-surface="content">
             {/* Editor Header */}
             <div className="flex items-center justify-between mb-4 pb-4 border-b border-ai-teal-500/20">
               <div className="flex items-center gap-2 relative">
@@ -148,7 +148,7 @@ export function ContentStudio() {
               
               <div className="flex items-center gap-2">
                 <span className="text-sm text-foreground/60">Auto-saved 2 min ago</span>
-                <button className="px-4 py-2 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all border border-border/50">
+                <button className="px-4 py-2 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all border border-border/50">
                   <Save className="h-4 w-4 mr-2 inline" />
                   Save Draft
                 </button>
@@ -171,7 +171,7 @@ Use the AI assistant on the left to:
 • Get real-time suggestions
 
 The editor supports markdown formatting and will auto-save your progress."
-                className="w-full h-full p-4 border border-border rounded-lg bg-white/30 resize-none focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none font-mono text-sm leading-relaxed text-foreground"
+                className="w-full h-full p-4 border border-border rounded-lg bg-panel/30 resize-none focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none font-mono text-sm leading-relaxed text-foreground"
                 style={{ minHeight: '400px' }}
               />
             </div>

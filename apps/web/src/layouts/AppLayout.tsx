@@ -11,8 +11,9 @@ import {
 } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useTheme } from '../hooks/useTheme'
-import { AppSidebar } from '../components/v2/AppSidebar'
+import { CompactSidebar } from '../components/ai-first/CompactSidebar'
 import { CommandPalette } from '../components/CommandPalette'
+import { CopilotDrawer } from '../components/ai-first/CopilotDrawer'
 
 interface AppLayoutProps {
   children: ReactNode
@@ -22,6 +23,7 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
+  const [copilotOpen, setCopilotOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
   // Handle keyboard shortcut for command palette
@@ -29,7 +31,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
-        setCommandPaletteOpen(true)
+        setCopilotOpen(true)
       }
     }
 
@@ -52,7 +54,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         "fixed inset-y-0 left-0 z-50 w-60 transform transition-transform duration-300 ease-in-out lg:translate-x-0 p-4",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <AppSidebar />
+        <CompactSidebar />
       </div>
 
       {/* Main content */}
@@ -69,12 +71,12 @@ export function AppLayout({ children }: AppLayoutProps) {
           <div className="flex items-center gap-4 ml-auto">
             {/* Command/Search */}
             <button
-              onClick={() => setCommandPaletteOpen(true)}
-              className="hidden md:flex items-center gap-2 px-3 py-2 bg-background border border-border rounded-lg text-sm hover:border-ai-teal-500/50 transition-colors group focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
+              onClick={() => setCopilotOpen(true)}
+              className="hidden md:flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-ai-teal-500/10 to-ai-gold-500/10 border border-ai-teal-500/30 rounded-lg text-sm hover:border-ai-teal-500/50 transition-all group focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
             >
               <Search className="h-4 w-4 text-ai-teal-300" />
-              <span className="text-foreground/60">Copilot...</span>
-              <kbd className="ml-8 text-xs font-medium text-foreground/40 bg-white/5 px-1.5 py-0.5 rounded group-hover:text-foreground/60">
+              <span className="text-ai-teal-300 font-medium">AI Copilot</span>
+              <kbd className="ml-4 text-xs font-medium text-ai-teal-300/70 bg-ai-teal-500/20 px-1.5 py-0.5 rounded group-hover:text-ai-teal-300">
                 ⌘K
               </kbd>
             </button>
@@ -124,6 +126,12 @@ export function AppLayout({ children }: AppLayoutProps) {
       <CommandPalette 
         isOpen={commandPaletteOpen} 
         onClose={() => setCommandPaletteOpen(false)} 
+      />
+
+      {/* AI Copilot Drawer */}
+      <CopilotDrawer 
+        isOpen={copilotOpen} 
+        onClose={() => setCopilotOpen(false)} 
       />
     </div>
   )

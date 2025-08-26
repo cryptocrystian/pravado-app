@@ -3,23 +3,23 @@
 @layer base {
   /* PRAVADO Design System - CSS Variables */
   :root {
-  /* Light (Beige-first) */
-  --bg: #F8F6F2;           /* Soft beige content background */
-  --surface: #E7ECEF;      /* Elevated cards */
-  --text: #1A1A1A;         /* Primary text */
-  --primary: #2B3A67;      /* Slate Blue */
-  --ai: #00A8A8;           /* AI Teal */
-  --premium: #D4A017;      /* Gold */
-  --success: #22C55E;      /* Green */
-  --warning: #F59E0B;      /* Amber */
-  --danger: #DC2626;       /* Red */
+  /* Light (Beige-first) - converted to HSL */
+  --bg: 42 43% 96%;        /* Soft beige content background */
+  --surface: 197 17% 92%;  /* Elevated cards */
+  --text: 0 0% 10%;        /* Primary text */
+  --primary: 231 42% 29%;  /* Slate Blue */
+  --ai: 180 100% 33%;      /* AI Teal */
+  --premium: 45 84% 46%;   /* Gold */
+  --success: 142 71% 45%;  /* Green */
+  --warning: 38 92% 50%;   /* Amber */
+  --danger: 0 74% 51%;     /* Red */
 }
 
 /* Dark theme variables */
 .dark {
-  --bg: #1E2A4A;      /* Deep Slate */
-  --surface: #2B3A67; /* Dark card */
-  --text: #FFFFFF;    /* Inverted text */
+  --bg: 222 47% 20%;      /* Deep Slate */
+  --surface: 231 42% 29%; /* Dark card */
+  --text: 0 0% 100%;      /* Inverted text */
 }
 
 /* Base styles */
@@ -28,8 +28,8 @@
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: hsl(var(--bg));
+  color: hsl(var(--text));
   font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
   line-height: 1.5;
 }
@@ -65,14 +65,14 @@ body {
 
 /* Component utilities */
 .card {
-  background-color: var(--surface);
+  background-color: hsl(var(--surface));
   border-radius: 12px;
   box-shadow: 0 1px 2px rgba(0,0,0,.06);
 }
 
 .btn-primary {
-  background-color: var(--primary);
-  color: white;
+  background-color: hsl(var(--primary));
+  color: hsl(0 0% 100%);
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-weight: 500;
@@ -86,8 +86,8 @@ body {
 
 .btn-secondary {
   background-color: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
+  color: hsl(var(--primary));
+  border: 1px solid hsl(var(--primary));
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-weight: 500;
@@ -95,14 +95,14 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: var(--primary);
-  color: white;
+  background-color: hsl(var(--primary));
+  color: hsl(0 0% 100%);
 }
 
 .ai-badge {
-  background-color: rgb(0 168 168 / 0.1);
-  color: var(--ai);
-  border: 1px solid rgb(0 168 168 / 0.3);
+  background-color: hsl(var(--ai) / 0.1);
+  color: hsl(var(--ai));
+  border: 1px solid hsl(var(--ai) / 0.3);
   border-radius: 9999px;
   padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
@@ -209,8 +209,8 @@ body::before {
   pointer-events: none;
   padding: 1px;
   background: linear-gradient(90deg, hsl(var(--ai-teal-600)), hsl(var(--ai-gold-600)));
-  -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
-  mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  -webkit-mask: linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%)) content-box, linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%));
+  mask: linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%)) content-box, linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%));
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: .18;
@@ -446,8 +446,8 @@ a:focus-visible,
   pointer-events: none;
   background: var(--brand-grad);
   opacity: .18;
-  mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
-  -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  mask: linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%)) content-box, linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%));
+  -webkit-mask: linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%)) content-box, linear-gradient(hsl(0 0% 0%),hsl(0 0% 0%));
   padding: 1px;
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -485,6 +485,61 @@ a:focus-visible,
 [tabindex]:focus-visible {
   outline: 2px solid hsl(var(--ai-teal-500));
   outline-offset: 2px;
+}
+
+/* P6 Global Accent Enforcement - No Exceptions */
+:root {
+  --ai-teal-300: 170 70% 58%;
+  --ai-teal-500: 170 72% 45%;
+  --ai-teal-700: 170 78% 34%;
+  --ai-gold-300: 40 92% 66%;
+  --ai-gold-500: 40 92% 52%;
+  --ai-gold-700: 40 94% 40%;
+  --brand-grad: linear-gradient(90deg, hsl(var(--ai-teal-500)), hsl(var(--ai-gold-500)));
+}
+
+/* Global link enforcement */
+a, .link {
+  color: hsl(var(--ai-teal-300)) !important;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: hsl(var(--ai-teal-500)) !important;
+}
+
+/* Primary button enforcement */
+.btn-primary {
+  background: var(--brand-grad) !important;
+  color: hsl(0 0% 100%) !important;
+  border: none !important;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Chip variants for AI context */
+.chip-positive {
+  background: hsl(var(--ai-teal-700) / 0.18);
+  color: hsl(var(--ai-teal-300));
+  border: 1px solid hsl(var(--ai-teal-500) / 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chip-attention {
+  background: hsl(var(--ai-gold-700) / 0.16);
+  color: hsl(var(--ai-gold-300));
+  border: 1px solid hsl(var(--ai-gold-500) / 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 }

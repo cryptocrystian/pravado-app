@@ -134,7 +134,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
           <div className="flex items-center gap-3 p-4 border-b border-[hsl(var(--glass-stroke))]">
             <Search className="h-5 w-5 text-ai-teal-300" />
             <h2 className="text-lg font-semibold text-foreground flex-1">Copilot</h2>
-            <kbd className="text-xs font-medium text-foreground/60 bg-white/5 px-2 py-1 rounded focus:outline-2 focus:outline-ai-teal-500">
+            <kbd className="text-xs font-medium text-foreground/60 bg-foreground/5 px-2 py-1 rounded focus:outline-2 focus:outline-ai-teal-500">
               ⌘K
             </kbd>
           </div>
@@ -147,7 +147,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search commands..."
-              className="w-full bg-white/5 border border-[hsl(var(--glass-stroke))] rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:outline-2 focus:outline-ai-teal-500"
+              className="w-full bg-foreground/5 border border-[hsl(var(--glass-stroke))] rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:outline-2 focus:outline-ai-teal-500"
             />
           </div>
 
@@ -164,14 +164,14 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                       onClick={command.action}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all",
-                        "hover:bg-white/5 focus:outline-2 focus:outline-ai-teal-500",
+                        "hover:bg-foreground/5 focus:outline-2 focus:outline-ai-teal-500",
                         selectedIndex === index && "bg-ai-teal-500/10 ring-1 ring-inset ring-ai-teal-500/30"
                       )}
                     >
                       <Icon className="h-4 w-4 text-ai-teal-300" />
                       <span className="flex-1 text-sm font-medium text-foreground">{command.label}</span>
                       {command.shortcut && (
-                        <kbd className="text-xs font-medium text-foreground/60 bg-white/5 px-1.5 py-0.5 rounded">
+                        <kbd className="text-xs font-medium text-foreground/60 bg-foreground/5 px-1.5 py-0.5 rounded">
                           {command.shortcut}
                         </kbd>
                       )}
@@ -191,15 +191,15 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
             <h3 className="text-sm font-semibold text-foreground/80 mb-3">Tips</h3>
             <div className="space-y-2 text-xs text-foreground/60">
               <div className="flex items-center gap-2">
-                <kbd className="bg-white/5 px-1.5 py-0.5 rounded text-xs">⌘K</kbd>
+                <kbd className="bg-foreground/5 px-1.5 py-0.5 rounded text-xs">⌘K</kbd>
                 <span>Open this panel</span>
               </div>
               <div className="flex items-center gap-2">
-                <kbd className="bg-white/5 px-1.5 py-0.5 rounded text-xs">↵</kbd>
+                <kbd className="bg-foreground/5 px-1.5 py-0.5 rounded text-xs">↵</kbd>
                 <span>Execute selected action</span>
               </div>
               <div className="flex items-center gap-2">
-                <kbd className="bg-white/5 px-1.5 py-0.5 rounded text-xs">ESC</kbd>
+                <kbd className="bg-foreground/5 px-1.5 py-0.5 rounded text-xs">ESC</kbd>
                 <span>Close panel</span>
               </div>
             </div>

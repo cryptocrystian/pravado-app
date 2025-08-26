@@ -92,7 +92,7 @@ export function KpiTile({
         variant === 'mini' ? 'h-24' : 'h-32',
         className
       )}>
-        <AlertCircle className="h-5 w-5 text-red-400 mb-2" />
+        <AlertCircle className="h-5 w-5 text-danger mb-2" />
         <span className="text-xs text-foreground/60">{error}</span>
       </GlassCard>
     );
@@ -110,7 +110,7 @@ export function KpiTile({
       <GlassCard className={cn(
         "p-4 transition-all duration-200",
         variant === 'mini' ? 'h-24' : 'h-32',
-        onClick && "hover:bg-white/10"
+        onClick && "hover:bg-foreground/10"
       )}>
         <div className="flex flex-col h-full">
           {/* Header with icon and trend */}
@@ -168,7 +168,7 @@ export function KpiTile({
 
           {/* Progress indicator for mini variant */}
           {variant === 'mini' && typeof value === 'number' && (
-            <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mt-2">
+            <div className="w-full h-1 bg-foreground/10 rounded-full overflow-hidden mt-2">
               <div 
                 className={cn(
                   "h-full rounded-full transition-all duration-500",

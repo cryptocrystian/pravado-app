@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Brand Compliance Audit - Pravado Design System Enforcement
+ * P6 AI-First Brand Compliance Audit - No Exceptions Policy
  * 
  * Automated validation for:
  * - HSL-only color usage (no hex/rgb)
