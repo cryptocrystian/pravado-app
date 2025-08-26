@@ -33,8 +33,8 @@ jobs:
     - name: Deploy to Cloudflare Pages
       uses: cloudflare/pages-action@v1
       with:
-        apiToken: akSfYkGgbiodyCqtTrJrQz6waJZFflY6c7crQusL
-        accountId: acf237e348fedac4f969d5a5aabd7626
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         projectName: pravado-app
         directory: apps/web/dist
         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
