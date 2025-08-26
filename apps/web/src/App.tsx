@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { AppLayout } from './layouts/AppLayout'
+import { AppLayoutV3 } from './layouts/AppLayoutV3'
+import { DashboardV3 } from './pages/DashboardV3'
 import { DashboardAI } from './pages/DashboardAI'
 import { Dashboard } from './pages/Dashboard'
 import { Campaigns } from './pages/Campaigns'
@@ -11,15 +12,20 @@ import { Analytics } from './pages/Analytics'
 import { Copilot } from './pages/Copilot'
 import { Settings } from './pages/Settings'
 import ComponentGallery from './pages/ComponentGallery'
+import { initializeChartV3Defaults } from './lib/chartThemeV3'
 import './styles/globals.css'
+
+// Initialize Chart.js V3 defaults once at app start
+initializeChartV3Defaults()
 
 function App() {
   return (
     <Router>
-      <AppLayout>
+      <AppLayoutV3>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<DashboardAI />} />
+          <Route path="/dashboard" element={<DashboardV3 />} />
+          <Route path="/dashboard/ai" element={<DashboardAI />} />
           <Route path="/dashboard/legacy" element={<Dashboard />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/media" element={<MediaDB />} />
@@ -31,7 +37,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/component-gallery" element={<ComponentGallery />} />
         </Routes>
-      </AppLayout>
+      </AppLayoutV3>
     </Router>
   )
 }
