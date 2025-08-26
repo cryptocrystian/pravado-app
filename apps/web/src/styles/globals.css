@@ -147,11 +147,19 @@ body {
   --ai-gold: var(--ai-gold-500);
   --brand-grad-start: var(--ai-teal-500);
   --brand-grad-end: var(--ai-gold-500);
-
   /* depth */
   --glass-bg: 0 0% 100% / 0.06;    /* white @6% */
   --glass-border: 0 0% 100% / 0.10;/* white @10% */
   --noise-opacity: 0.035;
+}
+
+/* Glass Effect Utilities */
+.shadow-glass {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.shadow-glass-hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
 }
 
 /* dark-first application shell */

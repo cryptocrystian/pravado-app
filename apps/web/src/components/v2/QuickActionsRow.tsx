@@ -1,5 +1,14 @@
 import { FileText, Megaphone, Link2, Download } from 'lucide-react'
 
+// PostHog type declaration
+declare global {
+  interface Window {
+    posthog?: {
+      capture: (event: string, properties?: Record<string, any>) => void
+    }
+  }
+}
+
 interface QuickActionProps {
   icon: React.ComponentType<{ className?: string }>
   label: string

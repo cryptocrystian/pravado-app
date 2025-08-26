@@ -1,9 +1,7 @@
 import { Brain, Calendar, Activity, TrendingUp } from 'lucide-react'
-import { 
-  KPIHero,
-  QuickActionsRow,
-  RightRailTile
-} from '../components/v2'
+import { KPIHero } from '../components/ui/KPIHero'
+import { QuickActionsRow } from '../components/v2/QuickActionsRow'
+import { RightRailTile } from '../components/v2/RightRailTile'
 import { cn } from '../lib/utils'
 
 const mockData = {
