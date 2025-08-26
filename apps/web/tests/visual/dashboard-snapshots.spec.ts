@@ -87,6 +87,51 @@ test.describe('Dashboard Visual Snapshots', () => {
     const kpiHero = page.locator('[data-testid="kpi-hero"], .kpi-hero, .hero-section').first();
     await expect(kpiHero).toBeVisible();
     
+    // Apply enhanced masking for timestamps and sparklines per Phase 3 requirements
+    await page.addStyleTag({
+      content: `
+        /* Phase 3: Enhanced sparkline masking */
+        [data-testid="kpi-hero"] .sparkline,
+        [data-testid="kpi-hero"] canvas,
+        .kpi-hero .sparkline,
+        .kpi-hero canvas,
+        .hero-section .sparkline,
+        .hero-section canvas {
+          opacity: 0.2 !important;
+          filter: grayscale(50%) !important;
+          background: rgba(170, 170, 170, 0.1) !important;
+        }
+        
+        /* Phase 3: Enhanced timestamp masking */
+        [data-testid="kpi-hero"] [data-testid*="timestamp"],
+        [data-testid="kpi-hero"] time,
+        [data-testid="kpi-hero"] .font-mono,
+        .kpi-hero [data-testid*="timestamp"],
+        .kpi-hero time,
+        .kpi-hero .font-mono {
+          opacity: 0.3 !important;
+          color: #94a3b8 !important;
+        }
+        
+        /* Preserve glass effects and brand colors */
+        [data-testid="kpi-hero"],
+        .kpi-hero,
+        .hero-section {
+          backdrop-filter: blur(12px) !important;
+          -webkit-backdrop-filter: blur(12px) !important;
+        }
+        
+        /* Ensure brand gradient visibility */
+        [data-testid="kpi-hero"] [class*="ai-teal"],
+        [data-testid="kpi-hero"] [class*="ai-gold"],
+        .kpi-hero [class*="ai-teal"],
+        .kpi-hero [class*="ai-gold"] {
+          color: revert !important;
+          background: revert !important;
+        }
+      `
+    });
+    
     // Ensure glass effects are visible
     await expect(kpiHero).toHaveScreenshot('kpi-hero-glass.png', {
       animations: 'disabled',
@@ -187,6 +232,49 @@ test.describe('Dashboard Responsive Snapshots', () => {
         });
       }
     }
+  });
+});
+
+test.describe('Phase 3: Visual QA Snapshots', () => {
+  test('KPI Hero with masked sparklines and timestamps', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
+    await page.evaluate(() => document.fonts.ready);
+    
+    const kpiHero = page.locator('[data-testid="kpi-hero"]').first();
+    await expect(kpiHero).toBeVisible();
+    
+    // Phase 3 specific masking - more aggressive for dynamic content
+    await page.addStyleTag({
+      content: `
+        /* Mask sparklines completely for stable snapshots */
+        [data-testid="kpi-hero"] canvas,
+        [data-testid="kpi-hero"] .sparkline {
+          opacity: 0.15 !important;
+          background: linear-gradient(90deg, #e2e8f0, #cbd5e1) !important;
+          border-radius: 4px !important;
+        }
+        
+        /* Mask timestamps with consistent placeholder styling */
+        [data-testid="kpi-hero"] time,
+        [data-testid="kpi-hero"] [data-testid*="timestamp"],
+        [data-testid="kpi-hero"] .font-mono {
+          opacity: 0.25 !important;
+          color: #94a3b8 !important;
+        }
+        
+        /* Preserve main score visibility */
+        [data-testid="kpi-hero"] .text-7xl {
+          color: revert !important;
+          opacity: 1 !important;
+        }
+      `
+    });
+    
+    await expect(kpiHero).toHaveScreenshot('phase3-kpi-hero-masked.png', {
+      animations: 'disabled',
+      threshold: 0.2,
+    });
   });
 });
 

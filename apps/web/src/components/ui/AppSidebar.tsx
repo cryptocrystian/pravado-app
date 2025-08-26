@@ -9,6 +9,7 @@ import {
   Settings
 } from 'lucide-react'
 import { cn } from '../../lib/utils'
+import { trackFlow, FLOWS } from '../../services/analyticsService'
 
 interface SidebarItemProps {
   icon: React.ComponentType<{ className?: string }>
@@ -21,7 +22,28 @@ interface SidebarItemProps {
 function SidebarItem({ icon: Icon, label, active = false, badge, onClick }: SidebarItemProps) {
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        // Track sidebar navigation
+        trackFlow.start(FLOWS.NAVIGATION, 'sidebar', {
+          destination: label,
+          active_before_click: active,
+          has_badge: !!badge
+        });
+        
+        trackFlow.critical('navigation', {
+          component: 'sidebar',
+          destination: label,
+          navigation_type: 'sidebar_click'
+        });
+
+        trackFlow.phase3('sidebar', 'navigation_click', {
+          label,
+          active,
+          badge
+        });
+
+        onClick?.();
+      }}
       className={cn(
         "flex items-center gap-3 px-3 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all w-full text-left relative",
         active && "text-ai-teal-300 ring-1 ring-inset ring-[hsl(var(--glass-stroke-strong))]"

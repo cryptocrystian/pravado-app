@@ -204,3 +204,225 @@ test.describe('Accessibility Audits', () => {
     });
   });
 });
+
+test.describe('Phase 3: Component Accessibility Audits', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+  });
+
+  test('KPI Hero - Accessibility Compliance', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
+    await page.waitForSelector('[data-testid="kpi-hero"]', { timeout: 10000 });
+    
+    const kpiHero = page.locator('[data-testid="kpi-hero"]');
+    await expect(kpiHero).toBeVisible();
+    
+    // Run axe scan specifically on KPI Hero component
+    const accessibilityResults = await new AxeBuilder({ page })
+      .include('[data-testid="kpi-hero"]')
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+      .analyze();
+    
+    expect(accessibilityResults.violations).toEqual([]);
+    
+    await test.step('Verify KPI Hero screen reader support', async () => {
+      // Check for proper ARIA labels on the main score
+      const mainScore = kpiHero.locator('.text-7xl');
+      const ariaLabel = await mainScore.getAttribute('aria-label');
+      expect(ariaLabel).toContain('Score');
+      
+      // Check for proper button accessibility
+      const buttons = kpiHero.locator('button');
+      const buttonCount = await buttons.count();
+      
+      for (let i = 0; i < buttonCount; i++) {
+        const button = buttons.nth(i);
+        const hasAriaLabel = await button.getAttribute('aria-label');
+        const hasTextContent = await button.textContent();
+        
+        // Button should have either aria-label or text content
+        expect(hasAriaLabel || hasTextContent).toBeTruthy();
+      }
+    });
+    
+    await test.step('Verify focus management in KPI Hero', async () => {
+      const buttons = kpiHero.locator('button');
+      const buttonCount = await buttons.count();
+      
+      for (let i = 0; i < buttonCount; i++) {
+        const button = buttons.nth(i);
+        await button.focus();
+        
+        // Check focus ring visibility with brand colors
+        const focusStyles = await button.evaluate((el) => {
+          const computed = window.getComputedStyle(el);
+          return {
+            outline: computed.outline,
+            boxShadow: computed.boxShadow,
+            outlineOffset: computed.outlineOffset
+          };
+        });
+        
+        const hasBrandFocusRing = 
+          focusStyles.outline !== 'none' ||
+          focusStyles.boxShadow.includes('ai-teal') ||
+          focusStyles.boxShadow.includes('170') || // ai-teal hsl hue
+          focusStyles.boxShadow.includes('rgba(56, 178, 172'); // ai-teal RGB equivalent
+        
+        expect(hasBrandFocusRing).toBeTruthy();
+      }
+    });
+  });
+  
+  test('Quick Actions Row - Accessibility Compliance', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
+    
+    const quickActions = page.locator('[data-testid="quick-actions"], .quick-actions').first();
+    if (await quickActions.count() > 0) {
+      // Run axe scan on Quick Actions
+      const accessibilityResults = await new AxeBuilder({ page })
+        .include(quickActions)
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+        .analyze();
+      
+      expect(accessibilityResults.violations).toEqual([]);
+      
+      await test.step('Verify Quick Actions keyboard navigation', async () => {
+        const actionButtons = quickActions.locator('button');
+        const buttonCount = await actionButtons.count();
+        
+        for (let i = 0; i < buttonCount; i++) {
+          const button = actionButtons.nth(i);
+          await button.focus();
+          
+          // Verify button is properly focusable and visible
+          await expect(button).toBeFocused();
+          
+          // Verify descriptive text is present
+          const textContent = await button.textContent();
+          expect(textContent?.length).toBeGreaterThan(5); // Should have meaningful text
+        }
+      });
+    }
+  });
+  
+  test('Glass Cards - Contrast and Accessibility', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
+    
+    const glassCards = page.locator('[class*="glass"], .backdrop-blur-md');
+    const cardCount = await glassCards.count();
+    
+    if (cardCount > 0) {
+      await test.step('Verify glass card contrast ratios', async () => {
+        // Test contrast on glass cards specifically
+        for (let i = 0; i < Math.min(cardCount, 3); i++) {
+          const card = glassCards.nth(i);
+          
+          const contrastResults = await new AxeBuilder({ page })
+            .include(card)
+            .withRules(['color-contrast', 'color-contrast-enhanced'])
+            .analyze();
+          
+          expect(contrastResults.violations).toEqual([]);
+        }
+      });
+      
+      await test.step('Verify glass card content accessibility', async () => {
+        // Ensure glass effects don't interfere with content accessibility
+        const firstGlassCard = glassCards.first();
+        
+        const glassCardResults = await new AxeBuilder({ page })
+          .include(firstGlassCard)
+          .withTags(['wcag2a', 'wcag2aa'])
+          .analyze();
+        
+        expect(glassCardResults.violations).toEqual([]);
+      });
+    }
+  });
+  
+  test('Brand Colors - High Contrast Accessibility', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
+    
+    await test.step('Verify ai-teal and ai-gold contrast compliance', async () => {
+      const brandElements = page.locator('[class*="ai-teal"], [class*="ai-gold"]');
+      const brandCount = await brandElements.count();
+      
+      if (brandCount > 0) {
+        // Test brand color contrast specifically
+        for (let i = 0; i < Math.min(brandCount, 5); i++) {
+          const element = brandElements.nth(i);
+          
+          const contrastResults = await new AxeBuilder({ page })
+            .include(element)
+            .withRules(['color-contrast'])
+            .analyze();
+          
+          expect(contrastResults.violations).toEqual([]);
+        }
+      }
+    });
+    
+    await test.step('Verify focus indicators use brand colors correctly', async () => {
+      // Find focusable elements with brand colors
+      const focusableElements = page.locator('button:visible, a:visible');
+      const elementCount = await focusableElements.count();
+      
+      for (let i = 0; i < Math.min(elementCount, 3); i++) {
+        const element = focusableElements.nth(i);
+        await element.focus();
+        
+        // Check that focus ring meets contrast requirements
+        const focusResults = await new AxeBuilder({ page })
+          .include(element)
+          .withRules(['focus-outline-visible'])
+          .analyze();
+        
+        expect(focusResults.violations).toEqual([]);
+      }
+    });
+  });
+  
+  test('Responsive Accessibility - Mobile and Tablet', async ({ page }) => {
+    const viewports = [
+      { width: 768, height: 1024, name: 'tablet' },
+      { width: 375, height: 667, name: 'mobile' }
+    ];
+    
+    for (const viewport of viewports) {
+      await test.step(`Test ${viewport.name} accessibility`, async () => {
+        await page.setViewportSize(viewport);
+        await page.goto('/dashboard');
+        await page.waitForLoadState('networkidle');
+        
+        const accessibilityResults = await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa'])
+          .exclude('[data-testid="loading"]')
+          .analyze();
+        
+        expect(accessibilityResults.violations).toEqual([]);
+        
+        // Verify touch target sizes on mobile
+        if (viewport.name === 'mobile') {
+          const touchTargets = page.locator('button:visible, a:visible, [role="button"]:visible');
+          const targetCount = await touchTargets.count();
+          
+          for (let i = 0; i < Math.min(targetCount, 5); i++) {
+            const target = touchTargets.nth(i);
+            const boundingBox = await target.boundingBox();
+            
+            if (boundingBox) {
+              // WCAG recommends minimum 44x44px touch targets
+              expect(boundingBox.width).toBeGreaterThanOrEqual(44);
+              expect(boundingBox.height).toBeGreaterThanOrEqual(44);
+            }
+          }
+        }
+      });
+    }
+  });
+});

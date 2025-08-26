@@ -2,6 +2,7 @@ import { ArrowRight, Activity, Clock, Calendar, BarChart3 } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { useEffect, useRef } from 'react'
 import { GlassCard } from './GlassCard'
+import { trackFlow, FLOWS } from '../../services/analyticsService'
 
 interface KPIHeroProps {
   score: number;
@@ -118,7 +119,18 @@ function MiniKpiTile({
 
   return (
     <Component
-      onClick={onClick}
+      onClick={() => {
+        if (onClick) {
+          // Track mini KPI interaction
+          trackFlow.phase3('kpi_hero', 'mini_kpi_click', {
+            label,
+            value: typeof value === 'string' ? value : String(value),
+            progress,
+            color
+          });
+          onClick();
+        }
+      }}
       className={cn(
         "flex items-center gap-4 p-4 rounded-xl transition-all bg-white/5 backdrop-blur-sm border border-white/10",
         onClick && "hover:bg-white/10 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
@@ -189,7 +201,21 @@ export function KPIHero({
             {/* Brand gradient CTA buttons */}
             <div className="flex items-center gap-3 pt-4 border-t border-white/10">
               <button
-                onClick={onViewDetails}
+                onClick={() => {
+                  // Track flow initiation for detailed analytics
+                  trackFlow.start(FLOWS.VIEW_DETAILS, 'kpi_hero', {
+                    score,
+                    label,
+                    delta_positive: delta.positive,
+                    delta_value: delta.value
+                  });
+                  trackFlow.critical('kpi_click', {
+                    component: 'kpi_hero',
+                    action: 'view_details',
+                    score
+                  });
+                  onViewDetails?.();
+                }}
                 className="flex-1 bg-gradient-to-r from-ai-teal-500 to-ai-gold-500 text-white px-6 py-3 rounded-lg font-medium text-sm transition-all hover:opacity-90 hover:transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
                 aria-label="View detailed analytics"
               >
@@ -197,7 +223,19 @@ export function KPIHero({
                 <ArrowRight className="inline ml-2 h-4 w-4" />
               </button>
               <button
-                onClick={onBreakdown}
+                onClick={() => {
+                  // Track breakdown analysis flow
+                  trackFlow.start(FLOWS.BREAKDOWN, 'kpi_hero', {
+                    score,
+                    breakdown_type: 'kpi_factors'
+                  });
+                  trackFlow.critical('kpi_click', {
+                    component: 'kpi_hero', 
+                    action: 'breakdown',
+                    score
+                  });
+                  onBreakdown?.();
+                }}
                 className="px-6 py-3 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-white/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
                 aria-label="View breakdown details"
               >

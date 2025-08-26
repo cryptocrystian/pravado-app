@@ -104,6 +104,55 @@ test.describe('SEO Table Visual Snapshots', () => {
     });
   });
 
+  test('Phase 3: SEO table header + first row with enhanced masking', async ({ page }) => {
+    const table = page.locator('.table-enterprise, table').first();
+    await expect(table).toBeVisible();
+    
+    // Phase 3 specific masking for SEO table
+    await page.addStyleTag({
+      content: `
+        /* Hide all rows except header and first data row */
+        .table-enterprise tbody tr:nth-child(n+2),
+        table tbody tr:nth-child(n+2) {
+          display: none !important;
+        }
+        
+        /* Enhanced sparkline masking in first row */
+        .table-enterprise tbody tr:first-child .sparkline,
+        .table-enterprise tbody tr:first-child canvas,
+        table tbody tr:first-child .sparkline,
+        table tbody tr:first-child canvas {
+          opacity: 0.15 !important;
+          background: linear-gradient(90deg, #f1f5f9, #e2e8f0) !important;
+          border-radius: 2px !important;
+        }
+        
+        /* Enhanced timestamp masking in first row */
+        .table-enterprise tbody tr:first-child time,
+        .table-enterprise tbody tr:first-child [data-testid*="timestamp"],
+        .table-enterprise tbody tr:first-child .font-mono,
+        table tbody tr:first-child time,
+        table tbody tr:first-child [data-testid*="timestamp"],
+        table tbody tr:first-child .font-mono {
+          opacity: 0.2 !important;
+          color: #94a3b8 !important;
+        }
+        
+        /* Preserve table structure visibility */
+        .table-enterprise,
+        table {
+          backdrop-filter: blur(12px) !important;
+          -webkit-backdrop-filter: blur(12px) !important;
+        }
+      `
+    });
+    
+    await expect(table).toHaveScreenshot('phase3-seo-table-header-first-row.png', {
+      animations: 'disabled',
+      threshold: 0.2,
+    });
+  });
+
   test('SEO table first three rows sample', async ({ page }) => {
     const tableBody = page.locator('.table-enterprise tbody, table tbody').first();
     await expect(tableBody).toBeVisible();
@@ -180,6 +229,46 @@ test.describe('SEO Table Visual Snapshots', () => {
         animations: 'disabled',
       });
     }
+  });
+});
+
+test.describe('Phase 3: Table QA Snapshots', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/seo');
+    await waitForTableLoad(page);
+  });
+
+  test('SEO Keywords table first row with stable masking', async ({ page }) => {
+    const firstRow = page.locator('.table-enterprise tbody tr:first-child, table tbody tr:first-child');
+    await expect(firstRow).toBeVisible();
+    
+    // Apply Phase 3 row-specific masking
+    await page.addStyleTag({
+      content: `
+        /* Stabilize sparklines in first row */
+        .table-enterprise tbody tr:first-child .sparkline *,
+        .table-enterprise tbody tr:first-child canvas,
+        table tbody tr:first-child .sparkline *,
+        table tbody tr:first-child canvas {
+          opacity: 0.1 !important;
+          background: #f8fafc !important;
+        }
+        
+        /* Neutralize timestamps in first row */
+        .table-enterprise tbody tr:first-child time,
+        .table-enterprise tbody tr:first-child [data-testid*="timestamp"],
+        table tbody tr:first-child time,
+        table tbody tr:first-child [data-testid*="timestamp"] {
+          opacity: 0.15 !important;
+          color: #cbd5e1 !important;
+        }
+      `
+    });
+    
+    await expect(firstRow).toHaveScreenshot('phase3-seo-first-row-masked.png', {
+      animations: 'disabled',
+      threshold: 0.15,
+    });
   });
 });
 

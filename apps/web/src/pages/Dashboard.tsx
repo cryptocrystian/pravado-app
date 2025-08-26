@@ -4,6 +4,8 @@ import { QuickActionsRow } from '../components/v2/QuickActionsRow'
 import { KpiTile } from '../components/v2/KpiTile'
 import { RightRailTile } from '../components/v2/RightRailTile'
 import { useDashboardData, useKPINotifications } from '../hooks/useKPIData'
+import { trackFlow, FLOWS } from '../services/analyticsService'
+import { useEffect } from 'react'
 
 // Icon mapping for secondary KPIs
 const ICON_MAP = {
@@ -35,6 +37,29 @@ export function Dashboard() {
     notifications, 
     unreadCount 
   } = useKPINotifications();
+
+  // Track page view and engagement for Phase 3
+  useEffect(() => {
+    const pageStartTime = Date.now();
+    
+    // Track dashboard page view
+    trackFlow.engagement('page_view', {
+      page: 'dashboard',
+      has_data: !!dashboardData,
+      loading_state: loading,
+      error_state: !!error
+    });
+
+    // Track time on page when component unmounts
+    return () => {
+      const timeOnPage = Date.now() - pageStartTime;
+      trackFlow.engagement('time_on_page', {
+        page: 'dashboard',
+        duration_ms: timeOnPage,
+        duration_seconds: Math.round(timeOnPage / 1000)
+      });
+    };
+  }, [dashboardData, loading, error]);
   
   // Loading state
   if (loading && !dashboardData) {
@@ -115,7 +140,18 @@ export function Dashboard() {
           )}
 
           {/* Row 2: Quick Actions (full width) */}
-          <QuickActionsRow onAction={(action) => console.log(`Quick action: ${action}`)} />
+          <QuickActionsRow onAction={(action, route) => {
+            console.log(`Quick action: ${action}${route ? ` -> ${route}` : ''}`);
+            
+            // Track completion of quick action flow
+            setTimeout(() => {
+              trackFlow.complete('success', {
+                action,
+                route,
+                steps_to_action: 1 // Quick actions are 1-step flows
+              });
+            }, 100);
+          }} />
 
           {/* Row 3: Secondary KPI Tiles Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

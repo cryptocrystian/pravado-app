@@ -1,6 +1,7 @@
 import { FileText, Megaphone, Link2, Download, ArrowRight } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { GlassCard } from './GlassCard'
+import { trackFlow, FLOWS } from '../../services/analyticsService'
 
 interface QuickActionProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -75,7 +76,37 @@ interface QuickActionsRowProps {
 
 export function QuickActionsRow({ onAction, className }: QuickActionsRowProps) {
   const handleAction = (actionKey: string, route?: string) => {
-    // Track click path integration
+    // Enhanced flow tracking for Phase 3
+    const flowMap: Record<string, string> = {
+      'new_content': FLOWS.CREATE_CONTENT,
+      'new_press_release': FLOWS.START_PR,
+      'analyze_url': FLOWS.ANALYZE_URL,
+      'export_analytics': FLOWS.EXPORT_DATA
+    };
+
+    const flowName = flowMap[actionKey] || 'unknown_quick_action';
+    
+    // Start flow tracking
+    trackFlow.start(flowName, 'quick_actions', {
+      action: actionKey,
+      route: route || 'unknown',
+      variant: 'primary'
+    });
+    
+    // Track as critical action
+    trackFlow.critical('quick_action', {
+      component: 'quick_actions_row',
+      action: actionKey,
+      route
+    });
+
+    // Track Phase 3 component interaction
+    trackFlow.phase3('quick_actions', 'action_clicked', {
+      action: actionKey,
+      has_route: !!route
+    });
+    
+    // Legacy PostHog tracking (maintained for backward compatibility)
     if (window.posthog) {
       window.posthog.capture('quick_action_clicked', { 
         action: actionKey,
@@ -87,6 +118,11 @@ export function QuickActionsRow({ onAction, className }: QuickActionsRowProps) {
     // Navigate if route provided
     if (route) {
       window.location.href = route;
+      // Track navigation completion
+      trackFlow.step('navigation', 'quick_actions', {
+        destination: route,
+        action: actionKey
+      });
     }
     
     // Call callback
