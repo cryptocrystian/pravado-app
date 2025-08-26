@@ -1,7 +1,7 @@
 import { Brain, Calendar, Activity, TrendingUp } from 'lucide-react'
 import { KPIHero } from '../components/ui/KPIHero'
-import { QuickActionsRow } from '../components/v2/QuickActionsRow'
-import { RightRailTile } from '../components/v2/RightRailTile'
+import { QuickActions } from '../components/ui/QuickActions'
+import { SectionCard } from '../components/SectionCard'
 import { cn } from '../lib/utils'
 
 const mockData = {
@@ -64,12 +64,12 @@ export function Dashboard() {
 
           {/* Row 2: Quick Actions (12 columns) */}
           <div className="col-span-12">
-            <QuickActionsRow onAction={(action) => console.log(`Quick action: ${action}`)} />
+            <QuickActions onAction={(action) => console.log(`Quick action: ${action}`)} />
           </div>
 
           {/* Row 3: AI Recommendations (6 columns) */}
           <div className="col-span-12 lg:col-span-6">
-            <RightRailTile
+            <SectionCard
               title="AI Recommendations"
               subtitle="Live insights powered by your data"
               icon={Brain}
@@ -112,12 +112,12 @@ export function Dashboard() {
                   </div>
                 ))}
               </div>
-            </RightRailTile>
+            </SectionCard>
           </div>
 
           {/* Row 3: Recent Activity (6 columns) */}
           <div className="col-span-12 lg:col-span-6">
-            <RightRailTile
+            <SectionCard
               title="Recent Activity"
               subtitle="Latest updates across all channels"
               icon={Activity}
@@ -143,12 +143,12 @@ export function Dashboard() {
                   </div>
                 ))}
               </div>
-            </RightRailTile>
+            </SectionCard>
           </div>
 
           {/* Row 4: SEO Summary (12 columns) */}
           <div className="col-span-12">
-            <RightRailTile
+            <SectionCard
               title="SEO Performance Overview"
               subtitle="Keywords, rankings, and optimization opportunities"
               icon={TrendingUp}
@@ -197,7 +197,7 @@ export function Dashboard() {
                   </div>
                 </div>
               </div>
-            </RightRailTile>
+            </SectionCard>
           </div>
 
         </div>
