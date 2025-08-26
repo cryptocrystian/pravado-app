@@ -77,6 +77,44 @@ export default defineConfig({
         deviceScaleFactor: 1,
       },
     },
+    
+    /* Agent-APQ: Accessibility tests - run on Chromium only to avoid duplication */
+    {
+      name: 'a11y-tests',
+      testDir: './tests/a11y',
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1440, height: 900 },
+        // Ensure screen reader compatibility
+        colorScheme: 'dark'
+      },
+    },
+    
+    /* Agent-APQ: Performance tests */
+    {
+      name: 'performance-tests', 
+      testDir: './tests/performance',
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1440, height: 900 },
+        // Performance settings
+        launchOptions: {
+          args: ['--disable-web-security', '--disable-features=TranslateUI']
+        }
+      },
+    },
+    
+    /* Agent-APQ: Visual regression tests */
+    {
+      name: 'visual-tests',
+      testDir: './tests/visual', 
+      use: { 
+        ...devices['Desktop Chrome'],
+        // Ensure consistent screenshots
+        viewport: { width: 1440, height: 900 },
+        deviceScaleFactor: 1
+      },
+    }
   ],
 
   /* Visual comparison settings */
