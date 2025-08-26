@@ -1,0 +1,83 @@
+name: UI Brand Audit
+
+# PR2 - CI Guard: Runs on PRs to enforce brand color compliance
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'apps/web/src/**'
+      - 'apps/web/tailwind.config.js'
+      - 'apps/web/src/styles/**'
+
+jobs:
+  ui-audit:
+    name: Brand Color Compliance
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: apps/web
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run brand color audit
+        run: npx tsx scripts/ui/audit-colors.ts
+        
+      - name: Comment on PR (if audit fails)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo, number } = context.issue;
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: `## 🚨 Brand Color Audit Failed
+              
+              Your PR contains color usage that doesn't follow our brand guidelines.
+              
+              **Common violations:**
+              - Using \`bg-white\` instead of \`hsl(var(--panel))\`
+              - Using \`text-blue-*\` instead of \`ai-teal-*\` brand colors  
+              - Using hex/rgb values instead of CSS variables
+              
+              **Fix by using brand tokens:**
+              - ✅ \`hsl(var(--ai-teal-300/500/700))\` for primary accents
+              - ✅ \`hsl(var(--ai-gold-300/500/700))\` for secondary accents
+              - ✅ \`hsl(var(--panel))\` instead of \`bg-white\`
+              - ✅ \`hsl(var(--fg))\` instead of \`text-black\`
+              
+              See the full error details above for specific line numbers and fixes.
+              
+              📖 **Brand System**: Check \`tailwind.config.js\` for the complete color system.
+              `
+            });
+            
+      - name: Success comment on PR
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo, number } = context.issue;
+            await github.rest.issues.createComment({
+              owner,
+              repo, 
+              issue_number: number,
+              body: `## ✅ Brand Color Audit Passed
+              
+              All color usage follows brand guidelines. Great job maintaining consistency! 🎨
+              `
+            });
