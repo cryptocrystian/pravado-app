@@ -3,16 +3,17 @@
  * Implements comprehensive user journey tracking across the dashboard
  */
 
-interface FlowPathEvent {
-  flow: string;
-  step: number;
-  action: string;
-  component: string;
-  timestamp: string;
-  route: string;
-  sessionId?: string;
-  properties?: Record<string, any>;
-}
+// Interface for flow path tracking (reserved for future enhanced tracking)
+// interface FlowPathEvent {
+//   flow: string;
+//   step: number;
+//   action: string;
+//   component: string;
+//   timestamp: string;
+//   route: string;
+//   sessionId?: string;
+//   properties?: Record<string, any>;
+// }
 
 interface UserFlowContext {
   sessionId: string;
@@ -42,7 +43,7 @@ class AnalyticsService {
   }
 
   private isPostHogAvailable(): boolean {
-    return typeof window !== 'undefined' && window.posthog && typeof window.posthog.capture === 'function';
+    return typeof window !== 'undefined' && !!window.posthog && typeof window.posthog.capture === 'function';
   }
 
   /**

@@ -4,7 +4,7 @@ import { QuickActionsRow } from '../components/v2/QuickActionsRow'
 import { KpiTile } from '../components/v2/KpiTile'
 import { RightRailTile } from '../components/v2/RightRailTile'
 import { useDashboardData, useKPINotifications } from '../hooks/useKPIData'
-import { trackFlow, FLOWS } from '../services/analyticsService'
+import { trackFlow } from '../services/analyticsService'
 import { useEffect } from 'react'
 
 // Icon mapping for secondary KPIs
