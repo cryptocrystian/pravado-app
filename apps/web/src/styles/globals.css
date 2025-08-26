@@ -1,8 +1,8 @@
-@import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);
+@import "tailwindcss";
 
-/* PRAVADO Design System - CSS Variables */
-:root {
+@layer base {
+  /* PRAVADO Design System - CSS Variables */
+  :root {
   /* Light (Beige-first) */
   --bg: #F8F6F2;           /* Soft beige content background */
   --surface: #E7ECEF;      /* Elevated cards */
@@ -485,4 +485,6 @@ a:focus-visible,
 [tabindex]:focus-visible {
   outline: 2px solid hsl(var(--ai-teal-500));
   outline-offset: 2px;
+}
+
 }

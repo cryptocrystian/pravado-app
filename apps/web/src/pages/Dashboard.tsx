@@ -111,7 +111,7 @@ export function Dashboard() {
           
           {/* Page Header */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-foreground">🚀 Marketing Command Center - PHASE 3 DEPLOYED</h1>
+            <h1 className="text-3xl font-bold text-foreground">🚀 Marketing Command Center</h1>
             <p className="text-foreground/60">Monitor your visibility and manage campaigns from your central dashboard</p>
             {/* Phase 3 QA Guardrails: Visual indicator for deployment verification */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ai-teal-500/15 to-ai-gold-500/10 border border-ai-teal-500/30 rounded-lg text-sm text-ai-teal-300 mt-3 shadow-lg">
