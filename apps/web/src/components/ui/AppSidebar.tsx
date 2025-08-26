@@ -24,10 +24,10 @@ function SidebarItem({ icon: Icon, label, active = false, badge, onClick }: Side
       onClick={onClick}
       className={cn(
         "flex items-center gap-3 px-3 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all w-full text-left relative",
-        active && "text-ai-teal-300 ring-1 ring-inset ring-[hsl(var(--glass-stroke-strong))]"
+        active && "relative ring-1 ring-inset ring-white/10 text-ai-teal-300"
       )}
     >
-      {/* Active indicator */}
+      {/* Active indicator - 1px teal line on left edge */}
       {active && (
         <div className="absolute left-0 w-1 h-6 rounded-r bg-ai-teal-500" />
       )}
@@ -35,9 +35,9 @@ function SidebarItem({ icon: Icon, label, active = false, badge, onClick }: Side
       <Icon className="h-5 w-5 flex-shrink-0" />
       <span className="flex-1">{label}</span>
       
-      {/* Badge for counts/alerts */}
+      {/* Small count badges with gold accent */}
       {badge !== undefined && badge > 0 && (
-        <span className="bg-ai-gold-700/20 text-ai-gold-300 px-2 py-0.5 rounded-md text-xs font-medium">
+        <span className="bg-ai-gold-700/20 text-ai-gold-300 text-xs px-2 py-0.5 rounded">
           {badge}
         </span>
       )}

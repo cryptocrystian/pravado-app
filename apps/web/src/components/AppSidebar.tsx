@@ -31,21 +31,21 @@ function SidebarItem({ icon: Icon, label, active = false, onClick, count }: Side
     <button
       onClick={onClick}
       className={cn(
-        "flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm font-medium transition-all relative",
-        "text-foreground/80 hover:text-foreground hover:bg-white/5",
-        active && "text-ai-teal-300"
+        "flex items-center gap-3 px-3 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all w-full text-left relative",
+        active && "relative ring-1 ring-inset ring-white/10 text-ai-teal-300"
       )}
     >
+      {/* Active indicator - 1px teal line on left edge */}
       {active && (
-        <div className="absolute inset-0 rounded-xl ring-2 ring-inset ring-ai-teal-500/30 bg-gradient-to-r from-ai-teal-600/10 to-ai-gold-600/5" />
+        <div className="absolute left-0 w-1 h-6 rounded-r bg-ai-teal-500" />
       )}
-      <Icon className={cn(
-        "h-5 w-5 relative z-10",
-        active && "fill-ai-teal-300/20"
-      )} />
-      <span className="relative z-10 flex-1 text-left">{label}</span>
+      
+      <Icon className="h-5 w-5 flex-shrink-0" />
+      <span className="flex-1">{label}</span>
+      
+      {/* Small count badges with gold accent */}
       {count !== undefined && (
-        <span className="relative z-10 px-2 py-0.5 text-xs font-medium bg-ai-gold-600/15 text-ai-gold-300 rounded-full">
+        <span className="bg-ai-gold-700/20 text-ai-gold-300 text-xs px-2 py-0.5 rounded">
           {count}
         </span>
       )}
@@ -60,12 +60,12 @@ interface AppSidebarProps {
 export function AppSidebar({ className }: AppSidebarProps) {
   return (
     <div className={cn("flex h-full", className)}>
-      {/* Brand gradient rail - 4px */}
-      <div className="w-1 bg-[linear-gradient(180deg,hsl(var(--ai-teal-600)),hsl(var(--ai-gold-600)))] rounded-r-full" />
+      {/* Left gradient rail (4px) */}
+      <div className="w-1 bg-[var(--brand-grad)] rounded-l-2xl" />
       
       {/* Main sidebar - glass container */}
-      <div className="flex-1 ml-2">
-        <div className="h-full bg-[hsl(var(--glass-fill))] backdrop-blur-md border border-[hsl(var(--glass-stroke))] rounded-2xl shadow-glass p-4">
+      <div className="flex-1 ml-1">
+        <div className="h-full bg-[hsl(var(--glass-fill))] backdrop-blur-md border border-[hsl(var(--glass-stroke))] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,.35)] p-4">
           <div className="flex flex-col h-full">
             {/* Logo/Brand area */}
             <div className="mb-8">

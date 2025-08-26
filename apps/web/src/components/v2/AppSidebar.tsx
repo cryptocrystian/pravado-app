@@ -23,26 +23,22 @@ function SidebarItem({ icon: Icon, label, active = false, onClick, count }: Side
     <button
       onClick={onClick}
       className={cn(
-        "flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium transition-all relative group",
-        "text-foreground/80 hover:text-foreground hover:bg-white/5",
+        "flex items-center gap-3 px-3 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all w-full text-left relative",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2",
-        active && "text-ai-teal-300 bg-gradient-to-r from-ai-teal-600/10 to-ai-gold-600/5"
+        active && "relative ring-1 ring-inset ring-white/10 text-ai-teal-300"
       )}
     >
-      {/* Active teal indicator - 1px vertical line */}
+      {/* Active indicator - 1px teal line on left edge */}
       {active && (
-        <div className="absolute left-0 w-0.5 h-6 rounded-r bg-ai-teal-500" />
+        <div className="absolute left-0 w-1 h-6 rounded-r bg-ai-teal-500" />
       )}
       
-      <Icon className={cn(
-        "h-5 w-5 relative z-10 transition-colors",
-        active && "text-ai-teal-300"
-      )} />
-      <span className="relative z-10 flex-1 text-left">{label}</span>
+      <Icon className="h-5 w-5 flex-shrink-0" />
+      <span className="flex-1">{label}</span>
       
-      {/* Notification badge with gold accent */}
+      {/* Small count badges with gold accent */}
       {count !== undefined && count > 0 && (
-        <span className="relative z-10 px-2 py-0.5 text-xs font-medium bg-ai-gold-500/15 text-ai-gold-300 rounded-full border border-ai-gold-500/20">
+        <span className="bg-ai-gold-700/20 text-ai-gold-300 text-xs px-2 py-0.5 rounded">
           {count}
         </span>
       )}
@@ -61,13 +57,13 @@ export function AppSidebar({ className, onNavigate }: AppSidebarProps) {
   };
 
   return (
-    <div className={cn("flex h-full w-60", className)}>
-      {/* Brand gradient rail - 1px vertical teal-to-gold gradient */}
-      <div className="w-0.5 bg-gradient-to-b from-ai-teal-500 to-ai-gold-500 rounded-r-full" />
+    <div className={cn("flex h-full", className)}>
+      {/* Left gradient rail (4px) */}
+      <div className="w-1 bg-[var(--brand-grad)] rounded-l-2xl" />
       
-      {/* Main sidebar - glass container with fixed 240px width */}
-      <div className="flex-1 ml-3">
-        <div className="h-full glass-card p-6">
+      {/* Main sidebar - glass container */}
+      <div className="flex-1 ml-1">
+        <div className="h-full bg-[hsl(var(--glass-fill))] backdrop-blur-md border border-[hsl(var(--glass-stroke))] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,.35)] p-4">
           <div className="flex flex-col h-full">
             {/* Logo/Brand area */}
             <div className="mb-8">
