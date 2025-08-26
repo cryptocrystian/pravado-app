@@ -1,8 +1,8 @@
 # Cloudflare Pages SPA routing
 # This ensures React Router works correctly
 
-# Redirect all routes to index.html for client-side routing
-/*    /index.html   200
-
-# API routes should go to our Workers (when deployed)
+# API routes should go to our Workers (when deployed) 
 /api/*  https://pravado-api.workers.dev/:splat  200
+
+# Redirect all other routes to index.html for client-side routing (must be last)
+/*    /index.html   200
