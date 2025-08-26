@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './styles/globals.css'
 import App from './App.tsx'
 import { initializeChartTheme } from './lib/chartTheme'
+import './lib/env' // Initialize environment configuration
 
 // Initialize chart theme for enterprise branding
 initializeChartTheme()

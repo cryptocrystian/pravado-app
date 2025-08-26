@@ -72,7 +72,7 @@ export function Dashboard() {
         
         {/* Loading overlay */}
         {loading && (
-          <div className="fixed top-4 right-4 z-50">
+          <div className="fixed top-4 right-4 z-50 pointer-events-none">
             <div className="bg-background/80 backdrop-blur-sm border border-white/10 rounded-lg px-4 py-2 flex items-center gap-2">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-ai-teal-500"></div>
               <span className="text-sm text-foreground/80">Refreshing...</span>
