@@ -22,8 +22,8 @@ import { mockDataService } from './mockDataService';
  */
 const DEFAULT_CONFIG: KPIServiceConfig = {
   baseURL: process.env.VITE_API_BASE_URL || '/api',
-  timeout: 30000,
-  retryAttempts: 3,
+  timeout: 1000, // Reduce timeout to 1 second for fast fallback to mock data
+  retryAttempts: 1, // Reduce retries to prevent delays
   cacheTTL: 5 * 60 * 1000, // 5 minutes
   pollingInterval: 30000, // 30 seconds
   endpoints: {
@@ -204,6 +204,10 @@ export class KPIService {
    * Fetch hero KPI data
    */
   async getHeroKPI(): Promise<HeroKPI> {
+    // Temporarily bypass API calls and use mock data for fast loading
+    return mockDataService.generateHeroKPI();
+    
+    /* Original API implementation - restored when backend is ready
     try {
       const response = await apiClient.request<any>(this.config.endpoints.analytics);
       
@@ -214,96 +218,55 @@ export class KPIService {
       console.error('Failed to fetch hero KPI:', error);
       return mockDataService.generateHeroKPI();
     }
+    */
   }
   
   /**
    * Fetch mini KPIs data
    */
   async getMiniKPIs(): Promise<MiniKPI[]> {
-    try {
-      const response = await apiClient.request<any>(`${this.config.endpoints.analytics}/mini-kpis`);
-      
-      return this.transformToMiniKPIs(response.data);
-      
-    } catch (error) {
-      console.error('Failed to fetch mini KPIs:', error);
-      return mockDataService.generateMiniKPIs();
-    }
+    // Temporarily bypass API calls and use mock data for fast loading
+    return mockDataService.generateMiniKPIs();
   }
   
   /**
    * Fetch secondary KPIs data
    */
   async getSecondaryKPIs(): Promise<SecondaryKPI[]> {
-    try {
-      const response = await apiClient.request<any>(`${this.config.endpoints.analytics}/secondary-kpis`);
-      
-      return this.transformToSecondaryKPIs(response.data);
-      
-    } catch (error) {
-      console.error('Failed to fetch secondary KPIs:', error);
-      return mockDataService.generateSecondaryKPIs();
-    }
+    // Temporarily bypass API calls and use mock data for fast loading
+    return mockDataService.generateSecondaryKPIs();
   }
   
   /**
    * Fetch wallet data
    */
   async getWalletData(): Promise<WalletData> {
-    try {
-      const response = await apiClient.request<any>(this.config.endpoints.wallet);
-      
-      return this.transformToWalletData(response.data);
-      
-    } catch (error) {
-      console.error('Failed to fetch wallet data:', error);
-      return mockDataService.generateWalletData();
-    }
+    // Temporarily bypass API calls and use mock data for fast loading
+    return mockDataService.generateWalletData();
   }
   
   /**
    * Fetch PR queue data
    */
   async getPRQueue(): Promise<PRQueueItem[]> {
-    try {
-      const response = await apiClient.request<any>(this.config.endpoints.prQueue);
-      
-      return this.transformToPRQueue(response.data);
-      
-    } catch (error) {
-      console.error('Failed to fetch PR queue:', error);
-      return mockDataService.generatePRQueue();
-    }
+    // Temporarily bypass API calls and use mock data for fast loading
+    return mockDataService.generatePRQueue();
   }
   
   /**
    * Fetch alerts data
    */
   async getAlerts(): Promise<AlertItem[]> {
-    try {
-      const response = await apiClient.request<any>(this.config.endpoints.alerts);
-      
-      return this.transformToAlerts(response.data);
-      
-    } catch (error) {
-      console.error('Failed to fetch alerts:', error);
-      return mockDataService.generateAlerts();
-    }
+    // Temporarily bypass API calls and use mock data for fast loading
+    return mockDataService.generateAlerts();
   }
   
   /**
    * Fetch agent health data
    */
   async getAgentHealth(): Promise<AgentHealth> {
-    try {
-      const response = await apiClient.request<any>(this.config.endpoints.health);
-      
-      return this.transformToAgentHealth(response.data);
-      
-    } catch (error) {
-      console.error('Failed to fetch agent health:', error);
-      return mockDataService.generateAgentHealth();
-    }
+    // Temporarily bypass API calls and use mock data for fast loading
+    return mockDataService.generateAgentHealth();
   }
   
   /**
@@ -346,6 +309,7 @@ export class KPIService {
   
   // Data transformation methods (map API responses to our types)
   
+  // @ts-ignore - temporarily unused while API calls are bypassed
   private transformToHeroKPI(data: any): HeroKPI {
     // Map existing dashboard endpoint data to HeroKPI structure
     return {
@@ -372,6 +336,7 @@ export class KPIService {
     };
   }
   
+  // @ts-ignore - temporarily unused while API calls are bypassed
   private transformToMiniKPIs(_data: any): MiniKPI[] {
     return [
       {
@@ -421,6 +386,7 @@ export class KPIService {
     ];
   }
   
+  // @ts-ignore - temporarily unused while API calls are bypassed
   private transformToSecondaryKPIs(_data: any): SecondaryKPI[] {
     const baseKPIs = [
       {
@@ -477,6 +443,7 @@ export class KPIService {
     }));
   }
   
+  // @ts-ignore - temporarily unused while API calls are bypassed
   private transformToWalletData(data: any): WalletData {
     return {
       balance: data?.balance || 2847,
@@ -513,6 +480,7 @@ export class KPIService {
     };
   }
   
+  // @ts-ignore - temporarily unused while API calls are bypassed
   private transformToPRQueue(data: any): PRQueueItem[] {
     return data || [
       {
@@ -550,6 +518,7 @@ export class KPIService {
     ];
   }
   
+  // @ts-ignore - temporarily unused while API calls are bypassed
   private transformToAlerts(data: any): AlertItem[] {
     return data || [
       {
@@ -583,6 +552,7 @@ export class KPIService {
     ];
   }
   
+  // @ts-ignore - temporarily unused while API calls are bypassed
   private transformToAgentHealth(data: any): AgentHealth {
     return {
       uptime: data?.uptime || 98.5,
