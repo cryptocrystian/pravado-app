@@ -114,9 +114,9 @@ export function Dashboard() {
             <h1 className="text-3xl font-bold text-foreground">🚀 Marketing Command Center - PHASE 3 DEPLOYED</h1>
             <p className="text-foreground/60">Monitor your visibility and manage campaigns from your central dashboard</p>
             {/* Phase 3 QA Guardrails: Visual indicator for deployment verification */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-ai-teal-500/10 border border-ai-teal-500/20 rounded-lg text-sm text-ai-teal-300 mt-2">
-              <div className="w-2 h-2 bg-ai-teal-500 rounded-full animate-pulse"></div>
-              Phase 3: QA Guardrails Active (90+ Tests)
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ai-teal-500/15 to-ai-gold-500/10 border border-ai-teal-500/30 rounded-lg text-sm text-ai-teal-300 mt-3 shadow-lg">
+              <div className="w-3 h-3 bg-ai-teal-500 rounded-full animate-pulse shadow-lg"></div>
+              ✅ Phase 3 Complete: 90+ Tests | Analytics | A11y | Visual QA
             </div>
           </div>
 
