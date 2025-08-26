@@ -453,22 +453,22 @@ a:focus-visible,
   mask-composite: exclude;
 }
 
-/* P5 Global Link Colors - Complete Browser Override */
-a {
-  color: hsl(var(--ai-teal-300)) !important;
+/* PR2 - Global Link Styles */
+a, .link {
+  color: hsl(var(--ai-teal-300));
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: hsl(var(--ai-teal-500)) !important;
+  color: hsl(var(--ai-teal-500));
 }
 
 a:visited {
-  color: hsl(var(--ai-teal-300)) !important;
+  color: hsl(var(--ai-teal-300));
 }
 
 a:active {
-  color: hsl(var(--ai-teal-700)) !important;
+  color: hsl(var(--ai-teal-700));
 }
 
 /* Brand buttons should maintain their styling */
@@ -485,4 +485,63 @@ a:focus-visible,
 [tabindex]:focus-visible {
   outline: 2px solid hsl(var(--ai-teal-500));
   outline-offset: 2px;
+}
+
+/* PR2 - Brand Color Application: Updated Primary CTA */
+.btn-primary {
+  background: var(--brand-grad);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.btn-primary:hover {
+  opacity: 0.95;
+}
+
+.btn-primary:focus {
+  outline: 2px solid hsl(var(--ai-teal-500));
+  outline-offset: 2px;
+}
+
+/* PR2 - Brand Color Application: Chip Classes */
+.chip-success {
+  background: hsl(var(--ai-teal-700) / 0.15);
+  color: hsl(var(--ai-teal-300));
+  border: 1px solid hsl(var(--ai-teal-700) / 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chip-attention {
+  background: hsl(var(--ai-gold-700) / 0.16);
+  color: hsl(var(--ai-gold-300));
+  border: 1px solid hsl(var(--ai-gold-700) / 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* PR2 - Tailwind Utility Classes for Brand Chips */
+.bg-ai-teal-700\/15 {
+  background-color: hsl(var(--ai-teal-700) / 0.15);
+}
+
+.text-ai-teal-300 {
+  color: hsl(var(--ai-teal-300));
+}
+
+.bg-ai-gold-700\/16 {
+  background-color: hsl(var(--ai-gold-700) / 0.16);
+}
+
+.text-ai-gold-300 {
+  color: hsl(var(--ai-gold-300));
 }

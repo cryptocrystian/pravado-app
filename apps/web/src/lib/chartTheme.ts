@@ -1,108 +1,18 @@
-// Chart.js theme initialization for enterprise branding
-
-let isInitialized = false;
-
-export function initializeChartTheme() {
-  // Only initialize once to avoid repeated imports
-  if (isInitialized) return;
-
-  // Chart.js theme will be initialized when/if Chart.js is actually used
-  // This avoids build-time dependency issues
-  console.log('Chart theme ready for initialization when Chart.js is loaded');
-  isInitialized = true;
-}
-
-// Function to apply theme when Chart.js is available
+// PR2 - Chart.js Theme Implementation
 export function applyChartTheme() {
-  try {
-    // Check if Chart.js is available in global scope
-    if (typeof window !== 'undefined' && (window as any).Chart) {
+  // Apply theme if Chart.js is available globally
+  if (typeof window !== 'undefined' && (window as any).Chart) {
+    try {
       const Chart = (window as any).Chart;
       const css = getComputedStyle(document.documentElement);
-      
-      // Get theme colors from CSS variables with fallbacks
-      const foreground = `hsl(${css.getPropertyValue('--fg').trim() || '210 11% 85%'})`;
-      const border = `hsl(${css.getPropertyValue('--border').trim() || '215 16% 47%'})`;
-      const aiTeal300 = `hsl(${css.getPropertyValue('--ai-teal-300').trim() || '170 70% 58%'})`;
-      const aiTeal500 = `hsl(${css.getPropertyValue('--ai-teal-500').trim() || '170 72% 45%'})`;
-      const aiGold300 = `hsl(${css.getPropertyValue('--ai-gold-300').trim() || '40 92% 66%'})`;
-      const aiGold500 = `hsl(${css.getPropertyValue('--ai-gold-500').trim() || '40 92% 52%'})`;
-      const glassFill = `hsl(${css.getPropertyValue('--panel').trim() || '220 13% 18%'})`;
-      const glassStroke = `hsl(${css.getPropertyValue('--border').trim() || '215 16% 47%'})`;
-      
-      // Configure global Chart.js defaults for dark shell theme
-      Chart.defaults.color = foreground;
-      Chart.defaults.borderColor = border;
-      Chart.defaults.backgroundColor = 'transparent';
-      
-      // Enhanced tooltip styling for glass morphism
-      Chart.defaults.plugins.tooltip.backgroundColor = glassFill + 'e6'; // 90% opacity
-      Chart.defaults.plugins.tooltip.borderColor = glassStroke;
-      Chart.defaults.plugins.tooltip.borderWidth = 1;
-      Chart.defaults.plugins.tooltip.titleColor = foreground;
-      Chart.defaults.plugins.tooltip.bodyColor = foreground;
-      Chart.defaults.plugins.tooltip.padding = 16;
-      Chart.defaults.plugins.tooltip.cornerRadius = 12;
-      Chart.defaults.plugins.tooltip.displayColors = true;
-      Chart.defaults.plugins.tooltip.usePointStyle = true;
-      Chart.defaults.plugins.tooltip.boxPadding = 8;
-      
-      // Legend styling for dark theme
-      Chart.defaults.plugins.legend.labels.color = foreground;
-      Chart.defaults.plugins.legend.labels.usePointStyle = true;
-      Chart.defaults.plugins.legend.labels.padding = 20;
-      Chart.defaults.plugins.legend.labels.boxWidth = 12;
-      Chart.defaults.plugins.legend.labels.boxHeight = 12;
-      
-      // Enhanced brand color palette with proper contrast for dark shell
-      const brandPalette = [
-        aiTeal500,   // Primary AI brand color
-        aiGold500,   // Secondary AI brand color  
-        aiTeal300,   // Lighter teal variant
-        aiGold300,   // Lighter gold variant
-        '#64748b',   // Slate 500 - good contrast on dark
-        '#94a3b8',   // Slate 400 - medium contrast
-        '#cbd5e1',   // Slate 300 - lighter contrast
-      ];
-      
-      // Apply brand colors to different chart types
-      Chart.defaults.datasets.line.borderColor = brandPalette;
-      Chart.defaults.datasets.line.backgroundColor = brandPalette.map(c => c + '20'); // 12% opacity
-      Chart.defaults.datasets.line.borderWidth = 3;
-      Chart.defaults.datasets.line.pointBackgroundColor = brandPalette;
-      Chart.defaults.datasets.line.pointBorderColor = brandPalette;
-      Chart.defaults.datasets.line.pointBorderWidth = 2;
-      Chart.defaults.datasets.line.pointRadius = 4;
-      Chart.defaults.datasets.line.pointHoverRadius = 6;
-      Chart.defaults.datasets.line.fill = false;
-      
-      Chart.defaults.datasets.bar.backgroundColor = brandPalette.map(c => c + 'cc'); // 80% opacity
-      Chart.defaults.datasets.bar.borderColor = brandPalette;
-      Chart.defaults.datasets.bar.borderWidth = 1;
-      Chart.defaults.datasets.bar.borderRadius = 4;
-      
-      Chart.defaults.datasets.pie.backgroundColor = brandPalette;
-      Chart.defaults.datasets.pie.borderColor = glassFill;
-      Chart.defaults.datasets.pie.borderWidth = 2;
-      
-      Chart.defaults.datasets.doughnut.backgroundColor = brandPalette;
-      Chart.defaults.datasets.doughnut.borderColor = glassFill;
-      Chart.defaults.datasets.doughnut.borderWidth = 3;
-      
-      // Enhanced grid and axis styling for dark shell
-      Chart.defaults.scales.linear.grid.color = border + '40'; // 25% opacity
-      Chart.defaults.scales.linear.grid.lineWidth = 1;
-      Chart.defaults.scales.linear.ticks.color = foreground + 'cc'; // 80% opacity
-      Chart.defaults.scales.linear.ticks.font = { size: 12, family: 'Inter', weight: '500' };
-      
-      Chart.defaults.scales.category.grid.display = false;
-      Chart.defaults.scales.category.ticks.color = foreground + 'cc';
-      Chart.defaults.scales.category.ticks.font = { size: 12, family: 'Inter', weight: '500' };
-      
-      console.log('Enhanced Chart.js theme applied successfully with brand colors');
+      Chart.defaults.color = css.getPropertyValue('--fg').trim();
+      Chart.defaults.borderColor = css.getPropertyValue('--border').trim();
+      console.log('Chart theme applied with brand colors');
+    } catch (error) {
+      console.warn('Error applying chart theme:', error);
     }
-  } catch (error) {
-    console.warn('Chart.js theme application failed:', error);
+  } else {
+    console.log('Chart.js not available, theme will be applied when loaded');
   }
 }
 

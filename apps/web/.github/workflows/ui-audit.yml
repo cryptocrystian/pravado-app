@@ -1,219 +1,83 @@
-name: 🎨 Brand Compliance Audit
+name: UI Brand Audit
 
+# PR2 - CI Guard: Runs on PRs to enforce brand color compliance
 on:
   pull_request:
+    branches: [ main, develop ]
     paths:
-      - 'apps/web/src/**/*.{ts,tsx,js,jsx,css,scss,sass}'
+      - 'apps/web/src/**'
       - 'apps/web/tailwind.config.js'
       - 'apps/web/src/styles/**'
-    branches: [main, develop]
-
-concurrency:
-  group: ui-audit-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
-  brand-audit:
-    name: Brand System Compliance
+  ui-audit:
+    name: Brand Color Compliance
     runs-on: ubuntu-latest
     
+    defaults:
+      run:
+        working-directory: apps/web
+    
     steps:
-      - name: 📋 Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 📦 Setup Node.js
+        
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: apps/web/package-lock.json
-
-      - name: 🔧 Install Dependencies
-        working-directory: apps/web
+          
+      - name: Install dependencies
         run: npm ci
-
-      - name: 🎨 Run Brand Audit
-        id: audit
-        working-directory: apps/web
-        run: |
-          echo "Running Pravado brand compliance audit..."
-          npm run audit:brand 2>&1 | tee audit-output.txt
-          echo "audit_exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
-        continue-on-error: true
-
-      - name: 📊 Parse Audit Results
-        id: parse
-        working-directory: apps/web
-        run: |
-          if [ -f audit-output.txt ]; then
-            # Extract violation details for PR comments
-            grep -n "❌\|⚠️" audit-output.txt > violations.txt || true
-            
-            # Count violations
-            ERROR_COUNT=$(grep -c "❌" audit-output.txt || echo "0")
-            WARNING_COUNT=$(grep -c "⚠️" audit-output.txt || echo "0")
-            
-            echo "error_count=$ERROR_COUNT" >> $GITHUB_OUTPUT
-            echo "warning_count=$WARNING_COUNT" >> $GITHUB_OUTPUT
-            
-            # Create summary for PR comment
-            if [ $ERROR_COUNT -gt 0 ] || [ $WARNING_COUNT -gt 0 ]; then
-              echo "## 🎨 Brand Compliance Report" > audit-summary.md
-              echo "" >> audit-summary.md
-              echo "**Status:** ❌ Failed" >> audit-summary.md
-              echo "**Errors:** $ERROR_COUNT | **Warnings:** $WARNING_COUNT" >> audit-summary.md
-              echo "" >> audit-summary.md
-              echo "### Brand System Violations:" >> audit-summary.md
-              echo "" >> audit-summary.md
-              echo '```' >> audit-summary.md
-              cat audit-output.txt >> audit-summary.md
-              echo '```' >> audit-summary.md
-              echo "" >> audit-summary.md
-              echo "### 🔧 Quick Fixes:" >> audit-summary.md
-              echo "- Replace hex colors with \`hsl(var(--ai-teal-300))\`" >> audit-summary.md
-              echo "- Use \`bg-ai-teal-500\` instead of \`bg-blue-500\`" >> audit-summary.md
-              echo "- Add \`data-surface=\"content\"\` to dashboard content areas" >> audit-summary.md
-              echo "- Update links to use brand teal: \`text-ai-teal-300\`" >> audit-summary.md
-            else
-              echo "## ✅ Brand Compliance: PASSED" > audit-summary.md
-              echo "All files follow Pravado design system guidelines!" >> audit-summary.md
-            fi
-          else
-            echo "error_count=1" >> $GITHUB_OUTPUT
-            echo "Audit failed to generate output" > audit-summary.md
-          fi
-
-      - name: 📝 Comment on PR
+        
+      - name: Run brand color audit
+        run: npx tsx scripts/ui/audit-colors.ts
+        
+      - name: Comment on PR (if audit fails)
+        if: failure()
         uses: actions/github-script@v7
-        if: always()
         with:
           script: |
-            const fs = require('fs');
-            
-            let summary = '## 🎨 Brand Compliance Audit Failed\nUnable to read audit results.';
-            
-            try {
-              summary = fs.readFileSync('apps/web/audit-summary.md', 'utf8');
-            } catch (error) {
-              console.log('Could not read audit summary:', error);
-            }
-            
-            // Find existing comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
+            const { owner, repo, number } = context.issue;
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: `## 🚨 Brand Color Audit Failed
+              
+              Your PR contains color usage that doesn't follow our brand guidelines.
+              
+              **Common violations:**
+              - Using \`bg-white\` instead of \`hsl(var(--panel))\`
+              - Using \`text-blue-*\` instead of \`ai-teal-*\` brand colors  
+              - Using hex/rgb values instead of CSS variables
+              
+              **Fix by using brand tokens:**
+              - ✅ \`hsl(var(--ai-teal-300/500/700))\` for primary accents
+              - ✅ \`hsl(var(--ai-gold-300/500/700))\` for secondary accents
+              - ✅ \`hsl(var(--panel))\` instead of \`bg-white\`
+              - ✅ \`hsl(var(--fg))\` instead of \`text-black\`
+              
+              See the full error details above for specific line numbers and fixes.
+              
+              📖 **Brand System**: Check \`tailwind.config.js\` for the complete color system.
+              `
             });
             
-            const botComment = comments.find(comment =>
-              comment.user?.type === 'Bot' && comment.body?.includes('Brand Compliance')
-            );
-            
-            const commentBody = `${summary}
-            
-            ---
-            *🤖 Automated brand compliance check by Pravado Design System*
-            *Commit: ${context.sha.substring(0, 7)} | Run: [#${context.runNumber}](${context.payload.pull_request?.html_url}/checks)*`;
-            
-            if (botComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: commentBody
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: commentBody
-              });
-            }
-
-      - name: 🚫 Fail on Brand Violations
-        if: steps.parse.outputs.error_count > 0
-        run: |
-          echo "❌ Brand compliance failed with ${{ steps.parse.outputs.error_count }} errors"
-          echo "Brand consistency is critical for Pravado's professional appearance."
-          echo "Please fix all brand violations before merging."
-          exit 1
-
-      - name: ⚠️ Warn on Minor Issues
-        if: steps.parse.outputs.warning_count > 0 && steps.parse.outputs.error_count == 0
-        run: |
-          echo "⚠️ Brand audit passed with ${{ steps.parse.outputs.warning_count }} warnings"
-          echo "Consider addressing warnings to improve brand consistency."
-
-      - name: ✅ Success
-        if: steps.parse.outputs.error_count == 0 && steps.parse.outputs.warning_count == 0
-        run: |
-          echo "✅ Brand compliance: PASSED"
-          echo "All files follow Pravado design system guidelines!"
-
-  changed-files:
-    name: Analyze Changed Files
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: 📋 Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 🔍 Get Changed UI Files
-        id: changed-files
-        uses: tj-actions/changed-files@v41
-        with:
-          files: |
-            apps/web/src/**/*.{ts,tsx,js,jsx}
-            apps/web/src/styles/**
-            apps/web/tailwind.config.js
-
-      - name: 📊 File Impact Analysis
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: |
-          echo "🎯 Brand-Relevant Files Changed:"
-          echo "${{ steps.changed-files.outputs.all_changed_files }}" | tr ' ' '\n' | while read file; do
-            echo "  • $file"
-          done
-          
-          # Check if core brand files were modified
-          CORE_FILES="tailwind.config.js globals.css"
-          for core_file in $CORE_FILES; do
-            if echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -q "$core_file"; then
-              echo "⚠️ Core brand file modified: $core_file"
-              echo "Extra scrutiny required for brand system changes."
-            fi
-          done
-
-      - name: 📋 Brand Change Summary
+      - name: Success comment on PR
+        if: success()
         uses: actions/github-script@v7
-        if: steps.changed-files.outputs.any_changed == 'true'
         with:
           script: |
-            const changedFiles = '${{ steps.changed-files.outputs.all_changed_files }}'.split(' ');
-            const coreFiles = ['tailwind.config.js', 'globals.css', 'index.css'];
-            
-            const hasCoreChanges = changedFiles.some(file => 
-              coreFiles.some(core => file.includes(core))
-            );
-            
-            let message = `## 📋 Brand Impact Analysis\n\n`;
-            message += `**Changed Files:** ${changedFiles.length}\n`;
-            message += `**Core Brand Files Modified:** ${hasCoreChanges ? '⚠️ YES' : '✅ NO'}\n\n`;
-            
-            if (hasCoreChanges) {
-              message += `### 🔍 Core Brand System Changes Detected\n`;
-              message += `The following critical brand files were modified:\n\n`;
-              changedFiles.forEach(file => {
-                if (coreFiles.some(core => file.includes(core))) {
-                  message += `- \`${file}\` ⚠️\n`;
-                }
-              });
-              message += `\n**⚠️ Extra review required for brand consistency**\n`;
-            }
-            
-            console.log(message);
+            const { owner, repo, number } = context.issue;
+            await github.rest.issues.createComment({
+              owner,
+              repo, 
+              issue_number: number,
+              body: `## ✅ Brand Color Audit Passed
+              
+              All color usage follows brand guidelines. Great job maintaining consistency! 🎨
+              `
+            });

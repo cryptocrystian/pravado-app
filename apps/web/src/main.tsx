@@ -2,10 +2,10 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/globals.css'
 import App from './App.tsx'
-import { initializeChartTheme } from './lib/chartTheme'
+import { applyChartTheme } from './lib/chartTheme'
 
-// Initialize chart theme for enterprise branding
-initializeChartTheme()
+// Apply chart theme for brand compliance
+applyChartTheme();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

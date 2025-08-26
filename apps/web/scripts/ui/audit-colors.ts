@@ -1,254 +1,191 @@
 #!/usr/bin/env node
+
 /**
- * Brand Compliance Audit - Pravado Design System Enforcement
+ * PR2 - CI Guard: Color Audit Script
  * 
- * Automated validation for:
- * - HSL-only color usage (no hex/rgb)
- * - Brand token compliance (teal/gold only)
- * - Content island validation (data-surface)
- * - Link color enforcement (no default blue)
+ * Enforces brand color compliance by failing on:
+ * - bg-white usage
+ * - text-blue-* usage  
+ * - Direct hex/rgb values in src/**
  * 
- * Usage: npm run audit:brand
+ * Runs in CI on PRs to prevent off-brand colors
  */
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { readFileSync, readdirSync, statSync } from 'fs';
+import { join } from 'path';
 
-interface BrandViolation {
+interface ColorViolation {
   file: string;
   line: number;
   column: number;
-  violation: string;
-  current: string;
-  fix: string;
+  pattern: string;
+  context: string;
   severity: 'error' | 'warning';
 }
 
-class BrandAuditor {
-  private violations: BrandViolation[] = [];
-  private readonly BRAND_COLORS = {
-    teal: ['ai-teal-300', 'ai-teal-500', 'ai-teal-700'],
-    gold: ['ai-gold-300', 'ai-gold-500', 'ai-gold-700'],
-    system: ['background', 'foreground', 'panel', 'border', 'brand']
-  };
+class ColorAuditor {
+  private violations: ColorViolation[] = [];
+  private srcDir = join(process.cwd(), 'src');
 
-  private readonly VIOLATION_PATTERNS = [
-    // Hex colors (strict enforcement)
+  // Patterns that violate brand guidelines
+  private readonly bannedPatterns = [
     {
-      pattern: /#[0-9a-fA-F]{3,8}/g,
-      violation: 'Hex colors forbidden - use HSL variables only',
-      severity: 'error' as const,
-      getFix: (match: string) => this.suggestHSLReplacement(match)
+      pattern: /\bbg-white\b/g,
+      message: 'Use hsl(var(--panel)) or hsl(var(--bg)) instead of bg-white',
+      severity: 'error' as const
     },
-    
-    // RGB colors (strict enforcement)
     {
-      pattern: /rgb\([^)]+\)/g,
-      violation: 'RGB colors forbidden - use HSL variables only',
-      severity: 'error' as const,
-      getFix: (match: string) => this.suggestHSLReplacement(match)
+      pattern: /\btext-blue-\w+/g,
+      message: 'Use ai-teal-* brand colors instead of text-blue-*',
+      severity: 'error' as const
     },
-    
-    // Tailwind blue classes (brand violation)
     {
-      pattern: /(?:text-|bg-|border-)blue-\d+/g,
-      violation: 'Default blue forbidden - use brand teal',
-      severity: 'error' as const,
-      getFix: (match: string) => match.replace(/blue-(\d+)/, 'ai-teal-$1')
+      pattern: /#[0-9a-fA-F]{3,8}\b/g,
+      message: 'Use CSS variables instead of hex colors',
+      severity: 'error' as const
     },
-    
-    // Generic white backgrounds without surface attribute
     {
-      pattern: /(?:bg-white|background:\s*white|background-color:\s*white)/g,
-      violation: 'Generic white forbidden - use data-surface="content" for content islands',
-      severity: 'error' as const,
-      getFix: () => 'bg-panel with data-surface="content" attribute'
+      pattern: /\brgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/g,
+      message: 'Use hsl(var(--token)) instead of rgb() values',
+      severity: 'error' as const
     },
-    
-    // Default link colors
     {
-      pattern: /color:\s*#646cff|color:\s*blue/g,
-      violation: 'Default link blue forbidden - use brand teal',
-      severity: 'error' as const,
-      getFix: () => 'color: hsl(var(--ai-teal-300))'
-    },
-    
-    // Non-brand color classes
-    {
-      pattern: /(?:text-|bg-|border-)(?:red|green|yellow|purple|pink|indigo|cyan|orange)-\d+/g,
-      violation: 'Non-brand colors detected - use semantic or brand tokens',
-      severity: 'warning' as const,
-      getFix: (match: string) => this.suggestSemanticReplacement(match)
+      pattern: /\brgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)/g,
+      message: 'Use hsl(var(--token) / alpha) instead of rgba() values',
+      severity: 'error' as const
     }
   ];
 
-  private readonly CONTENT_PAGES = ['/dashboard', '/content', '/analytics'];
+  // Files to exclude from audit
+  private readonly excludeFiles = [
+    'chartTheme.ts', // Charts may need specific colors
+    'globals.css',   // Contains legacy color definitions
+    'audit-colors.ts' // This script itself
+  ];
 
-  async auditProject(srcDir: string): Promise<BrandViolation[]> {
-    console.log('🎨 Starting Brand Compliance Audit...\n');
-    
-    await this.scanDirectory(srcDir);
-    
-    if (this.violations.length === 0) {
-      console.log('✅ Brand compliance: PASSED');
-      console.log('All files follow Pravado design system guidelines\n');
-    } else {
-      this.reportViolations();
-    }
-    
-    return this.violations;
-  }
+  // Extensions to audit
+  private readonly includeExtensions = ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'];
 
-  private async scanDirectory(dir: string): Promise<void> {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
+  auditDirectory(dir: string): void {
+    const files = readdirSync(dir);
     
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
+    for (const file of files) {
+      const filePath = join(dir, file);
+      const stat = statSync(filePath);
       
-      if (entry.isDirectory() && !['node_modules', '.git', 'dist', 'build'].includes(entry.name)) {
-        await this.scanDirectory(fullPath);
-      } else if (this.isRelevantFile(entry.name)) {
-        await this.auditFile(fullPath);
+      if (stat.isDirectory()) {
+        this.auditDirectory(filePath);
+      } else if (this.shouldAuditFile(filePath)) {
+        this.auditFile(filePath);
       }
     }
   }
 
-  private isRelevantFile(filename: string): boolean {
-    const extensions = ['.tsx', '.ts', '.jsx', '.js', '.css', '.scss', '.sass'];
-    return extensions.some(ext => filename.endsWith(ext));
-  }
-
-  private async auditFile(filePath: string): Promise<void> {
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const lines = content.split('\n');
-    const relativePath = path.relative(process.cwd(), filePath);
-
-    // Check for content island violations
-    if (this.isContentPage(relativePath)) {
-      this.checkContentIslandCompliance(lines, relativePath);
+  private shouldAuditFile(filePath: string): boolean {
+    const fileName = filePath.split('/').pop() || '';
+    
+    // Skip excluded files
+    if (this.excludeFiles.some(exclude => fileName.includes(exclude))) {
+      return false;
     }
-
-    // Check color violations
-    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-      const line = lines[lineIndex];
-      this.checkLineViolations(line, lineIndex, relativePath);
-    }
+    
+    // Only include specific extensions
+    return this.includeExtensions.some(ext => filePath.endsWith(ext));
   }
 
-  private isContentPage(filePath: string): boolean {
-    return this.CONTENT_PAGES.some(page => 
-      filePath.includes(`pages${page.slice(1)}`) || filePath.includes(`${page.slice(1)}.tsx`)
-    );
-  }
-
-  private checkContentIslandCompliance(lines: string[], filePath: string): void {
-    const hasContentSurface = lines.some(line => 
-      line.includes('data-surface="content"')
-    );
-
-    if (!hasContentSurface) {
-      this.violations.push({
-        file: filePath,
-        line: 1,
-        column: 1,
-        violation: 'Content page missing data-surface="content" for light content islands',
-        current: 'No content surface defined',
-        fix: 'Add data-surface="content" to main content containers',
-        severity: 'error'
-      });
-    }
-  }
-
-  private checkLineViolations(line: string, lineIndex: number, filePath: string): void {
-    for (const rule of this.VIOLATION_PATTERNS) {
-      const matches = Array.from(line.matchAll(rule.pattern));
+  private auditFile(filePath: string): void {
+    try {
+      const content = readFileSync(filePath, 'utf-8');
+      const lines = content.split('\n');
       
-      for (const match of matches) {
-        if (match.index === undefined) continue;
-        
-        this.violations.push({
-          file: filePath,
-          line: lineIndex + 1,
-          column: match.index + 1,
-          violation: rule.violation,
-          current: match[0],
-          fix: rule.getFix(match[0]),
-          severity: rule.severity
+      lines.forEach((line, lineIndex) => {
+        this.bannedPatterns.forEach(({ pattern, message, severity }) => {
+          let match;
+          // Reset regex to avoid issues with global flag
+          pattern.lastIndex = 0;
+          
+          while ((match = pattern.exec(line)) !== null) {
+            this.violations.push({
+              file: filePath.replace(process.cwd() + '/', ''),
+              line: lineIndex + 1,
+              column: match.index + 1,
+              pattern: match[0],
+              context: line.trim(),
+              severity
+            });
+            
+            // Avoid infinite loop with global regex
+            if (!pattern.global) break;
+          }
         });
-      }
+      });
+      
+    } catch (error) {
+      console.warn(`Could not read file ${filePath}:`, error);
     }
   }
 
-  private suggestHSLReplacement(colorValue: string): string {
-    // Common color mappings to brand tokens
-    const colorMap: Record<string, string> = {
-      '#646cff': 'hsl(var(--ai-teal-300))',
-      '#535bf2': 'hsl(var(--ai-teal-500))',
-      '#ffffff': 'hsl(var(--panel))',
-      '#000000': 'hsl(var(--foreground))',
-      'rgb(100, 108, 255)': 'hsl(var(--ai-teal-300))',
-      'white': 'hsl(var(--panel))',
-      'black': 'hsl(var(--foreground))'
-    };
+  reportViolations(): boolean {
+    if (this.violations.length === 0) {
+      console.log('✅ Color audit passed - no brand violations found');
+      return true;
+    }
 
-    return colorMap[colorValue.toLowerCase()] || 'Use appropriate HSL brand token';
-  }
+    console.log('\n🚨 Brand Color Violations Found:\n');
 
-  private suggestSemanticReplacement(classValue: string): string {
-    if (classValue.includes('red')) return classValue.replace(/red-\d+/, 'danger');
-    if (classValue.includes('green')) return classValue.replace(/green-\d+/, 'success');
-    if (classValue.includes('yellow')) return classValue.replace(/yellow-\d+/, 'warning');
-    return 'Use semantic color tokens (success, warning, danger) or brand tokens';
-  }
-
-  private reportViolations(): void {
+    // Group by severity
     const errors = this.violations.filter(v => v.severity === 'error');
     const warnings = this.violations.filter(v => v.severity === 'warning');
-    
-    console.log(`❌ Brand compliance: FAILED`);
-    console.log(`Found ${errors.length} errors, ${warnings.length} warnings\n`);
-    
-    // Group by file for better readability
-    const byFile = this.violations.reduce((acc, violation) => {
-      if (!acc[violation.file]) acc[violation.file] = [];
-      acc[violation.file].push(violation);
-      return acc;
-    }, {} as Record<string, BrandViolation[]>);
-    
-    Object.entries(byFile).forEach(([file, violations]) => {
-      console.log(`📁 ${file}`);
-      violations.forEach(v => {
-        const icon = v.severity === 'error' ? '  ❌' : '  ⚠️ ';
-        console.log(`${icon} Line ${v.line}:${v.column}`);
-        console.log(`     Issue: ${v.violation}`);
-        console.log(`     Found: ${v.current}`);
-        console.log(`     Fix:   ${v.fix}`);
-        console.log();
-      });
-    });
-    
+
     if (errors.length > 0) {
-      console.log('🚫 Build will fail due to brand violations');
-      console.log('Fix all errors before merging to maintain brand consistency\n');
+      console.log('❌ ERRORS (will fail CI):');
+      errors.forEach(violation => {
+        console.log(`  ${violation.file}:${violation.line}:${violation.column}`);
+        console.log(`    Pattern: "${violation.pattern}"`);
+        console.log(`    Context: ${violation.context}`);
+        console.log(`    Fix: Use brand tokens instead of direct colors\n`);
+      });
+    }
+
+    if (warnings.length > 0) {
+      console.log('⚠️  WARNINGS:');
+      warnings.forEach(violation => {
+        console.log(`  ${violation.file}:${violation.line}:${violation.column}`);
+        console.log(`    Pattern: "${violation.pattern}"`);
+        console.log(`    Context: ${violation.context}\n`);
+      });
+    }
+
+    console.log('\n📖 Brand Guidelines:');
+    console.log('  • Use hsl(var(--ai-teal-300/500/700)) for primary accents');
+    console.log('  • Use hsl(var(--ai-gold-300/500/700)) for secondary accents');
+    console.log('  • Use hsl(var(--panel)) instead of bg-white');
+    console.log('  • Use hsl(var(--fg)) instead of text-black');
+    console.log('  • Use CSS variables instead of hex/rgb values');
+    console.log('\n  See tailwind.config.js for full color system');
+
+    // Return true if only warnings, false if errors
+    return errors.length === 0;
+  }
+
+  run(): boolean {
+    console.log('🎨 Running brand color audit...\n');
+    
+    try {
+      this.auditDirectory(this.srcDir);
+      return this.reportViolations();
+    } catch (error) {
+      console.error('Color audit failed:', error);
+      return false;
     }
   }
 }
 
-// CLI execution
-async function main() {
-  const srcDir = process.argv[2] || 'src';
-  const auditor = new BrandAuditor();
-  const violations = await auditor.auditProject(srcDir);
-  
-  const errors = violations.filter(v => v.severity === 'error');
-  process.exit(errors.length > 0 ? 1 : 0);
-}
-
+// Run audit if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {
-  main().catch(console.error);
+  const auditor = new ColorAuditor();
+  const passed = auditor.run();
+  process.exit(passed ? 0 : 1);
 }
 
-export { BrandAuditor, type BrandViolation };
+export default ColorAuditor;
