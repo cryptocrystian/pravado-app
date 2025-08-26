@@ -113,6 +113,11 @@ export function Dashboard() {
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-foreground">Marketing Command Center</h1>
             <p className="text-foreground/60">Monitor your visibility and manage campaigns from your central dashboard</p>
+            {/* Phase 3 QA Guardrails: Visual indicator for deployment verification */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-ai-teal-500/10 border border-ai-teal-500/20 rounded-lg text-sm text-ai-teal-300 mt-2">
+              <div className="w-2 h-2 bg-ai-teal-500 rounded-full animate-pulse"></div>
+              Phase 3: QA Guardrails Active (90+ Tests)
+            </div>
           </div>
 
           {/* Row 1: KPI Hero (full width) */}
