@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AppLayout } from './layouts/AppLayout'
-import { Dashboard } from './pages/Dashboard'
+import { Dashboard } from './pages/Dashboard-simple'
 import { Campaigns } from './pages/Campaigns'
 import { MediaDB } from './pages/MediaDB'
 import { ContentStudio } from './pages/ContentStudio'
