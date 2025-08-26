@@ -14,8 +14,8 @@
     "type-check": "npm run type-check --workspace=apps/web"
   },
   "engines": {
-    "node": ">=18",
-    "npm": ">=8"
+    "node": ">=20.19.4",
+    "npm": ">=10.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

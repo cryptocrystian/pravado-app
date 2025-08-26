@@ -22,7 +22,8 @@ export function Dashboard() {
     error, 
     refresh 
   } = useDashboardData({
-    pollInterval: 30000, // Poll every 30 seconds
+    // Temporarily disable polling to fix infinite render loop
+    // pollInterval: 30000, // Poll every 30 seconds
     onError: (error) => {
       console.error('Dashboard data error:', error);
       // Could show a toast notification here

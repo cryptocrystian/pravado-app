@@ -8,7 +8,7 @@ export function initializeChartTheme() {
 
   // Chart.js theme will be initialized when/if Chart.js is actually used
   // This avoids build-time dependency issues
-  console.log('Chart theme ready for initialization when Chart.js is loaded');
+  // Removed console.log to prevent potential re-render issues
   isInitialized = true;
 }
 

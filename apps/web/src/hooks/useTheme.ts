@@ -5,6 +5,7 @@ type Theme = 'light' | 'dark'
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
     // Get theme from localStorage or default to dark for dashboard
+    if (typeof window === 'undefined') return 'dark'
     const stored = localStorage.getItem('pravado-theme')
     return (stored as Theme) || 'dark'
   })
