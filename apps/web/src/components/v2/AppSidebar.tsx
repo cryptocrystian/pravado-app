@@ -9,6 +9,7 @@ import {
   Users 
 } from 'lucide-react'
 import { cn } from '../../lib/utils'
+import { trackFlow, FLOWS } from '../../services/analyticsService'
 
 interface SidebarItemProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -21,7 +22,28 @@ interface SidebarItemProps {
 function SidebarItem({ icon: Icon, label, active = false, onClick, count }: SidebarItemProps) {
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        // Track sidebar navigation with Phase 3 analytics
+        trackFlow.start(FLOWS.NAVIGATION, 'sidebar_v2', {
+          destination: label,
+          active_before_click: active,
+          has_count: !!count
+        });
+        
+        trackFlow.critical('navigation', {
+          component: 'sidebar_v2',
+          destination: label,
+          navigation_type: 'sidebar_click'
+        });
+
+        trackFlow.phase3('sidebar', 'navigation_click', {
+          label,
+          active,
+          count
+        });
+
+        onClick?.();
+      }}
       className={cn(
         "flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium transition-all relative group",
         "text-foreground/80 hover:text-foreground hover:bg-white/5",
