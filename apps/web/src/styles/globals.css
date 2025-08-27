@@ -29,25 +29,25 @@
 
   /* Base styles */
   * {
-    border-color: var(--surface);
+    border-color: hsl(var(--surface));
   }
 
   body {
-    background-color: var(--bg);
-    color: var(--text);
+    background-color: hsl(var(--bg));
+    color: hsl(var(--text));
     font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
     line-height: 1.5;
   }
 
   /* Dark mode application - when html has dark class */
   .dark body {
-    background-color: var(--bg-dark);
-    color: var(--text-dark);
+    background-color: hsl(var(--bg-dark));
+    color: hsl(var(--text-dark));
   }
 
   /* V4 Button Variants - Per Master Spec */
   .btn-primary {
-    background-color: var(--ai);
+    background-color: hsl(var(--ai));
     color: hsl(0 0% 100%);
     padding: 0.5rem 1.5rem;
     border-radius: 0.5rem;
@@ -62,8 +62,8 @@
 
   .btn-secondary {
     background-color: transparent;
-    color: var(--ai);
-    border: 1px solid var(--ai);
+    color: hsl(var(--ai));
+    border: 1px solid hsl(var(--ai));
     padding: 0.5rem 1.5rem;
     border-radius: 0.5rem;
     font-weight: 500;
@@ -71,13 +71,13 @@
   }
 
   .btn-secondary:hover {
-    background-color: var(--ai);
+    background-color: hsl(var(--ai));
     color: hsl(0 0% 100%);
   }
 
   .btn-tertiary {
     background-color: transparent;
-    color: var(--ai);
+    color: hsl(var(--ai));
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     font-weight: 500;
@@ -92,7 +92,7 @@
   /* V4 Chip Variants - Per Master Spec */
   .chip-confidence {
     background-color: rgba(0, 168, 168, 0.1);
-    color: var(--ai);
+    color: hsl(var(--ai));
     border: 1px solid rgba(0, 168, 168, 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
@@ -102,7 +102,7 @@
 
   .chip-impact {
     background-color: rgba(212, 160, 23, 0.1);
-    color: var(--premium);
+    color: hsl(var(--premium));
     border: 1px solid rgba(212, 160, 23, 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
@@ -112,7 +112,7 @@
 
   .chip-alert {
     background-color: rgba(220, 38, 38, 0.1);
-    color: var(--danger);
+    color: hsl(var(--danger));
     border: 1px solid rgba(220, 38, 38, 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
@@ -122,7 +122,7 @@
 
   .chip-warning {
     background-color: rgba(245, 158, 11, 0.1);
-    color: var(--warning);
+    color: hsl(var(--warning));
     border: 1px solid rgba(245, 158, 11, 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
@@ -132,7 +132,7 @@
 
   .chip-success {
     background-color: rgba(34, 197, 94, 0.1);
-    color: var(--success);
+    color: hsl(var(--success));
     border: 1px solid rgba(34, 197, 94, 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
@@ -142,7 +142,7 @@
 
   /* V4 Links - Per Master Spec */
   a {
-    color: var(--ai);
+    color: hsl(var(--ai));
     transition: opacity 0.2s;
   }
 
@@ -153,7 +153,7 @@
   /* V4 AI Badge - Per Master Spec */
   .ai-badge {
     background-color: rgba(0, 168, 168, 0.1);
-    color: var(--ai);
+    color: hsl(var(--ai));
     border: 1px solid rgba(0, 168, 168, 0.3);
     border-radius: 9999px;
     padding: 0.25rem 0.75rem;
@@ -165,7 +165,7 @@
   button:focus-visible,
   a:focus-visible,
   [tabindex]:focus-visible {
-    outline: 2px solid var(--ai);
+    outline: 2px solid hsl(var(--ai));
     outline-offset: 2px;
   }
 
