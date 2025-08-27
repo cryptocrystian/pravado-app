@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc --build && vite build",
     "lint": "eslint . --max-warnings 10000",
     "preview": "vite preview",
     "test": "echo 'Tests configured for local development - skipping for now'",
