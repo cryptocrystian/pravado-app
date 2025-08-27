@@ -78,7 +78,7 @@ export function RightRailTile({
           "p-2 rounded-lg shrink-0",
           category === 'trending' && "bg-ai text-ai",
           category === 'optimization' && "bg-premium text-premium",
-          category === 'alert' && "bg-red-400/10 text-red-400",
+          category === 'alert' && "bg-danger/10 text-danger",
           category === 'insight' && "bg-ai text-ai"
         )}>
           <CategoryIcon category={category} />

@@ -220,7 +220,7 @@ export function KPIHero({
               label="Publishing Cadence" 
               value={miniStats.cadence}
               color="teal"
-              link="#cadence"
+              link="cadence"
             />
           </div>
         </div>

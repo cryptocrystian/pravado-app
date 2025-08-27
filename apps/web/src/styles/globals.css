@@ -4,27 +4,27 @@
   /* V4 PRAVADO Master Spec Color Tokens - Single Source of Truth */
   :root {
     /* Light (Beige-first) - pravado_master_spec.md */
-    --bg: #F8F6F2;           /* Soft beige content background */
-    --surface: #E7ECEF;      /* Elevated cards */
-    --text: #1A1A1A;         /* Primary text */
-    --primary: #2B3A67;      /* Slate Blue */
-    --ai: #00A8A8;           /* AI Teal */
-    --premium: #D4A017;      /* Gold */
-    --success: #22C55E;      /* Green */
-    --warning: #F59E0B;      /* Amber */
-    --danger: #DC2626;       /* Red */
+    --bg: 48 12% 95%;        /* Soft beige content background */
+    --surface: 210 20% 92%;  /* Elevated cards */
+    --text: 0 0% 10%;        /* Primary text */
+    --primary: 220 44% 29%;  /* Slate Blue */
+    --ai: 180 100% 33%;      /* AI Teal */
+    --premium: 45 88% 40%;   /* Gold */
+    --success: 142 76% 45%;  /* Green */
+    --warning: 32 95% 44%;   /* Amber */
+    --danger: 0 84% 60%;     /* Red */
 
     /* Dark Shell + Islands */
-    --bg-app-dark: #1E2A4A;  /* Deep Slate - Main shell */
-    --bg-panel: #2B3A67;     /* Dark panel backgrounds */
-    --bg-island: #F8F6F2;    /* Light content islands */
-    --bg-dark: #1E2A4A;      /* Legacy support */
-    --surface-dark: #2B3A67; /* Dark card */
-    --text-dark: #FFFFFF;    /* Inverted text */
+    --bg-app-dark: 218 44% 20%; /* Deep Slate - Main shell */
+    --bg-panel: 220 44% 29%;    /* Dark panel backgrounds */
+    --bg-island: 48 12% 95%;    /* Light content islands */
+    --bg-dark: 218 44% 20%;     /* Legacy support */
+    --surface-dark: 220 44% 29%; /* Dark card */
+    --text-dark: 0 0% 100%;     /* Inverted text */
     
     /* Semantic Accent Colors */
-    --ai-teal-300: #5EEAD4;  /* Light teal for strokes/active states */
-    --premium-gold: #D4A017; /* Premium/impact accent */
+    --ai-teal-300: 174 83% 67%; /* Light teal for strokes/active states */
+    --premium-gold: 45 88% 40%; /* Premium/impact accent */
   }
 
   /* Base styles */
@@ -48,7 +48,7 @@
   /* V4 Button Variants - Per Master Spec */
   .btn-primary {
     background-color: var(--ai);
-    color: #FFFFFF;
+    color: hsl(0 0% 100%);
     padding: 0.5rem 1.5rem;
     border-radius: 0.5rem;
     font-weight: 500;
@@ -72,7 +72,7 @@
 
   .btn-secondary:hover {
     background-color: var(--ai);
-    color: #FFFFFF;
+    color: hsl(0 0% 100%);
   }
 
   .btn-tertiary {
