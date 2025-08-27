@@ -1,4 +1,4 @@
-import { Plus, FileText, Send, Search, Download } from 'lucide-react'
+import { Plus, Send, Search, Download } from 'lucide-react'
 
 export function QuickActions() {
   const actions = [

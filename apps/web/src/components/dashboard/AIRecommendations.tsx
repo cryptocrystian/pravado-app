@@ -3,8 +3,6 @@ import {
   ChevronDown, 
   ChevronRight, 
   CheckCircle, 
-  MessageCircle, 
-  Plus,
   Pause,
   Settings
 } from 'lucide-react'
@@ -57,7 +55,7 @@ const mockRecommendations = [
 export function AIRecommendations() {
   const [expanded, setExpanded] = useState<number | null>(null)
   const [selectedItems, setSelectedItems] = useState<number[]>([])
-  const [confidenceGate, setConfidenceGate] = useState(85)
+  const [confidenceGate] = useState(85)
   const [isPaused, setIsPaused] = useState(false)
   
   const toggleExpanded = (id: number) => {

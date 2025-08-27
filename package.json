@@ -13,7 +13,9 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:ui": "playwright test",
-    "test:ui:headed": "playwright test --headed"
+    "test:ui:headed": "playwright test --headed",
+    "install:workspaces": "npm install --workspaces",
+    "postinstall": "npm run install:workspaces"
   },
   "devDependencies": {
     "turbo": "latest",

@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, Eye, BarChart3 } from 'lucide-react'
+import { TrendingUp, TrendingDown, Eye } from 'lucide-react'
 
 export function KPIHero() {
   const score = 78
