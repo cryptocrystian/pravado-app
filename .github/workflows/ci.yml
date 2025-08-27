@@ -35,7 +35,7 @@ jobs:
     - name: Build
       working-directory: apps/web
       run: |
-        export NODE_OPTIONS="--max-old-space-size=4096"
+        export NODE_OPTIONS="--max-old-space-size=8192"
         npm run build
 
     - name: Run tests
