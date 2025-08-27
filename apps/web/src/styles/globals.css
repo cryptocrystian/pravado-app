@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@layer base {
+  /* V4 PRAVADO Master Spec Color Tokens - Single Source of Truth */
+  :root {
+    /* V4 Spec: Dark Shell + Light Islands */
+    --bg-app-dark: 218 44% 12%;  /* Dark shell background */
+    --bg-island: 0 0% 98%;       /* Light content islands */
+    --text-on-island: 0 0% 13%;  /* Dark text on light islands */
+    --text-on-shell: 0 0% 85%;   /* Light text on dark shell */
+    
+    /* AI-Teal Only - No Other Colors */
+    --ai: 180 100% 33%;          /* Primary AI-Teal */
+    --ai-light: 174 83% 67%;     /* Light teal variant */
+    
+    /* Legacy support */
+    --bg: 0 0% 98%;              /* Island background */
+    --text: 0 0% 13%;            /* Island text */
+    --surface: 220 13% 91%;      /* Subtle surfaces */
+    --border: 220 13% 80%;       /* Borders */
+  }
+
+  /* Base styles */
+  * {
+    border-color: hsl(var(--surface));
+  }
+
+  body {
+    background-color: hsl(var(--bg-app-dark));  /* Dark shell */
+    color: hsl(var(--text-on-shell));           /* Light text on shell */
+    font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
+    line-height: 1.5;
+  }
+
+  /* Islands have light background with dark text */
+  [data-surface="content"] {
+    background-color: hsl(var(--bg-island)) !important;
+    color: hsl(var(--text-on-island)) !important;
+  }
+
+  /* V4 Button Variants - Per Master Spec */
+  .btn-primary {
+    background-color: hsl(var(--ai));
+    color: hsl(0 0% 100%);
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: hsl(var(--ai));
+    border: 1px solid hsl(var(--ai));
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background-color: hsl(var(--ai));
+    color: hsl(0 0% 100%);
+  }
+
+  .btn-tertiary {
+    background-color: transparent;
+    color: hsl(var(--ai));
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-tertiary:hover {
+    background-color: rgba(0, 168, 168, 0.1);
+  }
+
+  /* V4 Chip Variants - Per Master Spec */
+  .chip-confidence {
+    background-color: rgba(0, 168, 168, 0.1);
+    color: hsl(var(--ai));
+    border: 1px solid rgba(0, 168, 168, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .chip-impact {
+    background-color: rgba(212, 160, 23, 0.1);
+    color: hsl(var(--premium));
+    border: 1px solid rgba(212, 160, 23, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .chip-alert {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: hsl(var(--danger));
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .chip-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: hsl(var(--warning));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .chip-success {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: hsl(var(--success));
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* V4 Links - Per Master Spec */
+  a {
+    color: hsl(var(--ai));
+    transition: opacity 0.2s;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+
+  /* V4 AI Badge - Per Master Spec */
+  .ai-badge {
+    background-color: rgba(0, 168, 168, 0.1);
+    color: hsl(var(--ai));
+    border: 1px solid rgba(0, 168, 168, 0.3);
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* Focus rings */
+  button:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid hsl(var(--ai));
+    outline-offset: 2px;
+  }
+
+  /* Typography scales */
+  .display {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+  }
+
+  .h1 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+    font-weight: 600;
+  }
+
+  .h2 {
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .body {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .meta {
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+  }
+}
