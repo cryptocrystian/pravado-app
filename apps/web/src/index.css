@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Dark Mode Default */
+  html.dark body {
+    @apply bg-app-dark text-gray-200;
+  }
+  
+  /* Dark Island Surfaces */
+  [data-surface="content"] {
+    @apply bg-island-dark border border-white/10 shadow-lg rounded-2xl;
+  }
+  
+  /* Light Island Surfaces (for editors) */
+  html[data-island="light"] [data-surface="content"] {
+    @apply bg-island-light text-slate-900 border-gray-200;
+  }
+  
+  /* Semantic Link Styling */
+  a,
+  .link {
+    @apply text-ai-teal-300 hover:text-ai-teal-500 transition-colors;
+  }
+  
+  /* Primary Button (solid teal) */
+  .btn-primary {
+    @apply bg-ai-teal-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-ai-teal-600 transition-colors;
+  }
+  
+  /* Semantic Chips */
+  .chip-confidence {
+    @apply bg-ai-teal-700/20 text-ai-teal-300 px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .chip-impact {
+    @apply bg-premium-gold-700/20 text-premium-gold-300 px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .chip-delta-up {
+    @apply text-success-500;
+  }
+  
+  .chip-delta-down {
+    @apply text-danger-500;
+  }
+}
+
+/* Font Face */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');
+}
+
+/* Ensure dark class is always applied */
+html {
+  @apply dark;
+}
