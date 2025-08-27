@@ -28,7 +28,7 @@ export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[hsl(var(--bg-app-dark))] text-[hsl(var(--text-on-shell))]">
+    <div className="flex h-screen overflow-hidden bg-[hsl(var(--shell-bg))] text-[hsl(var(--shell-text))]">
       {/* Sidebar - stays on dark shell */}
       <AppSidebarV3 />
       
@@ -78,11 +78,7 @@ export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
         <main className="flex-1 overflow-y-auto p-6">
           <div 
             data-surface="content" 
-            className="min-h-full rounded-xl border shadow-lg p-6 overflow-y-auto bg-[hsl(var(--bg-island))] text-[hsl(var(--text-on-island))]"
-            style={{ 
-              borderColor: 'hsl(var(--border))',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-            }}
+            className="min-h-full rounded-xl border shadow-lg p-6 overflow-y-auto"
           >
             {children || <Outlet />}
           </div>

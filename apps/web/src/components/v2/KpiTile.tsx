@@ -152,7 +152,7 @@ export function KpiTile({
               {delta && (
                 <span className={cn(
                   "text-xs font-medium px-2 py-0.5 rounded-full",
-                  delta.positive ? colors.deltaPositive : colors.deltaNegative
+                  delta.positive ? "delta-positive" : "delta-negative"
                 )}>
                   {delta.positive ? '+' : ''}{delta.value}
                 </span>

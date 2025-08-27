@@ -30,14 +30,14 @@ function CategoryIcon({ category }: { category: RightRailTileProps['category'] }
 }
 
 function ConfidenceIndicator({ confidence }: { confidence: number }) {
-  const getColor = () => {
-    if (confidence >= 90) return 'text-ai bg-ai';
-    if (confidence >= 70) return 'text-premium bg-premium';
-    return 'text-foreground/60 bg-foreground/10';
+  const getChipClass = () => {
+    if (confidence >= 90) return 'chip-confidence';  // Teal for high confidence
+    if (confidence >= 70) return 'chip-impact';      // Gold for medium confidence
+    return 'text-foreground/60 bg-foreground/10 px-2 py-0.5 rounded text-xs font-medium';
   };
 
   return (
-    <div className={cn("px-2 py-0.5 rounded text-xs font-medium", getColor())}>
+    <div className={getChipClass()}>
       {confidence}% confident
     </div>
   );
@@ -76,10 +76,10 @@ export function RightRailTile({
       <div className="flex items-start gap-3 mb-4">
         <div className={cn(
           "p-2 rounded-lg shrink-0",
-          category === 'trending' && "bg-ai text-ai",
-          category === 'optimization' && "bg-premium text-premium",
-          category === 'alert' && "bg-danger/10 text-danger",
-          category === 'insight' && "bg-ai text-ai"
+          category === 'trending' && "bg-[hsl(var(--ai)/0.15)] text-[hsl(var(--ai))]",
+          category === 'optimization' && "bg-[hsl(var(--success)/0.15)] text-[hsl(var(--success))]", 
+          category === 'alert' && "alert-danger",
+          category === 'insight' && "bg-[hsl(var(--ai)/0.15)] text-[hsl(var(--ai))]"
         )}>
           <CategoryIcon category={category} />
         </div>

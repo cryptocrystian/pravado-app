@@ -2,20 +2,27 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const LIGHT_ROUTES = [/^\/content/, /^\/editor/, /^\/settings\/brand/]; // editors & brand live light
+// Light islands: content/editor/brand settings only
+const LIGHT_ISLAND_ROUTES = [/^\/content/, /^\/editor/, /^\/settings\/brand/];
 
 export function useRouteTheme() {
   const { pathname } = useLocation();
-  const isLight = LIGHT_ROUTES.some((re) => re.test(pathname));
+  const isLightIsland = LIGHT_ISLAND_ROUTES.some((re) => re.test(pathname));
   
   useEffect(() => {
-    // TEMP: Force dark mode for testing
-    const shouldBeDark = true; // !isLight;
-    console.log('Route theme:', { pathname, isLight, shouldBeDark });
+    const html = document.documentElement;
     
-    document.documentElement.classList.toggle('dark', shouldBeDark);
+    // Always dark shell
+    html.classList.add('dark');
     
-    // Also apply to body as fallback
-    document.body.classList.toggle('dark', shouldBeDark);
-  }, [pathname]);
+    // Set island theme via data attribute
+    html.setAttribute('data-island', isLightIsland ? 'light' : 'dark');
+    
+    console.log('Route theme:', { 
+      pathname, 
+      isLightIsland, 
+      shellTheme: 'dark', 
+      islandTheme: isLightIsland ? 'light' : 'dark' 
+    });
+  }, [pathname, isLightIsland]);
 }

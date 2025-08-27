@@ -3,39 +3,50 @@
 @layer base {
   /* V4 PRAVADO Master Spec Color Tokens - Single Source of Truth */
   :root {
-    /* V4 Spec: Dark Shell + Light Islands */
-    --bg-app-dark: 218 44% 12%;  /* Dark shell background */
-    --bg-island: 0 0% 98%;       /* Light content islands */
-    --text-on-island: 0 0% 13%;  /* Dark text on light islands */
-    --text-on-shell: 0 0% 85%;   /* Light text on dark shell */
+    /* V4 Spec: Always Dark Shell */
+    --shell-bg: 218 44% 12%;     /* Dark shell background */
+    --shell-text: 0 0% 85%;      /* Light text on shell */
     
-    /* AI-Teal Only - No Other Colors */
-    --ai: 180 100% 33%;          /* Primary AI-Teal */
+    /* Island defaults (dark for dashboard/analytics/seo/copilot) */
+    --island-bg: 220 20% 16%;    /* Dark island background */
+    --island-text: 0 0% 85%;     /* Light text on dark islands */
+    --island-surface: 220 15% 20%; /* Elevated surfaces */
+    --island-border: 220 15% 25%; /* Borders on islands */
+    
+    /* Semantic Colors */
+    --ai: 180 100% 33%;          /* AI-Teal primary */
     --ai-light: 174 83% 67%;     /* Light teal variant */
-    
-    /* Legacy support */
-    --bg: 0 0% 98%;              /* Island background */
-    --text: 0 0% 13%;            /* Island text */
-    --surface: 220 13% 91%;      /* Subtle surfaces */
-    --border: 220 13% 80%;       /* Borders */
+    --success: 142 76% 45%;      /* Green for positive */
+    --danger: 0 84% 60%;         /* Red for negative/alerts */
+    --warning: 32 95% 44%;       /* Amber for warnings */
+    --premium: 45 88% 40%;       /* Gold for impact/premium */
   }
 
   /* Base styles */
   * {
-    border-color: hsl(var(--surface));
+    border-color: hsl(var(--island-border));
   }
 
   body {
-    background-color: hsl(var(--bg-app-dark));  /* Dark shell */
-    color: hsl(var(--text-on-shell));           /* Light text on shell */
+    background-color: hsl(var(--shell-bg));     /* Always dark shell */
+    color: hsl(var(--shell-text));              /* Light text on shell */
     font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
     line-height: 1.5;
   }
 
-  /* Islands have light background with dark text */
+  /* Islands default to dark (dashboard/analytics/seo/copilot) */
   [data-surface="content"] {
-    background-color: hsl(var(--bg-island)) !important;
-    color: hsl(var(--text-on-island)) !important;
+    background-color: hsl(var(--island-bg));
+    color: hsl(var(--island-text));
+    border-color: hsl(var(--island-border));
+  }
+
+  /* Light islands override (content/editor/brand) */
+  html[data-island="light"] [data-surface="content"] {
+    --island-bg: 0 0% 98%;       /* Light background */
+    --island-text: 0 0% 13%;     /* Dark text */
+    --island-surface: 220 13% 96%; /* Light surfaces */
+    --island-border: 220 13% 85%; /* Light borders */
   }
 
   /* V4 Button Variants - Per Master Spec */
@@ -82,11 +93,11 @@
     background-color: rgba(0, 168, 168, 0.1);
   }
 
-  /* V4 Chip Variants - Per Master Spec */
+  /* V4 Semantic Chips */
   .chip-confidence {
-    background-color: rgba(0, 168, 168, 0.1);
-    color: hsl(var(--ai));
-    border: 1px solid rgba(0, 168, 168, 0.3);
+    background-color: hsl(var(--ai) / 0.15);
+    color: hsl(var(--ai-light));
+    border: 1px solid hsl(var(--ai) / 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.75rem;
@@ -94,43 +105,41 @@
   }
 
   .chip-impact {
-    background-color: rgba(212, 160, 23, 0.1);
+    background-color: hsl(var(--premium) / 0.15);
     color: hsl(var(--premium));
-    border: 1px solid rgba(212, 160, 23, 0.3);
+    border: 1px solid hsl(var(--premium) / 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.75rem;
     font-weight: 500;
   }
 
-  .chip-alert {
-    background-color: rgba(220, 38, 38, 0.1);
-    color: hsl(var(--danger));
-    border: 1px solid rgba(220, 38, 38, 0.3);
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .chip-warning {
-    background-color: rgba(245, 158, 11, 0.1);
-    color: hsl(var(--warning));
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .chip-success {
-    background-color: rgba(34, 197, 94, 0.1);
+  /* Delta colors */
+  .delta-positive {
     color: hsl(var(--success));
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+  }
+
+  .delta-negative {
+    color: hsl(var(--danger));
+  }
+
+  /* Alert states */
+  .alert-danger {
+    background-color: hsl(var(--danger) / 0.15);
+    color: hsl(var(--danger));
+    border: 1px solid hsl(var(--danger) / 0.3);
+  }
+
+  .alert-success {
+    background-color: hsl(var(--success) / 0.15);
+    color: hsl(var(--success));
+    border: 1px solid hsl(var(--success) / 0.3);
+  }
+
+  .alert-warning {
+    background-color: hsl(var(--warning) / 0.15);
+    color: hsl(var(--warning));
+    border: 1px solid hsl(var(--warning) / 0.3);
   }
 
   /* V4 Links - Per Master Spec */

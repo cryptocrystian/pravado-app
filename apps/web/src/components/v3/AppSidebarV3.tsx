@@ -41,7 +41,7 @@ function SidebarItem({ icon: Icon, label, active = false, count, path }: Sidebar
     >
       {/* Active indicator - 3px teal bar */}
       {active && (
-        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-ai rounded-r-full" />
+        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[hsl(var(--ai))] rounded-r-full" />
       )}
 
       <Icon className={cn(
@@ -53,7 +53,7 @@ function SidebarItem({ icon: Icon, label, active = false, count, path }: Sidebar
       
       {/* Count badge - gold background with dark text */}
       {count !== undefined && count > 0 && (
-        <div className="px-1.5 py-0.5 bg-premium text-white text-xs font-medium rounded min-w-[1.25rem] text-center">
+        <div className="px-1.5 py-0.5 bg-[hsl(var(--premium))] text-white text-xs font-medium rounded min-w-[1.25rem] text-center">
           {count > 99 ? '99+' : count}
         </div>
       )}

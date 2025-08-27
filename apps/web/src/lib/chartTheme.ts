@@ -23,10 +23,7 @@ export function applyChartTheme() {
       // Get theme colors from CSS variables with fallbacks
       const foreground = `hsl(${css.getPropertyValue('--fg').trim() || '210 11% 85%'})`;
       const border = `hsl(${css.getPropertyValue('--border').trim() || '215 16% 47%'})`;
-      const aiTeal300 = `hsl(${css.getPropertyValue('--ai-teal-300').trim() || '170 70% 58%'})`;
-      const aiTeal500 = `hsl(${css.getPropertyValue('--ai-teal-500').trim() || '170 72% 45%'})`;
-      const aiGold300 = `hsl(${css.getPropertyValue('--ai-gold-300').trim() || '40 92% 66%'})`;
-      const aiGold500 = `hsl(${css.getPropertyValue('--ai-gold-500').trim() || '40 92% 52%'})`;
+      const aiTeal300 = `hsl(${css.getPropertyValue('--ai-light').trim() || '174 83% 67%'})`;
       const glassFill = `hsl(${css.getPropertyValue('--panel').trim() || '220 13% 18%'})`;
       const glassStroke = `hsl(${css.getPropertyValue('--border').trim() || '215 16% 47%'})`;
       
@@ -54,40 +51,34 @@ export function applyChartTheme() {
       Chart.defaults.plugins.legend.labels.boxWidth = 12;
       Chart.defaults.plugins.legend.labels.boxHeight = 12;
       
-      // Enhanced brand color palette with proper contrast for dark shell
-      const brandPalette = [
-        aiTeal500,   // Primary AI brand color
-        aiGold500,   // Secondary AI brand color  
-        aiTeal300,   // Lighter teal variant
-        aiGold300,   // Lighter gold variant
-        'var(--text)',   // Text color
-        'var(--primary)',   // Primary color
-        'var(--surface)',   // Surface color
-      ];
+      // V4 Spec: Teal strokes only, no fills
+      const tealStroke = aiTeal300; // Light teal for visibility on dark
       
-      // Apply brand colors to different chart types
-      Chart.defaults.datasets.line.borderColor = brandPalette;
-      Chart.defaults.datasets.line.backgroundColor = brandPalette.map(c => c + '20'); // 12% opacity
-      Chart.defaults.datasets.line.borderWidth = 3;
-      Chart.defaults.datasets.line.pointBackgroundColor = brandPalette;
-      Chart.defaults.datasets.line.pointBorderColor = brandPalette;
+      // Line charts: teal stroke, no fill
+      Chart.defaults.datasets.line.borderColor = tealStroke;
+      Chart.defaults.datasets.line.backgroundColor = 'transparent'; // No fill
+      Chart.defaults.datasets.line.borderWidth = 2;
+      Chart.defaults.datasets.line.pointBackgroundColor = 'transparent';
+      Chart.defaults.datasets.line.pointBorderColor = tealStroke;
       Chart.defaults.datasets.line.pointBorderWidth = 2;
-      Chart.defaults.datasets.line.pointRadius = 4;
-      Chart.defaults.datasets.line.pointHoverRadius = 6;
+      Chart.defaults.datasets.line.pointRadius = 3;
+      Chart.defaults.datasets.line.pointHoverRadius = 5;
       Chart.defaults.datasets.line.fill = false;
       
-      Chart.defaults.datasets.bar.backgroundColor = brandPalette.map(c => c + 'cc'); // 80% opacity
-      Chart.defaults.datasets.bar.borderColor = brandPalette;
-      Chart.defaults.datasets.bar.borderWidth = 1;
+      // Bar charts: teal stroke only
+      Chart.defaults.datasets.bar.backgroundColor = 'transparent';
+      Chart.defaults.datasets.bar.borderColor = tealStroke;
+      Chart.defaults.datasets.bar.borderWidth = 2;
       Chart.defaults.datasets.bar.borderRadius = 4;
       
-      Chart.defaults.datasets.pie.backgroundColor = brandPalette;
-      Chart.defaults.datasets.pie.borderColor = glassFill;
+      // Disable pie/doughnut fills
+      Chart.defaults.datasets.pie.backgroundColor = 'transparent';
+      Chart.defaults.datasets.pie.borderColor = tealStroke;
       Chart.defaults.datasets.pie.borderWidth = 2;
       
-      Chart.defaults.datasets.doughnut.backgroundColor = brandPalette;
-      Chart.defaults.datasets.doughnut.borderColor = glassFill;
-      Chart.defaults.datasets.doughnut.borderWidth = 3;
+      Chart.defaults.datasets.doughnut.backgroundColor = 'transparent';
+      Chart.defaults.datasets.doughnut.borderColor = tealStroke;
+      Chart.defaults.datasets.doughnut.borderWidth = 2;
       
       // Enhanced grid and axis styling for dark shell
       Chart.defaults.scales.linear.grid.color = border + '40'; // 25% opacity

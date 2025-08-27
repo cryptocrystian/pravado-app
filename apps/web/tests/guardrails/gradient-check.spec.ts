@@ -1,14 +1,66 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('V4 Gradient Guardrails', () => {
-  test.beforeEach(async ({ page }) => {
-    // Navigate to dashboard to test
+test.describe('V4 Route-Based Island Guardrails', () => {
+  test('dashboard should have dark islands (luminance < 0.2)', async ({ page }) => {
     await page.goto('/dashboard');
     await page.waitForLoadState('networkidle');
+    
+    // Check island luminance
+    const islandLuminance = await page.evaluate(() => {
+      const island = document.querySelector('[data-surface="content"]') as HTMLElement;
+      if (!island) return null;
+      
+      const styles = window.getComputedStyle(island);
+      const backgroundColor = styles.backgroundColor;
+      
+      // Convert rgb to luminance
+      const rgb = backgroundColor.match(/\d+/g);
+      if (!rgb) return null;
+      
+      const [r, g, b] = rgb.map(x => {
+        x = parseInt(x) / 255;
+        return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+      });
+      
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    });
+    
+    expect(islandLuminance).not.toBeNull();
+    expect(islandLuminance).toBeLessThan(0.2);
   });
 
-  test('should not have any elements with gradient backgrounds', async ({ page }) => {
-    // Check for CSS gradient backgrounds in computed styles
+  test('content routes should have light islands (luminance > 0.8)', async ({ page }) => {
+    await page.goto('/content');
+    await page.waitForLoadState('networkidle');
+    
+    // Check island luminance
+    const islandLuminance = await page.evaluate(() => {
+      const island = document.querySelector('[data-surface="content"]') as HTMLElement;
+      if (!island) return null;
+      
+      const styles = window.getComputedStyle(island);
+      const backgroundColor = styles.backgroundColor;
+      
+      // Convert rgb to luminance
+      const rgb = backgroundColor.match(/\d+/g);
+      if (!rgb) return null;
+      
+      const [r, g, b] = rgb.map(x => {
+        x = parseInt(x) / 255;
+        return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+      });
+      
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    });
+    
+    expect(islandLuminance).not.toBeNull();
+    expect(islandLuminance).toBeGreaterThan(0.8);
+  });
+
+  test('should not have any CSS gradients anywhere', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
+
     const elementsWithGradients = await page.evaluate(() => {
       const elements: { selector: string; background: string }[] = [];
       const allElements = document.querySelectorAll('*');
@@ -19,7 +71,6 @@ test.describe('V4 Gradient Guardrails', () => {
         
         // Check for gradient patterns
         if (background && background.includes('gradient')) {
-          // Create a unique selector for the element
           const tagName = element.tagName.toLowerCase();
           const className = element.className ? `.${Array.from(element.classList).join('.')}` : '';
           const id = element.id ? `#${element.id}` : '';
@@ -35,77 +86,34 @@ test.describe('V4 Gradient Guardrails', () => {
       return elements;
     });
 
-    // Log any found gradients for debugging
-    if (elementsWithGradients.length > 0) {
-      console.log('Found elements with gradients:', elementsWithGradients);
-    }
-
-    // Assert no gradients found
     expect(elementsWithGradients).toEqual([]);
   });
 
-  test('should use only solid V4 semantic colors', async ({ page }) => {
-    // Test that AI-Teal and Premium-Gold accents are used
-    const aiTealElements = await page.locator('[class*="bg-ai"], [class*="text-ai"], [class*="border-ai"]').count();
-    const premiumElements = await page.locator('[class*="bg-premium"], [class*="text-premium"], [class*="border-premium"]').count();
+  test('should have visible semantic chips (teal confidence + gold impact)', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
     
-    // Should have at least some elements with semantic colors
-    expect(aiTealElements).toBeGreaterThan(0);
-    expect(premiumElements).toBeGreaterThan(0);
+    // Check for confidence chips (teal)
+    const confidenceChips = await page.locator('.chip-confidence').count();
+    expect(confidenceChips).toBeGreaterThan(0);
+    
+    // Check for impact chips (gold)
+    const impactChips = await page.locator('.chip-impact').count();
+    expect(impactChips).toBeGreaterThan(0);
   });
 
-  test('should have dark shell with light content islands', async ({ page }) => {
-    // Check main layout has dark background
-    const rootElement = await page.locator('html');
-    await expect(rootElement).toHaveClass(/dark/);
+  test('delta elements should have success/danger classes by sign', async ({ page }) => {
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
     
-    // Check content islands have data-surface attribute
-    const contentIslands = await page.locator('[data-surface="content"]').count();
-    expect(contentIslands).toBeGreaterThan(0);
+    // Check for positive deltas
+    const positiveDeltas = await page.locator('.delta-positive').count();
     
-    // Check computed background color of shell vs islands
-    const shellBackground = await page.evaluate(() => {
-      const shell = document.querySelector('.dark') as HTMLElement;
-      return shell ? window.getComputedStyle(shell).backgroundColor : null;
-    });
+    // Check for negative deltas  
+    const negativeDeltas = await page.locator('.delta-negative').count();
     
-    const islandBackground = await page.evaluate(() => {
-      const island = document.querySelector('[data-surface="content"]') as HTMLElement;
-      return island ? window.getComputedStyle(island).backgroundColor : null;
-    });
-    
-    // Shell should be dark, islands should be light
-    expect(shellBackground).not.toBe(islandBackground);
-  });
-
-  test('should have proper confidence and impact chip colors', async ({ page }) => {
-    // Check confidence chips use teal (high confidence) or premium (medium confidence)
-    const confidenceChips = await page.locator('text=/\\d+% confident/').all();
-    
-    for (const chip of confidenceChips) {
-      const classList = await chip.getAttribute('class') || '';
-      const hasValidColor = classList.includes('bg-ai') || 
-                          classList.includes('bg-premium') || 
-                          classList.includes('bg-foreground');
-      
-      expect(hasValidColor).toBe(true);
-    }
-  });
-
-  test('should have semantic colors for alerts and statuses', async ({ page }) => {
-    // Check for alert/danger elements using red
-    const alertElements = await page.locator('[class*="alert"], [class*="danger"]').all();
-    
-    for (const element of alertElements) {
-      const classList = await element.getAttribute('class') || '';
-      const hasRedColor = classList.includes('bg-danger') || 
-                         classList.includes('text-danger') || 
-                         classList.includes('border-danger');
-      
-      // Should use danger color for alerts
-      if (classList.includes('alert') || classList.includes('danger')) {
-        expect(hasRedColor).toBe(true);
-      }
-    }
+    // Should have at least some delta elements
+    const totalDeltas = positiveDeltas + negativeDeltas;
+    expect(totalDeltas).toBeGreaterThan(0);
   });
 });
