@@ -12,7 +12,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --max-warnings 10000",
     "preview": "vite preview",
-    "test": "echo \"Tests configured for local development\" && exit 0",
+    "test": "echo 'Tests configured for local development - skipping for now'",
     "test:playwright": "playwright test",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
