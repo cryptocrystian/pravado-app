@@ -1,0 +1,42 @@
+name: Debug CI Issue
+
+on:
+  push:
+    branches: [ feat/dashboard-dark-island-and-accents ]
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.19.4'
+
+    - name: Debug - Show environment
+      run: |
+        echo "=== Node/NPM versions ==="
+        node --version
+        npm --version
+        echo "=== Working directory ==="
+        pwd
+        echo "=== Directory contents ==="
+        ls -la
+        echo "=== apps/web contents ==="
+        ls -la apps/web/ || echo "apps/web not found"
+
+    - name: Debug - Install step by step
+      working-directory: apps/web
+      run: |
+        echo "=== Package.json engines ==="
+        cat package.json | grep -A5 '"engines"' || echo "No engines found"
+        echo "=== Installing dependencies ==="
+        npm install --verbose 2>&1 | tail -20
+
+    - name: Debug - Try lint only
+      working-directory: apps/web
+      run: |
+        echo "=== Running lint with debug output ==="
+        npm run lint --verbose || echo "Lint failed with exit code $?"

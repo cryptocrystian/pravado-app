@@ -1,0 +1,204 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+  /* V4 PRAVADO Master Spec Color Tokens - Single Source of Truth */
+  :root {
+    /* V4 Spec: Always Dark Shell */
+    --shell-bg: 218 44% 12%;     /* Dark shell background */
+    --shell-text: 0 0% 85%;      /* Light text on shell */
+    
+    /* Island defaults (dark for dashboard/analytics/seo/copilot) */
+    --island-bg: 220 20% 16%;    /* Dark island background */
+    --island-text: 0 0% 85%;     /* Light text on dark islands */
+    --island-surface: 220 15% 20%; /* Elevated surfaces */
+    --island-border: 220 15% 25%; /* Borders on islands */
+    
+    /* Semantic Colors */
+    --ai: 180 100% 33%;          /* AI-Teal primary */
+    --ai-light: 174 83% 67%;     /* Light teal variant */
+    --success: 142 76% 45%;      /* Green for positive */
+    --danger: 0 84% 60%;         /* Red for negative/alerts */
+    --warning: 32 95% 44%;       /* Amber for warnings */
+    --premium: 45 88% 40%;       /* Gold for impact/premium */
+  }
+
+  /* Base styles */
+  * {
+    border-color: hsl(var(--island-border));
+  }
+
+  body {
+    background-color: hsl(var(--shell-bg));     /* Always dark shell */
+    color: hsl(var(--shell-text));              /* Light text on shell */
+    font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
+    line-height: 1.5;
+  }
+
+  /* Islands default to dark (dashboard/analytics/seo/copilot) */
+  [data-surface="content"] {
+    background-color: hsl(var(--island-bg));
+    color: hsl(var(--island-text));
+    border-color: hsl(var(--island-border));
+  }
+
+  /* Light islands override (content/editor/brand) */
+  html[data-island="light"] [data-surface="content"] {
+    --island-bg: 0 0% 98%;       /* Light background */
+    --island-text: 0 0% 13%;     /* Dark text */
+    --island-surface: 220 13% 96%; /* Light surfaces */
+    --island-border: 220 13% 85%; /* Light borders */
+  }
+
+  /* V4 Button Variants - Per Master Spec */
+  .btn-primary {
+    background-color: hsl(var(--ai));
+    color: hsl(0 0% 100%);
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: hsl(var(--ai));
+    border: 1px solid hsl(var(--ai));
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background-color: hsl(var(--ai));
+    color: hsl(0 0% 100%);
+  }
+
+  .btn-tertiary {
+    background-color: transparent;
+    color: hsl(var(--ai));
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-tertiary:hover {
+    background-color: rgba(0, 168, 168, 0.1);
+  }
+
+  /* V4 Semantic Chips */
+  .chip-confidence {
+    background-color: hsl(var(--ai) / 0.15);
+    color: hsl(var(--ai-light));
+    border: 1px solid hsl(var(--ai) / 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .chip-impact {
+    background-color: hsl(var(--premium) / 0.15);
+    color: hsl(var(--premium));
+    border: 1px solid hsl(var(--premium) / 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* Delta colors */
+  .delta-positive {
+    color: hsl(var(--success));
+  }
+
+  .delta-negative {
+    color: hsl(var(--danger));
+  }
+
+  /* Alert states */
+  .alert-danger {
+    background-color: hsl(var(--danger) / 0.15);
+    color: hsl(var(--danger));
+    border: 1px solid hsl(var(--danger) / 0.3);
+  }
+
+  .alert-success {
+    background-color: hsl(var(--success) / 0.15);
+    color: hsl(var(--success));
+    border: 1px solid hsl(var(--success) / 0.3);
+  }
+
+  .alert-warning {
+    background-color: hsl(var(--warning) / 0.15);
+    color: hsl(var(--warning));
+    border: 1px solid hsl(var(--warning) / 0.3);
+  }
+
+  /* V4 Links - Per Master Spec */
+  a {
+    color: hsl(var(--ai));
+    transition: opacity 0.2s;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+
+  /* V4 AI Badge - Per Master Spec */
+  .ai-badge {
+    background-color: rgba(0, 168, 168, 0.1);
+    color: hsl(var(--ai));
+    border: 1px solid rgba(0, 168, 168, 0.3);
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* Focus rings */
+  button:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid hsl(var(--ai));
+    outline-offset: 2px;
+  }
+
+  /* Typography scales */
+  .display {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+  }
+
+  .h1 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+    font-weight: 600;
+  }
+
+  .h2 {
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .body {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .meta {
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+  }
+}

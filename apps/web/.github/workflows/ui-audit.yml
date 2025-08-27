@@ -1,0 +1,59 @@
+name: V4 UI Audit - Off-Brand Style Prevention
+
+on:
+  pull_request:
+    branches: [ main, orchestration/ui-overhaul-v4 ]
+    paths:
+      - 'apps/web/src/**'
+      - 'apps/web/scripts/ui/**'
+  push:
+    branches: [ orchestration/ui-overhaul-v4 ]
+    paths:
+      - 'apps/web/src/**'
+
+jobs:
+  ui-audit:
+    name: V4 Master Spec Compliance Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Run V4 UI Audit
+        working-directory: apps/web
+        run: |
+          echo "🎨 Running V4 Master Spec compliance audit..."
+          
+          # Make audit script executable
+          chmod +x scripts/ui/audit-colors.mjs
+          
+          # Run the audit - this will exit 1 if violations found
+          node scripts/ui/audit-colors.mjs src/
+          
+      - name: Audit Results
+        if: failure()
+        run: |
+          echo "❌ V4 UI Audit failed!"
+          echo "This PR contains styles that violate the V4 Master Spec."
+          echo ""
+          echo "Forbidden patterns:"
+          echo "- Gradients: bg-gradient-, from-, to-, brand-grad"
+          echo "- Default blues: text-blue-*, bg-white"
+          echo "- Raw colors: #hex, rgb() in source files"
+          echo ""
+          echo "✅ Fix by using V4 spec tokens:"
+          echo "- Primary: bg-primary, text-primary (Slate Blue)"
+          echo "- AI: bg-ai, text-ai (Teal)"  
+          echo "- Premium: bg-premium, text-premium (Gold)"
+          echo "- Success: bg-success, text-success"
+          echo "- Warning: bg-warning, text-warning"
+          echo "- Danger: bg-danger, text-danger"
+          echo ""
+          echo "See apps/web/src/styles/globals.css for exact token values."
+          exit 1
