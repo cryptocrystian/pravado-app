@@ -26,17 +26,17 @@ export function RightRailTile({
   className
 }: RightRailTileProps) {
   const badgeColors = {
-    teal: 'text-ai-teal-300 bg-ai-teal-300/10 border-ai-teal-300/20',
-    gold: 'text-ai-gold-500 bg-ai-gold-500/10 border-ai-gold-500/20',
+    teal: 'text-ai bg-ai border-ai',
+    gold: 'text-premium bg-premium border-premium',
     success: 'text-success bg-success/10 border-success/20',
     warning: 'text-warning bg-warning/10 border-warning/20',
     danger: 'text-danger bg-danger/10 border-danger/20'
   }
 
   const actionVariants = {
-    default: 'px-3 py-1.5 text-sm text-foreground/80 hover:text-foreground hover:bg-white/5 rounded transition-all',
-    primary: 'px-3 py-1.5 text-sm bg-[var(--brand-grad)] text-white rounded hover:opacity-95 transition-opacity',
-    ghost: 'p-1.5 text-foreground/60 hover:text-foreground hover:bg-white/5 rounded transition-all'
+    default: 'px-3 py-1.5 text-sm text-foreground/80 hover:text-foreground hover:bg-surface/5 rounded transition-all',
+    primary: 'px-3 py-1.5 text-sm bg-[var(--bg-ai)] text-white rounded hover:opacity-95 transition-opacity',
+    ghost: 'p-1.5 text-foreground/60 hover:text-foreground hover:bg-surface/5 rounded transition-all'
   }
 
   return (

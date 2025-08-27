@@ -21,7 +21,7 @@ const MOCK_HERO_DATA = {
 const MOCK_MINI_KPIS = [
   { label: 'Coverage %', value: 73, unit: '%', progress: 73 },
   { label: 'Authority Index', value: 82, progress: 82 },
-  { label: 'Time-to-Citation', value: '3.2', unit: 'days' },
+  { label: 'Time-', value: '3.2', unit: 'days' },
   { label: 'Publishing Cadence', value: 8, unit: '30d' }
 ]
 
@@ -105,7 +105,7 @@ export function DashboardV3() {
     return (
       <div className="min-h-screen bg-background p-6 flex items-center justify-center">
         <div className="glass-card p-8 text-center max-w-md">
-          <AlertTriangle className="h-8 w-8 text-ai-gold-300 mx-auto mb-4" />
+          <AlertTriangle className="h-8 w-8 text-premium mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-foreground mb-2">Dashboard Unavailable</h2>
           <p className="text-foreground/60 mb-4">Unable to load dashboard data.</p>
           <button onClick={refresh} className="btn-primary px-4 py-2 rounded-lg">

@@ -74,7 +74,7 @@ function Sparkline({ data, className }: { data: number[], className?: string }) 
   }, [data, min, max, range])
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-lg">
+    <div className="bg-surface/5 backdrop-blur-sm border border-white/10 p-3 rounded-lg">
       <canvas 
         ref={canvasRef} 
         className={cn("w-[140px] h-[48px]", className)}
@@ -102,12 +102,12 @@ function MiniKpiTile({
 }) {
   const colorClasses = {
     teal: {
-      icon: 'text-ai-teal-500 bg-ai-teal-500/10',
-      progress: 'bg-ai-teal-500'
+      icon: 'text-ai bg-ai',
+      progress: 'bg-ai'
     },
     gold: {
-      icon: 'text-ai-gold-500 bg-ai-gold-500/10', 
-      progress: 'bg-ai-gold-500'
+      icon: 'text-premium bg-premium', 
+      progress: 'bg-premium'
     },
     neutral: {
       icon: 'text-foreground/60 bg-foreground/5',
@@ -132,8 +132,8 @@ function MiniKpiTile({
         }
       }}
       className={cn(
-        "flex items-center gap-4 p-4 rounded-xl transition-all bg-white/5 backdrop-blur-sm border border-white/10",
-        onClick && "hover:bg-white/10 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+        "flex items-center gap-4 p-4 rounded-xl transition-all bg-surface/5 backdrop-blur-sm border border-white/10",
+        onClick && "hover:bg-surface/10 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2"
       )}
     >
       <div className={cn("p-2.5 rounded-lg", colorClasses[color].icon)}>
@@ -142,7 +142,7 @@ function MiniKpiTile({
       <div className="flex-1 min-w-0">
         <div className="text-xs text-foreground/60 mb-1">{label}</div>
         <div className="text-sm font-semibold text-foreground mb-2">{value}</div>
-        <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+        <div className="w-full h-1 bg-surface/10 rounded-full overflow-hidden">
           <div 
             className={cn("h-full rounded-full transition-all duration-500", colorClasses[color].progress)}
             style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
@@ -172,12 +172,12 @@ export function KPIHero({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-8">
         {/* Left: Big score with sparkline and CTA (span 7) */}
         <div className="lg:col-span-7">
-          <div className="bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-2xl p-6 h-full">
+          <div className="bg-ai border border-white/10 rounded-2xl p-6 h-full">
             <div className="flex items-start justify-between mb-6">
               <div className="flex-1">
                 <div className="flex items-baseline gap-4 mb-2">
                   <span 
-                    className="text-7xl font-bold text-ai-teal-300 leading-none tracking-tight"
+                    className="text-7xl font-bold text-ai leading-none tracking-tight"
                     aria-label={`Score: ${score}`}
                   >
                     {score}
@@ -185,8 +185,8 @@ export function KPIHero({
                   <span className={cn(
                     "inline-flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full border",
                     delta.positive 
-                      ? "bg-ai-teal-600/15 text-ai-teal-300 border-ai-teal-600/30" 
-                      : "bg-ai-gold-600/15 text-ai-gold-300 border-ai-gold-600/30"
+                      ? "bg-ai text-ai border-ai" 
+                      : "bg-premium text-premium border-premium"
                   )}>
                     {delta.positive ? '↗' : '↘'} {delta.value}
                   </span>
@@ -216,7 +216,7 @@ export function KPIHero({
                   });
                   onViewDetails?.();
                 }}
-                className="flex-1 bg-gradient-to-r from-ai-teal-500 to-ai-gold-500 text-white px-6 py-3 rounded-lg font-medium text-sm transition-all hover:opacity-90 hover:transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+                className="flex-1 bg-ai text-white px-6 py-3 rounded-lg font-medium text-sm transition-all hover:opacity-90 hover:transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2"
                 aria-label="View detailed analytics"
               >
                 View Details
@@ -236,7 +236,7 @@ export function KPIHero({
                   });
                   onBreakdown?.();
                 }}
-                className="px-6 py-3 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-white/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+                className="px-6 py-3 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-surface/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2"
                 aria-label="View breakdown details"
               >
                 Breakdown
@@ -266,7 +266,7 @@ export function KPIHero({
             />
             <MiniKpiTile 
               icon={Clock} 
-              label="Time-to-Citation" 
+              label="Time-" 
               value={miniStats.timeToCitation}
               progress={70}
               color="neutral"

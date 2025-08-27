@@ -31,8 +31,8 @@ function CategoryIcon({ category }: { category: RightRailTileProps['category'] }
 
 function ConfidenceIndicator({ confidence }: { confidence: number }) {
   const getColor = () => {
-    if (confidence >= 90) return 'text-ai-teal-300 bg-ai-teal-500/15';
-    if (confidence >= 70) return 'text-ai-gold-300 bg-ai-gold-500/15';
+    if (confidence >= 90) return 'text-ai bg-ai';
+    if (confidence >= 70) return 'text-premium bg-premium';
     return 'text-foreground/60 bg-foreground/10';
   };
 
@@ -53,21 +53,21 @@ export function RightRailTile({
   className
 }: RightRailTileProps) {
   const categoryStyles = {
-    trending: 'border-ai-teal-500/30 bg-gradient-to-br from-ai-teal-500/5 to-transparent',
-    optimization: 'border-ai-gold-500/30 bg-gradient-to-br from-ai-gold-500/5 to-transparent',
-    alert: 'border-red-400/30 bg-gradient-to-br from-red-400/5 to-transparent',
-    insight: 'border-white/10 bg-white/5'
+    trending: 'border-ai bg-ai
+    optimization: 'border-premium bg-ai
+    alert: 'border-red-400/30 bg-ai
+    insight: 'border-white/10 bg-surface/5'
   };
 
   return (
     <GlassCard className={cn(
-      "relative p-5 transition-all duration-200 hover:bg-white/10",
+      "relative p-5 transition-all duration-200 hover:bg-surface/10",
       categoryStyles[category],
       className
     )}>
       {/* Premium badge */}
       {isPremium && (
-        <div className="absolute -top-2 -right-2 bg-gradient-to-r from-ai-gold-500 to-ai-gold-600 p-2 rounded-lg shadow-lg">
+        <div className="absolute -top-2 -right-2 bg-ai p-2 rounded-lg shadow-lg">
           <Star className="h-3 w-3 text-white" />
         </div>
       )}
@@ -76,10 +76,10 @@ export function RightRailTile({
       <div className="flex items-start gap-3 mb-4">
         <div className={cn(
           "p-2 rounded-lg shrink-0",
-          category === 'trending' && "bg-ai-teal-500/10 text-ai-teal-500",
-          category === 'optimization' && "bg-ai-gold-500/10 text-ai-gold-500",
+          category === 'trending' && "bg-ai text-ai",
+          category === 'optimization' && "bg-premium text-premium",
           category === 'alert' && "bg-red-400/10 text-red-400",
-          category === 'insight' && "bg-ai-teal-500/10 text-ai-teal-500"
+          category === 'insight' && "bg-ai text-ai"
         )}>
           <CategoryIcon category={category} />
         </div>
@@ -108,10 +108,10 @@ export function RightRailTile({
               onClick={action.onClick}
               className={cn(
                 "flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-medium transition-all",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2",
                 action.variant === 'primary' 
-                  ? "bg-gradient-to-r from-ai-teal-500 to-ai-gold-500 text-white hover:opacity-90"
-                  : "text-foreground/80 hover:text-foreground hover:bg-white/10"
+                  ? "bg-ai text-white hover:opacity-90"
+                  : "text-foreground/80 hover:text-foreground hover:bg-surface/10"
               )}
             >
               <span>{action.label}</span>
@@ -123,7 +123,7 @@ export function RightRailTile({
 
       {/* Default action if no actions provided */}
       {actions.length === 0 && (
-        <button className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-white/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2">
+        <button className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-surface/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2">
           <span>Learn More</span>
           <ChevronRight className="h-4 w-4" />
         </button>
@@ -132,8 +132,8 @@ export function RightRailTile({
       {/* Premium gold accent */}
       {isPremium && (
         <div className="absolute inset-0 rounded-lg pointer-events-none">
-          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-ai-gold-500/10 to-transparent opacity-50" />
-          <div className="absolute inset-0 rounded-lg border border-ai-gold-500/20" />
+          <div className="absolute inset-0 rounded-lg bg-ai opacity-50" />
+          <div className="absolute inset-0 rounded-lg border border-premium" />
         </div>
       )}
     </GlassCard>

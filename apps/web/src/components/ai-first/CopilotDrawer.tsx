@@ -92,8 +92,8 @@ export function CopilotDrawer({ isOpen, onClose }: CopilotDrawerProps) {
           <div className="p-6 border-b border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-ai-teal-500/20 rounded-lg">
-                  <Zap className="h-5 w-5 text-ai-teal-300" />
+                <div className="p-2 bg-ai rounded-lg">
+                  <Zap className="h-5 w-5 text-ai" />
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold text-foreground">AI Copilot</h2>
@@ -127,24 +127,24 @@ export function CopilotDrawer({ isOpen, onClose }: CopilotDrawerProps) {
                   disabled={isSelected}
                   className={`w-full p-4 text-left rounded-lg transition-all group ${
                     isSelected 
-                      ? 'bg-ai-teal-500/20 border-ai-teal-500/40' 
-                      : 'bg-foreground/3 border-foreground/5 hover:bg-foreground/5 hover:border-ai-teal-500/30'
+                      ? 'bg-ai border-ai' 
+                      : 'bg-foreground/3 border-foreground/5 hover:bg-foreground/5 hover:border-ai'
                   } border`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`p-2 rounded-lg transition-colors ${
                       isSelected 
-                        ? 'bg-ai-teal-500/30' 
-                        : 'bg-ai-teal-500/10 group-hover:bg-ai-teal-500/20'
+                        ? 'bg-ai' 
+                        : 'bg-ai group-hover:bg-ai'
                     }`}>
-                      <Icon className="h-4 w-4 text-ai-teal-300" />
+                      <Icon className="h-4 w-4 text-ai" />
                     </div>
                     
                     <div className="flex-1 min-w-0">
                       <h3 className={`font-medium transition-colors ${
                         isSelected 
-                          ? 'text-ai-teal-300' 
-                          : 'text-foreground group-hover:text-ai-teal-300'
+                          ? 'text-ai' 
+                          : 'text-foreground group-hover:text-ai'
                       }`}>
                         {action.title}
                       </h3>
@@ -154,14 +154,14 @@ export function CopilotDrawer({ isOpen, onClose }: CopilotDrawerProps) {
                       </p>
                       
                       {/* AI Prompt Preview */}
-                      <div className="mt-3 p-2 bg-foreground/5 rounded text-xs text-foreground/50 italic border-l-2 border-ai-gold-500/30">
+                      <div className="mt-3 p-2 bg-foreground/5 rounded text-xs text-foreground/50 italic border-l-2 border-premium">
                         {action.prompt}
                       </div>
                     </div>
 
                     {isSelected && (
                       <div className="p-1">
-                        <div className="w-4 h-4 border-2 border-ai-teal-500 border-t-transparent rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-ai border-t-transparent rounded-full animate-spin" />
                       </div>
                     )}
                   </div>

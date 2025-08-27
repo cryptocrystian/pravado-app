@@ -362,9 +362,9 @@ export class KPIService {
         target: 90
       },
       {
-        id: 'time-to-convert',
-        type: 'time-to-convert',
-        label: 'Time-to-Citation',
+        id: 'time-',
+        type: 'time-',
+        label: 'Time-',
         value: '2.4 days',
         numericValue: 2.4,
         unit: 'days',

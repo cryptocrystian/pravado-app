@@ -61,10 +61,10 @@ export function QuickActions() {
       {QUICK_ACTIONS.map((action) => {
         const Icon = action.icon
         const colorClasses = action.color === 'teal' 
-          ? 'from-ai-teal-500/10 to-ai-teal-700/5 border-ai-teal-500/20 group-hover:border-ai-teal-500/40'
-          : 'from-ai-gold-500/10 to-ai-gold-700/5 border-ai-gold-500/20 group-hover:border-ai-gold-500/40'
+          ? '-teal-500/10 -teal-700/5 border-ai group-hover:border-ai'
+          : '-gold-500/10 -gold-700/5 border-premium group-hover:border-premium'
         
-        const iconColor = action.color === 'teal' ? 'text-ai-teal-300' : 'text-ai-gold-300'
+        const iconColor = action.color === 'teal' ? 'text-ai' : 'text-premium'
 
         return (
           <div key={action.id} className="glass-card p-6 group quick-action-card">
@@ -73,13 +73,13 @@ export function QuickActions() {
               className="w-full text-left space-y-4"
             >
               {/* Icon */}
-              <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${colorClasses} flex items-center justify-center border transition-colors`}>
+              <div className={`w-12 h-12 rounded-lg ${colorClasses} flex items-center justify-center border transition-colors`}>
                 <Icon className={`h-6 w-6 ${iconColor}`} />
               </div>
 
               {/* Content */}
               <div className="space-y-2">
-                <h3 className="font-semibold text-foreground group-hover:text-ai-teal-300 transition-colors">
+                <h3 className="font-semibold text-foreground group-hover:text-ai transition-colors">
                   {action.title}
                 </h3>
                 <p className="text-sm text-foreground/60 line-clamp-2">

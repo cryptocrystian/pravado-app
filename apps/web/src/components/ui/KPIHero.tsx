@@ -76,8 +76,8 @@ function MiniKPI({
   onClick?: () => void
 }) {
   const colorClasses = {
-    teal: 'bg-ai-teal-500',
-    gold: 'bg-ai-gold-500', 
+    teal: 'bg-ai',
+    gold: 'bg-premium', 
     neutral: 'bg-foreground/30'
   }
 
@@ -88,7 +88,7 @@ function MiniKPI({
       onClick={onClick}
       className={cn(
         "flex items-center gap-3 p-3 rounded-lg transition-all",
-        onClick && "hover:bg-white/5 cursor-pointer focus:outline-2 focus:outline-ai-teal-500"
+        onClick && "hover:bg-surface/5 cursor-pointer focus:outline-2 focus:outline-ai-teal-500"
       )}
     >
       <Icon className="h-4 w-4 text-foreground/70" />
@@ -126,7 +126,7 @@ export function KPIHero({
             <div className="space-y-3">
               <div className="flex items-baseline gap-4">
                 <span 
-                  className="text-7xl leading-none font-metric text-ai-teal-300"
+                  className="text-7xl leading-none font-metric text-ai"
                   aria-label={`Score: ${score}`}
                 >
                   {score}
@@ -134,8 +134,8 @@ export function KPIHero({
                 <span className={cn(
                   "inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium",
                   delta.positive 
-                    ? "text-ai-teal-300 bg-ai-teal-300/10 ring-1 ring-ai-teal-300/20" 
-                    : "text-ai-gold-500 bg-ai-gold-500/10 ring-1 ring-ai-gold-500/20"
+                    ? "text-ai bg-ai ring-1 ring-ai/20" 
+                    : "text-premium bg-premium ring-1 ring-premium/20"
                 )}>
                   {delta.positive ? '▲' : '▼'} {delta.value}
                 </span>
@@ -160,14 +160,14 @@ export function KPIHero({
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={onViewDetails}
-                className="bg-[var(--brand-grad)] text-white rounded-lg px-5 py-2.5 font-medium text-sm hover:opacity-95 transition-opacity focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
+                className="bg-[var(--bg-ai)] text-white rounded-lg px-5 py-2.5 font-medium text-sm hover:opacity-95 transition-opacity focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
               >
                 View Details
                 <ArrowRight className="inline ml-2 h-4 w-4" />
               </button>
               <button
                 onClick={onBreakdown}
-                className="px-4 py-2.5 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
+                className="px-4 py-2.5 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-surface/5 transition-all focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
               >
                 Breakdown
               </button>
@@ -196,11 +196,11 @@ export function KPIHero({
             />
             <MiniKPI
               icon={Clock}
-              label="Time-to-Citation"
+              label="Time-"
               value="2.4 days"
               color="neutral"
               progress={65}
-              onClick={() => console.log('Time-to-Citation clicked')}
+              onClick={() => console.log('Time- clicked')}
             />
             <MiniKPI
               icon={Users}

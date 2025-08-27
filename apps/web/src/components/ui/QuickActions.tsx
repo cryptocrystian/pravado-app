@@ -11,7 +11,7 @@ function QuickAction({ icon: Icon, label, description, onClick }: QuickActionPro
   return (
     <button
       onClick={onClick}
-      className="flex-1 flex items-center gap-3 p-4 bg-[var(--brand-grad)] text-white rounded-lg hover:opacity-95 transition-opacity focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2 text-left"
+      className="flex-1 flex items-center gap-3 p-4 bg-[var(--bg-ai)] text-white rounded-lg hover:opacity-95 transition-opacity focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2 text-left"
     >
       <Icon className="h-5 w-5 flex-shrink-0" />
       <div className="min-w-0">

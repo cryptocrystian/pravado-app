@@ -45,13 +45,13 @@ function SidebarItem({ icon: Icon, label, active = false, badge, onClick }: Side
         onClick?.();
       }}
       className={cn(
-        "flex items-center gap-3 px-3 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all w-full text-left relative",
-        active && "text-ai-teal-300 ring-1 ring-inset ring-[hsl(var(--glass-stroke-strong))]"
+        "flex items-center gap-3 px-3 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-surface/5 transition-all w-full text-left relative",
+        active && "text-ai ring-1 ring-inset ring-[hsl(var(--glass-stroke-strong))]"
       )}
     >
       {/* Active indicator */}
       {active && (
-        <div className="absolute left-0 w-1 h-6 rounded-r bg-ai-teal-500" />
+        <div className="absolute left-0 w-1 h-6 rounded-r bg-ai" />
       )}
       
       <Icon className="h-5 w-5 flex-shrink-0" />
@@ -59,7 +59,7 @@ function SidebarItem({ icon: Icon, label, active = false, badge, onClick }: Side
       
       {/* Badge for counts/alerts */}
       {badge !== undefined && badge > 0 && (
-        <span className="bg-ai-gold-700/20 text-ai-gold-300 px-2 py-0.5 rounded-md text-xs font-medium">
+        <span className="bg-premium text-premium px-2 py-0.5 rounded-md text-xs font-medium">
           {badge}
         </span>
       )}
@@ -75,14 +75,14 @@ export function AppSidebar({ className }: AppSidebarProps) {
   return (
     <div className={cn("h-full flex", className)}>
       {/* Left gradient rail (4px) */}
-      <div className="w-1 bg-[var(--brand-grad)] rounded-l-2xl" />
+      <div className="w-1 bg-[var(--bg-ai)] rounded-l-2xl" />
       
       {/* Main sidebar container */}
       <div className="flex-1 bg-[hsl(var(--glass-fill))] backdrop-blur-md border border-[hsl(var(--glass-stroke))] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,.35)] p-4 ml-1">
         <div className="flex flex-col h-full">
           {/* Logo/Brand */}
           <div className="flex items-center gap-3 px-3 mb-8">
-            <div className="w-8 h-8 bg-[var(--brand-grad)] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-[var(--bg-ai)] rounded-lg flex items-center justify-center">
               <Brain className="h-5 w-5 text-white" />
             </div>
             <div className="font-semibold text-foreground tracking-wide">PRAVADO</div>
@@ -129,9 +129,9 @@ export function AppSidebar({ className }: AppSidebarProps) {
           </nav>
 
           {/* Organization Usage */}
-          <div className="mt-6 p-4 bg-white/5 border border-[hsl(var(--glass-stroke))] rounded-lg">
+          <div className="mt-6 p-4 bg-surface/5 border border-[hsl(var(--glass-stroke))] rounded-lg">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-6 h-6 bg-[var(--brand-grad)] rounded flex items-center justify-center text-xs font-semibold text-white">
+              <div className="w-6 h-6 bg-[var(--bg-ai)] rounded flex items-center justify-center text-xs font-semibold text-white">
                 P
               </div>
               <div className="text-xs font-medium text-foreground/80">Organization</div>
@@ -140,7 +140,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
               <div className="text-xs text-foreground/60">Usage this month</div>
               <div className="w-full bg-foreground/10 rounded-full h-1.5 overflow-hidden">
                 <div 
-                  className="h-full bg-[var(--brand-grad)] rounded-full transition-all duration-500"
+                  className="h-full bg-[var(--bg-ai)] rounded-full transition-all duration-500"
                   style={{ width: '68%' }}
                 />
               </div>

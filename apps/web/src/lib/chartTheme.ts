@@ -60,9 +60,9 @@ export function applyChartTheme() {
         aiGold500,   // Secondary AI brand color  
         aiTeal300,   // Lighter teal variant
         aiGold300,   // Lighter gold variant
-        '#64748b',   // Slate 500 - good contrast on dark
-        '#94a3b8',   // Slate 400 - medium contrast
-        '#cbd5e1',   // Slate 300 - lighter contrast
+        'var(--text)',   // Text color
+        'var(--primary)',   // Primary color
+        'var(--surface)',   // Surface color
       ];
       
       // Apply brand colors to different chart types
@@ -110,7 +110,7 @@ export function applyChartTheme() {
 export const chartColors = {
   primary: 'hsl(var(--ai-teal-300))',
   secondary: 'hsl(var(--ai-gold-500))',
-  neutral: '#6b7280',
+  neutral: 'var(--text)',
   success: 'hsl(var(--success))',
   warning: 'hsl(var(--warning))',
   danger: 'hsl(var(--danger))',
@@ -138,9 +138,9 @@ export const brandPalette = [
   chartColors.aiGold500,   // Secondary AI brand color
   chartColors.aiTeal300,   // Lighter teal variant
   chartColors.aiGold300,   // Lighter gold variant
-  '#64748b',               // Slate 500 - good contrast on dark
-  '#94a3b8',               // Slate 400 - medium contrast
-  '#cbd5e1',               // Slate 300 - lighter contrast
+  'var(--text)',               // Text color
+  'var(--primary)',               // Primary color
+  'var(--surface)',               // Surface color
 ]
 
 // Brand palette with alpha variants for backgrounds
@@ -149,9 +149,9 @@ export const brandPaletteAlpha = [
   chartColors.aiGold500 + '20',
   chartColors.aiTeal300 + '20',
   chartColors.aiGold300 + '20',
-  '#64748b20',
-  '#94a3b820',
-  '#cbd5e120',
+  'rgba(var(--text-rgb), 0.2)',
+  'rgba(var(--primary-rgb), 0.2)',
+  'rgba(var(--surface-rgb), 0.2)',
 ]
 
 // Enhanced chart configurations with dark shell theme and brand styling

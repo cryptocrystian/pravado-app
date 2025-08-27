@@ -74,15 +74,15 @@ export function OpsCenter({ data }: OpsCenterProps) {
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Wallet className="h-4 w-4 text-ai-teal-300" />
+              <Wallet className="h-4 w-4 text-ai" />
               <h3 className="font-medium text-foreground">Wallet</h3>
             </div>
-            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai-teal-300 transition-colors" />
+            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai transition-colors" />
           </div>
           
           <div className="space-y-2">
             <div className="flex justify-between items-baseline">
-              <span className="text-2xl font-bold text-ai-teal-300">{data.wallet.credits}</span>
+              <span className="text-2xl font-bold text-ai">{data.wallet.credits}</span>
               <span className="text-xs text-foreground/50">credits</span>
             </div>
             
@@ -93,7 +93,7 @@ export function OpsCenter({ data }: OpsCenterProps) {
               </div>
               <div className="h-1.5 bg-foreground/5 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-ai-teal-500 to-ai-gold-500 transition-all duration-500"
+                  className="h-full bg-ai transition-all duration-500"
                   style={{ width: `${Math.min(walletUsagePercent, 100)}%` }}
                 />
               </div>
@@ -113,10 +113,10 @@ export function OpsCenter({ data }: OpsCenterProps) {
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-ai-teal-300" />
+              <FileText className="h-4 w-4 text-ai" />
               <h3 className="font-medium text-foreground">PR Queue</h3>
             </div>
-            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai-teal-300 transition-colors" />
+            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai transition-colors" />
           </div>
           
           <div className="space-y-2">
@@ -127,7 +127,7 @@ export function OpsCenter({ data }: OpsCenterProps) {
             
             <div className="flex justify-between text-xs">
               <span className="text-foreground/60">In review</span>
-              <span className="text-ai-gold-300">{data.prQueue.inReview}</span>
+              <span className="text-premium">{data.prQueue.inReview}</span>
             </div>
             
             <div className="text-xs text-foreground/50">
@@ -145,17 +145,17 @@ export function OpsCenter({ data }: OpsCenterProps) {
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-ai-gold-300" />
+              <AlertTriangle className="h-4 w-4 text-premium" />
               <h3 className="font-medium text-foreground">Alerts</h3>
             </div>
-            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai-teal-300 transition-colors" />
+            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai transition-colors" />
           </div>
           
           <div className="space-y-2">
             {data.alerts.total > 0 ? (
               <>
                 <div className="flex justify-between items-baseline">
-                  <span className="text-2xl font-bold text-ai-gold-300">{data.alerts.total}</span>
+                  <span className="text-2xl font-bold text-premium">{data.alerts.total}</span>
                   <span className="text-xs text-foreground/50">active</span>
                 </div>
                 
@@ -172,7 +172,7 @@ export function OpsCenter({ data }: OpsCenterProps) {
               </>
             ) : (
               <div className="text-center py-2">
-                <div className="text-lg font-medium text-ai-teal-300">All Clear</div>
+                <div className="text-lg font-medium text-ai">All Clear</div>
                 <div className="text-xs text-foreground/50">No active alerts</div>
               </div>
             )}
@@ -188,10 +188,10 @@ export function OpsCenter({ data }: OpsCenterProps) {
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Activity className="h-4 w-4 text-ai-teal-300" />
+              <Activity className="h-4 w-4 text-ai" />
               <h3 className="font-medium text-foreground">Agent Health</h3>
             </div>
-            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai-teal-300 transition-colors" />
+            <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai transition-colors" />
           </div>
           
           <div className="space-y-2">
@@ -203,11 +203,11 @@ export function OpsCenter({ data }: OpsCenterProps) {
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
                 <span className="text-foreground/60">Success rate</span>
-                <span className="text-ai-teal-300">{data.agentHealth.successRate}%</span>
+                <span className="text-ai">{data.agentHealth.successRate}%</span>
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-foreground/60">Errors</span>
-                <span className={data.agentHealth.errors > 0 ? 'text-ai-gold-300' : 'text-foreground'}>
+                <span className={data.agentHealth.errors > 0 ? 'text-premium' : 'text-foreground'}>
                   {data.agentHealth.errors}
                 </span>
               </div>

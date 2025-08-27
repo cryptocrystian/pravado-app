@@ -17,23 +17,23 @@ function QuickAction({ icon: Icon, label, description, onClick, variant = 'prima
       onClick={onClick}
       className={cn(
         "group relative flex flex-col items-start gap-3 p-5 rounded-xl text-left transition-all duration-200",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2",
         "hover:transform hover:scale-[1.02]",
         variant === 'primary' 
-          ? "bg-gradient-to-br from-ai-teal-500 to-ai-gold-500 text-white shadow-lg hover:shadow-xl"
-          : "bg-white/5 border border-white/10 text-foreground hover:bg-white/10 hover:border-white/20"
+          ? "bg-ai text-white shadow-lg hover:shadow-xl"
+          : "bg-surface/5 border border-white/10 text-foreground hover:bg-surface/10 hover:border-white/20"
       )}
     >
       {/* Icon with background */}
       <div className={cn(
         "p-3 rounded-lg transition-colors",
         variant === 'primary' 
-          ? "bg-white/20" 
-          : "bg-ai-teal-500/10 group-hover:bg-ai-teal-500/20"
+          ? "bg-surface/20" 
+          : "bg-ai group-hover:bg-ai"
       )}>
         <Icon className={cn(
           "h-6 w-6 transition-colors",
-          variant === 'primary' ? "text-white" : "text-ai-teal-500"
+          variant === 'primary' ? "text-white" : "text-ai"
         )} />
       </div>
 
@@ -41,7 +41,7 @@ function QuickAction({ icon: Icon, label, description, onClick, variant = 'prima
       <div className="flex-1 min-w-0">
         <div className={cn(
           "font-semibold mb-1 transition-colors",
-          variant === 'primary' ? "text-white" : "text-foreground group-hover:text-ai-teal-300"
+          variant === 'primary' ? "text-white" : "text-foreground group-hover:text-ai"
         )}>
           {label}
         </div>
@@ -56,13 +56,13 @@ function QuickAction({ icon: Icon, label, description, onClick, variant = 'prima
       {/* Arrow indicator */}
       <ArrowRight className={cn(
         "h-4 w-4 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-x-1 group-hover:translate-x-0",
-        variant === 'primary' ? "text-white" : "text-ai-teal-500"
+        variant === 'primary' ? "text-white" : "text-ai"
       )} />
 
       {/* Hover effect overlay for secondary variant */}
       {variant === 'secondary' && (
         <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-r from-ai-teal-500/5 to-ai-gold-500/5 rounded-xl" />
+          <div className="absolute inset-0 bg-ai rounded-xl" />
         </div>
       )}
     </button>
@@ -171,10 +171,10 @@ export function QuickActionsRow({ onAction, className }: QuickActionsRowProps) {
       {/* Mobile responsive behavior indicators */}
       <div className="sm:hidden mt-4 flex justify-center">
         <div className="flex space-x-1">
-          <div className="w-2 h-2 bg-ai-teal-500 rounded-full"></div>
-          <div className="w-2 h-2 bg-white/20 rounded-full"></div>
-          <div className="w-2 h-2 bg-white/20 rounded-full"></div>
-          <div className="w-2 h-2 bg-white/20 rounded-full"></div>
+          <div className="w-2 h-2 bg-ai rounded-full"></div>
+          <div className="w-2 h-2 bg-surface/20 rounded-full"></div>
+          <div className="w-2 h-2 bg-surface/20 rounded-full"></div>
+          <div className="w-2 h-2 bg-surface/20 rounded-full"></div>
         </div>
       </div>
     </GlassCard>

@@ -35,25 +35,25 @@ function SidebarItem({ icon: Icon, label, active = false, count, path }: Sidebar
       onClick={handleClick}
       className={cn(
         "flex items-center gap-3 w-full px-3 py-2 text-sm font-medium transition-all relative group",
-        "hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500/70 focus-visible:ring-offset-2",
-        active ? "text-ai-teal-300" : "text-foreground/70 hover:text-foreground"
+        "hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai/70 focus-visible:ring-offset-2",
+        active ? "text-ai" : "text-foreground/70 hover:text-foreground"
       )}
     >
       {/* Active indicator - 3px teal bar */}
       {active && (
-        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-ai-teal-500 rounded-r-full" />
+        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-ai rounded-r-full" />
       )}
 
       <Icon className={cn(
         "h-4 w-4 flex-shrink-0 transition-colors ml-2",
-        active ? "text-ai-teal-300" : "text-foreground/60"
+        active ? "text-ai" : "text-foreground/60"
       )} />
       
       <span className="flex-1 text-left">{label}</span>
       
       {/* Count badge - gold accent, no pill */}
       {count !== undefined && count > 0 && (
-        <div className="px-1.5 py-0.5 bg-ai-gold-700/16 text-ai-gold-300 text-xs font-medium rounded min-w-[1.25rem] text-center">
+        <div className="px-1.5 py-0.5 bg-premium text-premium text-xs font-medium rounded min-w-[1.25rem] text-center">
           {count > 99 ? '99+' : count}
         </div>
       )}
@@ -132,7 +132,7 @@ export function AppSidebarV3() {
       <div className="space-y-8">
         {/* Logo - no gradient, use teal token */}
         <div className="flex items-center gap-2 px-3 mb-8">
-          <div className="w-8 h-8 bg-ai-teal-500 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-ai rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">P</span>
           </div>
           <div className="text-lg font-semibold text-foreground">PRAVADO</div>
@@ -148,7 +148,7 @@ export function AppSidebarV3() {
         {/* AI Status Indicator */}
         <div className="px-3 pt-4 border-t border-foreground/10">
           <div className="flex items-center gap-2 text-xs text-foreground/50">
-            <div className="w-2 h-2 bg-ai-teal-500 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-ai rounded-full animate-pulse"></div>
             <span>AI Systems Active</span>
           </div>
         </div>

@@ -66,7 +66,7 @@ export function Dashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center" data-testid="dashboard-loading">
         <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ai-teal-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ai mx-auto"></div>
           <p className="text-foreground/60">Loading dashboard...</p>
         </div>
       </div>
@@ -82,7 +82,7 @@ export function Dashboard() {
           <p className="text-foreground/60">{error.message}</p>
           <button 
             onClick={refresh}
-            className="px-4 py-2 bg-ai-teal-500 text-white rounded-lg hover:bg-ai-teal-600 transition-colors"
+            className="px-4 py-2 bg-ai text-white rounded-lg hover:bg-ai transition-colors"
           >
             Retry
           </button>
@@ -100,7 +100,7 @@ export function Dashboard() {
         {loading && (
           <div className="fixed top-4 right-4 z-50">
             <div className="bg-background/80 backdrop-blur-sm border border-white/10 rounded-lg px-4 py-2 flex items-center gap-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-ai-teal-500"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-ai"></div>
               <span className="text-sm text-foreground/80">Refreshing...</span>
             </div>
           </div>
@@ -114,8 +114,8 @@ export function Dashboard() {
             <h1 className="text-3xl font-bold text-foreground">🚀 Marketing Command Center</h1>
             <p className="text-foreground/60">Monitor your visibility and manage campaigns from your central dashboard</p>
             {/* Phase 3 QA Guardrails: Visual indicator for deployment verification */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ai-teal-500/15 to-ai-gold-500/10 border border-ai-teal-500/30 rounded-lg text-sm text-ai-teal-300 mt-3 shadow-lg">
-              <div className="w-3 h-3 bg-ai-teal-500 rounded-full animate-pulse shadow-lg"></div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-ai border border-ai rounded-lg text-sm text-ai mt-3 shadow-lg">
+              <div className="w-3 h-3 bg-ai rounded-full animate-pulse shadow-lg"></div>
               ✅ Phase 3 Complete: 90+ Tests | Analytics | A11y | Visual QA
             </div>
           </div>
@@ -130,7 +130,7 @@ export function Dashboard() {
               miniStats={{
                 coverage: dashboardData.miniKPIs.find(k => k.type === 'coverage')?.numericValue || 76,
                 authority: dashboardData.miniKPIs.find(k => k.type === 'authority')?.numericValue || 84,
-                timeToCitation: dashboardData.miniKPIs.find(k => k.type === 'time-to-convert')?.value || '2.4 days',
+                timeToCitation: dashboardData.miniKPIs.find(k => k.type === 'time-')?.value || '2.4 days',
                 cadence: dashboardData.miniKPIs.find(k => k.type === 'cadence')?.value || '3.2/week'
               }}
               onViewDetails={() => {

@@ -28,11 +28,11 @@ type SortConfig<T> = {
 
 function StatusChip({ status }: { status: string }) {
   const statusStyles: Record<string, string> = {
-    active: 'bg-ai-teal-500/15 text-ai-teal-300 border-ai-teal-500/30',
-    pending: 'bg-ai-gold-500/15 text-ai-gold-300 border-ai-gold-500/30',
+    active: 'bg-ai text-ai border-ai',
+    pending: 'bg-premium text-premium border-premium',
     inactive: 'bg-foreground/10 text-foreground/60 border-foreground/20',
-    published: 'bg-ai-teal-500/15 text-ai-teal-300 border-ai-teal-500/30',
-    draft: 'bg-ai-gold-500/15 text-ai-gold-300 border-ai-gold-500/30',
+    published: 'bg-ai text-ai border-ai',
+    draft: 'bg-premium text-premium border-premium',
     archived: 'bg-foreground/10 text-foreground/60 border-foreground/20'
   };
 
@@ -65,17 +65,17 @@ function SortableHeader<T>({
   return (
     <button
       onClick={() => onSort(column.key)}
-      className="flex items-center gap-1 hover:text-ai-teal-300 transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2 rounded"
+      className="flex items-center gap-1 hover:text-ai transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2 rounded"
     >
       <span>{column.label}</span>
       <div className="flex flex-col">
         <ChevronUp className={cn(
           "h-3 w-3 -mb-1 transition-colors",
-          direction === 'asc' ? "text-ai-teal-500" : "text-foreground/30 group-hover:text-foreground/60"
+          direction === 'asc' ? "text-ai" : "text-foreground/30 group-hover:text-foreground/60"
         )} />
         <ChevronDown className={cn(
           "h-3 w-3 transition-colors",
-          direction === 'desc' ? "text-ai-teal-500" : "text-foreground/30 group-hover:text-foreground/60"
+          direction === 'desc' ? "text-ai" : "text-foreground/30 group-hover:text-foreground/60"
         )} />
       </div>
     </button>
@@ -138,14 +138,14 @@ export function DataTableV2<T extends Record<string, any>>({
           {showDensityToggle && (
             <div className="flex items-center gap-3" data-testid="density-toggle">
               <Settings className="h-4 w-4 text-foreground/60" />
-              <div className="flex rounded-lg border border-white/10 overflow-hidden bg-white/5">
+              <div className="flex rounded-lg border border-white/10 overflow-hidden bg-surface/5">
                 <button
                   onClick={() => setDensity('comfortable')}
                   className={cn(
                     "px-3 py-1.5 text-xs font-medium transition-all",
                     density === 'comfortable'
-                      ? "bg-ai-teal-500 text-white shadow-sm"
-                      : "text-foreground/80 hover:text-foreground hover:bg-white/10"
+                      ? "bg-ai text-white shadow-sm"
+                      : "text-foreground/80 hover:text-foreground hover:bg-surface/10"
                   )}
                 >
                   Comfortable
@@ -155,8 +155,8 @@ export function DataTableV2<T extends Record<string, any>>({
                   className={cn(
                     "px-3 py-1.5 text-xs font-medium transition-all",
                     density === 'compact'
-                      ? "bg-ai-teal-500 text-white shadow-sm"
-                      : "text-foreground/80 hover:text-foreground hover:bg-white/10"
+                      ? "bg-ai text-white shadow-sm"
+                      : "text-foreground/80 hover:text-foreground hover:bg-surface/10"
                   )}
                 >
                   Compact
@@ -177,7 +177,7 @@ export function DataTableV2<T extends Record<string, any>>({
                   key={String(column.key)}
                   className={cn(
                     "sticky top-0 z-20 px-6 py-4 text-left text-xs font-semibold text-foreground/70 uppercase tracking-wider",
-                    "bg-gradient-to-b from-white/5 to-white/10 backdrop-blur-md border-b border-white/10",
+                    "bg-ai backdrop-blur-md border-b border-white/10",
                     column.align === 'right' && 'text-right',
                     column.align === 'center' && 'text-center',
                     column.numeric && 'font-mono',
@@ -193,7 +193,7 @@ export function DataTableV2<T extends Record<string, any>>({
               ))}
               <th className={cn(
                 "sticky top-0 z-20 w-12 px-6 text-right",
-                "bg-gradient-to-b from-white/5 to-white/10 backdrop-blur-md border-b border-white/10",
+                "bg-ai backdrop-blur-md border-b border-white/10",
                 density === 'compact' ? 'py-2' : 'py-4'
               )}>
                 <MoreVertical className="h-4 w-4 text-foreground/40" />
@@ -204,7 +204,7 @@ export function DataTableV2<T extends Record<string, any>>({
             {currentData.map((row, index) => (
               <tr 
                 key={index}
-                className="border-b border-white/5 hover:bg-white/5 transition-colors group"
+                className="border-b border-white/5 hover:bg-surface/5 transition-colors group"
               >
                 {columns.map((column) => (
                   <td
@@ -230,7 +230,7 @@ export function DataTableV2<T extends Record<string, any>>({
                   "px-6 text-right",
                   density === 'compact' ? 'py-3' : 'py-4'
                 )}>
-                  <button className="p-1 rounded hover:bg-white/10 transition-colors opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2">
+                  <button className="p-1 rounded hover:bg-surface/10 transition-colors opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2">
                     <MoreVertical className="h-4 w-4 text-foreground/60" />
                   </button>
                 </td>
@@ -250,7 +250,7 @@ export function DataTableV2<T extends Record<string, any>>({
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-white/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+            className="p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-surface/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2"
             aria-label="Previous page"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -266,10 +266,10 @@ export function DataTableV2<T extends Record<string, any>>({
                   key={pageNum}
                   onClick={() => setCurrentPage(pageNum)}
                   className={cn(
-                    "w-8 h-8 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2",
+                    "w-8 h-8 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2",
                     isActive 
-                      ? "bg-ai-teal-500 text-white" 
-                      : "text-foreground/60 hover:text-foreground hover:bg-white/10"
+                      ? "bg-ai text-white" 
+                      : "text-foreground/60 hover:text-foreground hover:bg-surface/10"
                   )}
                 >
                   {pageNum}
@@ -281,7 +281,7 @@ export function DataTableV2<T extends Record<string, any>>({
           <button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-white/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+            className="p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-surface/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2"
             aria-label="Next page"
           >
             <ChevronRight className="h-4 w-4" />

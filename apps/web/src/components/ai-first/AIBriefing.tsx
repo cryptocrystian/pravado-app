@@ -49,7 +49,7 @@ export function AIBriefing({ visibilityScore, scoreDelta, miniKpis }: AIBriefing
           <div className="space-y-2">
             <h2 className="text-lg font-semibold text-foreground/80">AI Visibility Score</h2>
             <div className="flex items-baseline gap-4">
-              <div className="text-4xl md:text-5xl font-bold text-ai-teal-300 visibility-score">
+              <div className="text-4xl md:text-5xl font-bold text-ai visibility-score">
                 {visibilityScore}
               </div>
               <div className={`chip-${scoreDelta.positive ? 'positive' : 'attention'} flex items-center gap-1`}>
@@ -58,7 +58,7 @@ export function AIBriefing({ visibilityScore, scoreDelta, miniKpis }: AIBriefing
               </div>
             </div>
             {/* Mini sparkline placeholder */}
-            <div className="h-8 bg-gradient-to-r from-ai-teal-500/20 to-ai-gold-500/20 rounded opacity-60" />
+            <div className="h-8 bg-ai/20 rounded opacity-60" />
           </div>
 
           {/* Primary Actions */}
@@ -90,13 +90,13 @@ export function AIBriefing({ visibilityScore, scoreDelta, miniKpis }: AIBriefing
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-foreground/70">Coverage %</span>
-                <span className="text-ai-teal-300 group-hover:text-ai-teal-500 transition-colors">→</span>
+                <span className="text-ai group-hover:text-ai/80 transition-colors">→</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-lg font-semibold text-foreground">{miniKpis.coverage}%</div>
                 <div className="flex-1 h-1.5 bg-foreground/5 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-ai-teal-500 to-ai-gold-500"
+                    className="h-full bg-ai"
                     style={{ width: `${miniKpis.coverage}%` }}
                   />
                 </div>
@@ -110,30 +110,30 @@ export function AIBriefing({ visibilityScore, scoreDelta, miniKpis }: AIBriefing
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-foreground/70">Authority Index</span>
-                <span className="text-ai-teal-300 group-hover:text-ai-teal-500 transition-colors">→</span>
+                <span className="text-ai group-hover:text-ai/80 transition-colors">→</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-lg font-semibold text-foreground">{miniKpis.authority}</div>
                 <div className="flex-1 h-1.5 bg-foreground/5 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-ai-teal-500 to-ai-gold-500"
+                    className="h-full bg-ai"
                     style={{ width: `${miniKpis.authority}%` }}
                   />
                 </div>
               </div>
             </button>
 
-            {/* Time-to-Citation */}
+            {/* Time- */}
             <button
               onClick={() => handleMiniKpiClick('time_to_citation', miniKpis.timeToCitation)}
               className="w-full p-3 bg-foreground/3 border border-foreground/5 rounded-lg hover:bg-foreground/5 transition-colors text-left group"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-foreground/70">Time-to-Citation</span>
-                <span className="text-ai-teal-300 group-hover:text-ai-teal-500 transition-colors">→</span>
+                <span className="text-sm text-foreground/70">Time-</span>
+                <span className="text-ai group-hover:text-ai/80 transition-colors">→</span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="h-4 w-4 text-ai-teal-300" />
+                <Clock className="h-4 w-4 text-ai" />
                 <div className="text-lg font-semibold text-foreground">{miniKpis.timeToCitation}d</div>
                 <div className="text-xs text-foreground/50">median</div>
               </div>
@@ -146,10 +146,10 @@ export function AIBriefing({ visibilityScore, scoreDelta, miniKpis }: AIBriefing
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-foreground/70">Publishing Cadence</span>
-                <span className="text-ai-teal-300 group-hover:text-ai-teal-500 transition-colors">→</span>
+                <span className="text-ai group-hover:text-ai/80 transition-colors">→</span>
               </div>
               <div className="flex items-center gap-3">
-                <Eye className="h-4 w-4 text-ai-teal-300" />
+                <Eye className="h-4 w-4 text-ai" />
                 <div className="text-lg font-semibold text-foreground">{miniKpis.publishingCadence}</div>
                 <div className="text-xs text-foreground/50">30d</div>
               </div>

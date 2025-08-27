@@ -68,8 +68,8 @@ const ComponentGallery: React.FC = () => {
             </p>
           </GlassCard>
           
-          <GlassCard className="p-6 bg-ai-teal-500/10 border-ai-teal-500/20">
-            <h3 className="text-lg font-semibold mb-2 text-ai-teal-300">
+          <GlassCard className="p-6 bg-ai border-ai">
+            <h3 className="text-lg font-semibold mb-2 text-ai">
               Teal Variant
             </h3>
             <p className="text-sm text-foreground/70">
@@ -77,8 +77,8 @@ const ComponentGallery: React.FC = () => {
             </p>
           </GlassCard>
           
-          <GlassCard className="p-6 bg-ai-gold-500/10 border-ai-gold-500/20">
-            <h3 className="text-lg font-semibold mb-2 text-ai-gold-300">
+          <GlassCard className="p-6 bg-premium border-premium">
+            <h3 className="text-lg font-semibold mb-2 text-premium">
               Gold Variant
             </h3>
             <p className="text-sm text-foreground/70">
@@ -108,10 +108,10 @@ const ComponentGallery: React.FC = () => {
                 KPI Hero adapts to different screen sizes with smart layout adjustments.
               </p>
               <div className="flex gap-2">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ai-teal-500/20 text-ai-teal-300">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ai text-ai">
                   Desktop
                 </span>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ai-gold-500/20 text-ai-gold-300">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-premium text-premium">
                   Tablet
                 </span>
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-500/20 text-slate-300">
@@ -127,11 +127,11 @@ const ComponentGallery: React.FC = () => {
               </p>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-ai-teal-500"></div>
+                  <div className="w-4 h-4 rounded bg-ai"></div>
                   <span className="text-xs">AI Teal (Primary)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-ai-gold-500"></div>
+                  <div className="w-4 h-4 rounded bg-premium"></div>
                   <span className="text-xs">AI Gold (Secondary)</span>
                 </div>
               </div>
@@ -296,7 +296,7 @@ const ComponentGallery: React.FC = () => {
                 onClick={() => setSelectedVariant('default')}
                 className={`px-3 py-1 text-sm rounded transition-colors ${
                   selectedVariant === 'default' 
-                    ? 'bg-ai-teal-500 text-white' 
+                    ? 'bg-ai text-white' 
                     : 'bg-panel border hover:bg-panel-elevated'
                 }`}
               >
@@ -306,7 +306,7 @@ const ComponentGallery: React.FC = () => {
                 onClick={() => setSelectedVariant('teal')}
                 className={`px-3 py-1 text-sm rounded transition-colors ${
                   selectedVariant === 'teal' 
-                    ? 'bg-ai-teal-500 text-white' 
+                    ? 'bg-ai text-white' 
                     : 'bg-panel border hover:bg-panel-elevated'
                 }`}
               >
@@ -316,7 +316,7 @@ const ComponentGallery: React.FC = () => {
                 onClick={() => setSelectedVariant('gold')}
                 className={`px-3 py-1 text-sm rounded transition-colors ${
                   selectedVariant === 'gold' 
-                    ? 'bg-ai-gold-500 text-black' 
+                    ? 'bg-premium text-black' 
                     : 'bg-panel border hover:bg-panel-elevated'
                 }`}
               >
@@ -351,7 +351,7 @@ const ComponentGallery: React.FC = () => {
               
               {/* Code Example (collapsed by default) */}
               <details className="group">
-                <summary className="cursor-pointer text-sm font-medium text-ai-teal-300 hover:text-ai-teal-500 transition-colors">
+                <summary className="cursor-pointer text-sm font-medium text-ai hover:text-ai transition-colors">
                   View Usage Example
                 </summary>
                 <GlassCard className="mt-4 p-4">
@@ -384,21 +384,21 @@ const ComponentGallery: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-ai-teal-300"></div>
+                    <div className="w-8 h-8 rounded bg-ai"></div>
                     <span className="text-sm">ai-teal-300</span>
                   </div>
                   <code className="text-xs text-foreground/60">170 70% 58%</code>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-ai-teal-500"></div>
+                    <div className="w-8 h-8 rounded bg-ai"></div>
                     <span className="text-sm">ai-teal-500</span>
                   </div>
                   <code className="text-xs text-foreground/60">170 72% 45%</code>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-ai-teal-700"></div>
+                    <div className="w-8 h-8 rounded bg-ai"></div>
                     <span className="text-sm">ai-teal-700</span>
                   </div>
                   <code className="text-xs text-foreground/60">170 78% 34%</code>
@@ -412,21 +412,21 @@ const ComponentGallery: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-ai-gold-300"></div>
+                    <div className="w-8 h-8 rounded bg-premium"></div>
                     <span className="text-sm">ai-gold-300</span>
                   </div>
                   <code className="text-xs text-foreground/60">40 92% 66%</code>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-ai-gold-500"></div>
+                    <div className="w-8 h-8 rounded bg-premium"></div>
                     <span className="text-sm">ai-gold-500</span>
                   </div>
                   <code className="text-xs text-foreground/60">40 92% 52%</code>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-ai-gold-700"></div>
+                    <div className="w-8 h-8 rounded bg-premium"></div>
                     <span className="text-sm">ai-gold-700</span>
                   </div>
                   <code className="text-xs text-foreground/60">40 94% 40%</code>

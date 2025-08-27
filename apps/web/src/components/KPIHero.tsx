@@ -40,8 +40,8 @@ function Sparkline({ data, className }: { data: number[], className?: string }) 
     
     // Create gradient
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0)
-    gradient.addColorStop(0, 'hsl(var(--ai-teal-500))')
-    gradient.addColorStop(1, 'hsl(var(--ai-teal-700))')
+    gradient.addColorStop(0, 'var(--ai)')
+    gradient.addColorStop(1, 'var(--ai)')
     
     // Draw sparkline
     ctx.strokeStyle = gradient
@@ -85,8 +85,8 @@ function MiniStat({
 }) {
   const Component = link ? 'a' : 'div'
   const colorClasses = {
-    teal: 'text-ai-teal-500 bg-ai-teal-500/10',
-    gold: 'text-ai-gold-500 bg-ai-gold-500/10',
+    teal: 'text-ai bg-ai/10',
+    gold: 'text-premium bg-premium/10',
     neutral: 'text-foreground/60 bg-foreground/5'
   }
 
@@ -110,8 +110,8 @@ function MiniStat({
           <div 
             className={cn(
               "h-full rounded-full transition-all duration-500",
-              color === 'teal' && "bg-ai-teal-500",
-              color === 'gold' && "bg-ai-gold-500",
+              color === 'teal' && "bg-ai",
+              color === 'gold' && "bg-premium",
               color === 'neutral' && "bg-foreground/30"
             )}
             style={{ width: typeof value === 'number' ? `${value}%` : '50%' }}
@@ -149,7 +149,7 @@ export function KPIHero({
               <div className="flex-1">
                 <div className="flex items-baseline gap-4 mb-2">
                   <span 
-                    className="text-7xl font-metric text-ai-teal-300 leading-none tracking-tight"
+                    className="text-7xl font-metric text-ai leading-none tracking-tight"
                     aria-label={`Score: ${score}`}
                   >
                     {score}
@@ -157,8 +157,8 @@ export function KPIHero({
                   <span className={cn(
                     "inline-flex items-center gap-1 text-sm font-medium px-3 py-1.5 rounded-full",
                     delta.positive 
-                      ? "bg-ai-teal-600/15 text-ai-teal-300 border border-ai-teal-600/30" 
-                      : "bg-ai-gold-600/15 text-ai-gold-300 border border-ai-gold-600/30"
+                      ? "bg-ai/15 text-ai border border-ai/30" 
+                      : "bg-premium/15 text-premium border border-premium/30"
                   )}>
                     {delta.positive ? '▲' : '▼'} {delta.value}
                   </span>
@@ -174,7 +174,7 @@ export function KPIHero({
             <div className="flex items-center gap-3 pt-4 border-t border-border/50">
               <button
                 onClick={onViewDetails}
-                className="flex-1 bg-[linear-gradient(90deg,hsl(var(--ai-teal-600)),hsl(var(--ai-gold-600)))] text-white px-4 py-2.5 rounded-lg font-medium text-sm transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+                className="flex-1 bg-ai text-white px-4 py-2.5 rounded-lg font-medium text-sm transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2"
                 aria-label="View detailed analytics"
               >
                 View details
@@ -182,7 +182,7 @@ export function KPIHero({
               </button>
               <button
                 onClick={onBreakdown}
-                className="px-4 py-2.5 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2"
+                className="px-4 py-2.5 rounded-lg font-medium text-sm text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2"
                 aria-label="View breakdown details"
               >
                 Breakdown
@@ -210,7 +210,7 @@ export function KPIHero({
             />
             <MiniStat 
               icon={Clock} 
-              label="Time-to-Citation" 
+              label="Time-" 
               value={miniStats.timeToCitation}
               color="neutral"
               link="#citation"

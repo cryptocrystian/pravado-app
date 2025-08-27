@@ -19,14 +19,14 @@ export function ContentStudio() {
             {/* Content Brief */}
             <div className="bg-panel/50 border border-border rounded-lg p-6 h-fit shadow-sm" data-surface="content">
             <div className="flex items-center gap-2 mb-4">
-              <Target className="h-5 w-5 text-ai-teal-500" />
+              <Target className="h-5 w-5 text-ai" />
               <h3 className="font-semibold text-foreground">Content Brief</h3>
             </div>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Content Type</label>
-                <select className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all">
+                <select className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai/20 focus:border-ai focus:outline-none transition-all">
                   <option>Blog Post</option>
                   <option>Press Release</option>
                   <option>Social Post</option>
@@ -57,13 +57,13 @@ export function ContentStudio() {
                 <input 
                   type="text" 
                   placeholder="marketing automation, AI tools..."
-                  className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all"
+                  className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai/20 focus:border-ai focus:outline-none transition-all"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium mb-2">Tone & Style</label>
-                <select className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all">
+                <select className="w-full p-2.5 border border-border rounded-lg bg-panel/50 focus:ring-2 focus:ring-ai/20 focus:border-ai focus:outline-none transition-all">
                   <option>Professional & Authoritative</option>
                   <option>Conversational & Friendly</option>
                   <option>Technical & Detailed</option>
@@ -74,7 +74,7 @@ export function ContentStudio() {
                 <label className="block text-sm font-medium mb-2">SERP Intent</label>
                 <textarea 
                   placeholder="What user problem does this content solve?"
-                  className="w-full p-2.5 h-20 border border-border rounded-lg bg-panel/50 resize-none focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none transition-all"
+                  className="w-full p-2.5 h-20 border border-border rounded-lg bg-panel/50 resize-none focus:ring-2 focus:ring-ai/20 focus:border-ai focus:outline-none transition-all"
                 />
               </div>
             </div>
@@ -83,47 +83,47 @@ export function ContentStudio() {
           {/* AI Assistance Panel */}
           <div className="bg-panel/50 border border-border rounded-lg p-6 shadow-sm" data-surface="content">
             <div className="flex items-center gap-2 mb-4">
-              <Wand2 className="h-5 w-5 text-ai-teal-500" />
+              <Wand2 className="h-5 w-5 text-ai" />
               <h3 className="font-semibold text-foreground">AI Assistant</h3>
-              <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-ai-teal-600/15 text-ai-teal-300 border border-ai-teal-600/30 rounded-full">Live</span>
+              <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-ai text-ai border border-ai rounded-full">Live</span>
             </div>
             
             <div className="space-y-3">
-              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai-teal-500/30 hover:bg-ai-teal-500/5 transition-all">
+              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai hover:bg-ai transition-all">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Generate Outline</span>
-                  <Lightbulb className="h-4 w-4 text-ai-teal-500" />
+                  <Lightbulb className="h-4 w-4 text-ai" />
                 </div>
                 <p className="text-xs text-foreground/60 mt-1">Create structured content outline</p>
               </button>
               
-              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai-teal-500/30 hover:bg-ai-teal-500/5 transition-all">
+              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai hover:bg-ai transition-all">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Improve SEO</span>
-                  <Target className="h-4 w-4 text-ai-teal-500" />
+                  <Target className="h-4 w-4 text-ai" />
                 </div>
                 <p className="text-xs text-foreground/60 mt-1">Optimize for search visibility</p>
               </button>
               
-              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai-teal-500/30 hover:bg-ai-teal-500/5 transition-all">
+              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai hover:bg-ai transition-all">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Rewrite Section</span>
-                  <RotateCcw className="h-4 w-4 text-ai-teal-500" />
+                  <RotateCcw className="h-4 w-4 text-ai" />
                 </div>
                 <p className="text-xs text-foreground/60 mt-1">Enhance selected text</p>
               </button>
               
-              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai-teal-500/30 hover:bg-ai-teal-500/5 transition-all">
+              <button className="w-full p-3 text-left border border-border/50 rounded-lg hover:border-ai hover:bg-ai transition-all">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Tone Adjustment</span>
-                  <Users className="h-4 w-4 text-ai-teal-500" />
+                  <Users className="h-4 w-4 text-ai" />
                 </div>
                 <p className="text-xs text-foreground/60 mt-1">Match target audience</p>
               </button>
             </div>
 
-            <div className="mt-4 p-3 bg-ai-teal-500/5 rounded-lg border border-ai-teal-500/20">
-              <p className="text-sm text-ai-teal-600 font-medium">💡 AI Suggestion</p>
+            <div className="mt-4 p-3 bg-ai rounded-lg border border-ai">
+              <p className="text-sm text-ai font-medium">💡 AI Suggestion</p>
               <p className="text-xs text-foreground/70 mt-1">
                 Consider adding a case study in section 3 to increase engagement by ~25%
               </p>
@@ -135,15 +135,15 @@ export function ContentStudio() {
         <div className="col-span-12 lg:col-span-8">
           <div className="bg-panel/50 border border-border rounded-lg p-6 h-full flex flex-col shadow-sm" data-surface="content">
             {/* Editor Header */}
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-ai-teal-500/20">
+            <div className="flex items-center justify-between mb-4 pb-4 border-b border-ai">
               <div className="flex items-center gap-2 relative">
-                <FileText className="h-5 w-5 text-ai-teal-500" />
+                <FileText className="h-5 w-5 text-ai" />
                 <input 
                   type="text" 
                   placeholder="Untitled Document"
                   className="text-lg font-semibold bg-transparent focus:outline-none border-none text-foreground"
                 />
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-ai-teal-500 transform scale-x-0 transition-transform focus-within:scale-x-100" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-ai transform scale-x-0 transition-transform focus-within:scale-x-100" />
               </div>
               
               <div className="flex items-center gap-2">
@@ -152,7 +152,7 @@ export function ContentStudio() {
                   <Save className="h-4 w-4 mr-2 inline" />
                   Save Draft
                 </button>
-                <button className="px-4 py-2 rounded-lg font-medium text-sm bg-gradient-to-r from-ai-teal-600 to-ai-gold-600 text-white hover:opacity-90 transition-all">
+                <button className="px-4 py-2 rounded-lg font-medium text-sm bg-ai text-white hover:opacity-90 transition-all">
                   <Send className="h-4 w-4 mr-2 inline" />
                   Publish
                 </button>
@@ -171,7 +171,7 @@ Use the AI assistant on the left to:
 • Get real-time suggestions
 
 The editor supports markdown formatting and will auto-save your progress."
-                className="w-full h-full p-4 border border-border rounded-lg bg-panel/30 resize-none focus:ring-2 focus:ring-ai-teal-500/20 focus:border-ai-teal-500/50 focus:outline-none font-mono text-sm leading-relaxed text-foreground"
+                className="w-full h-full p-4 border border-border rounded-lg bg-panel/30 resize-none focus:ring-2 focus:ring-ai/20 focus:border-ai focus:outline-none font-mono text-sm leading-relaxed text-foreground"
                 style={{ minHeight: '400px' }}
               />
             </div>
@@ -186,7 +186,7 @@ The editor supports markdown formatting and will auto-save your progress."
               
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 bg-ai-teal-500 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-ai rounded-full animate-pulse"></div>
                   <span className="text-sm text-foreground/60">Connected</span>
                 </div>
               </div>
@@ -204,7 +204,7 @@ The editor supports markdown formatting and will auto-save your progress."
             <div className="text-xs text-foreground/60">
               <div className="flex items-center justify-between py-1">
                 <span>Current draft</span>
-                <span className="text-ai-teal-300">Active</span>
+                <span className="text-ai">Active</span>
               </div>
               <div className="flex items-center justify-between py-1">
                 <span>v2.1 - Published</span>
@@ -216,7 +216,7 @@ The editor supports markdown formatting and will auto-save your progress."
         
         <div className="glass-card p-4">
           <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-            <Wand2 className="h-4 w-4 text-ai-gold-300" />
+            <Wand2 className="h-4 w-4 text-premium" />
             Copilot Tips
           </h4>
           <div className="text-xs text-foreground/70 space-y-2">

@@ -132,7 +132,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         <div className="h-full glass-card rounded-none lg:rounded-l-2xl overflow-hidden">
           {/* Header */}
           <div className="flex items-center gap-3 p-4 border-b border-[hsl(var(--glass-stroke))]">
-            <Search className="h-5 w-5 text-ai-teal-300" />
+            <Search className="h-5 w-5 text-ai" />
             <h2 className="text-lg font-semibold text-foreground flex-1">Copilot</h2>
             <kbd className="text-xs font-medium text-foreground/60 bg-foreground/5 px-2 py-1 rounded focus:outline-2 focus:outline-ai-teal-500">
               ⌘K
@@ -165,10 +165,10 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all",
                         "hover:bg-foreground/5 focus:outline-2 focus:outline-ai-teal-500",
-                        selectedIndex === index && "bg-ai-teal-500/10 ring-1 ring-inset ring-ai-teal-500/30"
+                        selectedIndex === index && "bg-ai ring-1 ring-inset ring-ai/30"
                       )}
                     >
-                      <Icon className="h-4 w-4 text-ai-teal-300" />
+                      <Icon className="h-4 w-4 text-ai" />
                       <span className="flex-1 text-sm font-medium text-foreground">{command.label}</span>
                       {command.shortcut && (
                         <kbd className="text-xs font-medium text-foreground/60 bg-foreground/5 px-1.5 py-0.5 rounded">

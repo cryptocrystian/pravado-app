@@ -20,9 +20,9 @@ interface DataTableProps<T> {
 function DifficultyChip({ value }: { value: number }) {
   const getChipStyles = () => {
     if (value <= 40) {
-      return 'bg-ai-teal-600/20 text-ai-teal-300 border-ai-teal-600/30'
+      return 'bg-ai text-ai border-ai'
     } else if (value <= 70) {
-      return 'bg-ai-gold-600/16 text-ai-gold-300 border-ai-gold-600/30'
+      return 'bg-premium text-premium border-premium'
     } else {
       return 'bg-danger/20 text-danger border-danger/30'
     }
@@ -68,7 +68,7 @@ export function DataTable<T extends Record<string, any>>({
                 className={cn(
                   "px-3 py-1 text-xs font-medium transition-colors",
                   density === 'comfortable'
-                    ? "bg-ai-teal-500 text-white"
+                    ? "bg-ai text-white"
                     : "bg-panel text-foreground hover:bg-panel-elevated"
                 )}
               >
@@ -79,7 +79,7 @@ export function DataTable<T extends Record<string, any>>({
                 className={cn(
                   "px-3 py-1 text-xs font-medium transition-colors",
                   density === 'compact'
-                    ? "bg-ai-teal-500 text-white"
+                    ? "bg-ai text-white"
                     : "bg-panel text-foreground hover:bg-panel-elevated"
                 )}
               >

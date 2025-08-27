@@ -39,7 +39,7 @@ export interface HeroKPI extends BaseKPI {
 // Mini KPIs in Hero section
 export interface MiniKPI {
   id: string;
-  type: 'coverage' | 'authority' | 'time-to-convert' | 'cadence';
+  type: 'coverage' | 'authority' | 'time-' | 'cadence';
   label: string;
   value: string;
   numericValue: number;

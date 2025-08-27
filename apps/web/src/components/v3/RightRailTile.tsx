@@ -53,14 +53,14 @@ export function RightRailTile({
         <div className="flex items-center gap-2">
           <Icon className={cn(
             "h-4 w-4",
-            status === 'warning' ? "text-ai-gold-300" :
+            status === 'warning' ? "text-premium" :
             status === 'critical' ? "text-danger" :
-            "text-ai-teal-300"
+            "text-ai"
           )} />
           <h3 className="font-medium text-foreground">{title}</h3>
         </div>
         {href && (
-          <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai-teal-300 transition-colors" />
+          <ArrowUpRight className="h-4 w-4 text-foreground/40 group-hover:text-ai transition-colors" />
         )}
       </div>
 
@@ -68,7 +68,7 @@ export function RightRailTile({
         <div className="flex justify-between items-baseline">
           <span className={cn(
             "text-2xl font-bold",
-            status === 'warning' ? "text-ai-gold-300" :
+            status === 'warning' ? "text-premium" :
             status === 'critical' ? "text-danger" :
             "text-foreground"
           )}>
@@ -85,9 +85,9 @@ export function RightRailTile({
               <div
                 className={cn(
                   "h-full transition-all duration-500",
-                  progressPercent > 80 ? "bg-ai-gold-500" :
-                  progressPercent > 60 ? "bg-gradient-to-r from-ai-teal-500 to-ai-gold-500" :
-                  "bg-ai-teal-500"
+                  progressPercent > 80 ? "bg-premium" :
+                  progressPercent > 60 ? "bg-ai" :
+                  "bg-ai"
                 )}
                 style={{ width: `${Math.min(progressPercent, 100)}%` }}
               />

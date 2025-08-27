@@ -34,13 +34,13 @@ export function MiniKpiRow({
       disabled={!onClick}
       className={cn(
         "w-full p-3 bg-foreground/3 border border-foreground/5 rounded-lg transition-all text-left group",
-        onClick && "hover:bg-foreground/5 hover:border-ai-teal-500/30 cursor-pointer"
+        onClick && "hover:bg-foreground/5 hover:border-ai cursor-pointer"
       )}
     >
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm text-foreground/70">{label}</span>
         {onClick && (
-          <ArrowRight className="h-3 w-3 text-ai-teal-300 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <ArrowRight className="h-3 w-3 text-ai opacity-0 group-hover:opacity-100 transition-opacity" />
         )}
       </div>
       
@@ -52,7 +52,7 @@ export function MiniKpiRow({
         {progress !== undefined && (
           <div className="flex-1 h-1.5 bg-foreground/5 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-gradient-to-r from-ai-teal-500 to-ai-gold-500 transition-all duration-500"
+              className="h-full bg-ai transition-all duration-500"
               style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
             />
           </div>

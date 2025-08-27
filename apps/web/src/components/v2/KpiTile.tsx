@@ -45,25 +45,25 @@ export function KpiTile({
 }: KpiTileProps) {
   const accentClasses = {
     teal: {
-      accent: 'text-ai-teal-500',
-      bg: 'bg-ai-teal-500/10',
-      border: 'border-ai-teal-500/20',
-      deltaPositive: 'text-ai-teal-300 bg-ai-teal-500/15',
-      deltaNegative: 'text-ai-gold-300 bg-ai-gold-500/15'
+      accent: 'text-ai',
+      bg: 'bg-ai',
+      border: 'border-ai',
+      deltaPositive: 'text-ai bg-ai',
+      deltaNegative: 'text-premium bg-premium'
     },
     gold: {
-      accent: 'text-ai-gold-500',
-      bg: 'bg-ai-gold-500/10',
-      border: 'border-ai-gold-500/20',
-      deltaPositive: 'text-ai-gold-300 bg-ai-gold-500/15',
-      deltaNegative: 'text-ai-teal-300 bg-ai-teal-500/15'
+      accent: 'text-premium',
+      bg: 'bg-premium',
+      border: 'border-premium',
+      deltaPositive: 'text-premium bg-premium',
+      deltaNegative: 'text-ai bg-ai'
     },
     neutral: {
       accent: 'text-foreground/80',
       bg: 'bg-foreground/5',
       border: 'border-foreground/10',
-      deltaPositive: 'text-ai-teal-300 bg-ai-teal-500/15',
-      deltaNegative: 'text-ai-gold-300 bg-ai-gold-500/15'
+      deltaPositive: 'text-ai bg-ai',
+      deltaNegative: 'text-premium bg-premium'
     }
   };
 
@@ -79,7 +79,7 @@ export function KpiTile({
         variant === 'mini' ? 'h-24' : 'h-32',
         className
       )}>
-        <Loader2 className="h-6 w-6 animate-spin text-ai-teal-500" />
+        <Loader2 className="h-6 w-6 animate-spin text-ai" />
       </GlassCard>
     );
   }
@@ -103,7 +103,7 @@ export function KpiTile({
       onClick={onClick}
       className={cn(
         "relative group w-full text-left",
-        onClick && "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500 focus-visible:ring-offset-2 rounded-lg",
+        onClick && "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai focus-visible:ring-offset-2 rounded-lg",
         className
       )}
     >
@@ -129,8 +129,8 @@ export function KpiTile({
             {trend && variant === 'expanded' && (
               <div className={cn(
                 "p-1 rounded-full",
-                trend === 'up' && "text-ai-teal-500 bg-ai-teal-500/10",
-                trend === 'down' && "text-ai-gold-500 bg-ai-gold-500/10",
+                trend === 'up' && "text-ai bg-ai",
+                trend === 'down' && "text-premium bg-premium",
                 trend === 'neutral' && "text-foreground/40 bg-foreground/5"
               )}>
                 <TrendIcon trend={trend} />
@@ -172,8 +172,8 @@ export function KpiTile({
               <div 
                 className={cn(
                   "h-full rounded-full transition-all duration-500",
-                  accentColor === 'teal' && "bg-ai-teal-500",
-                  accentColor === 'gold' && "bg-ai-gold-500",
+                  accentColor === 'teal' && "bg-ai",
+                  accentColor === 'gold' && "bg-premium",
                   accentColor === 'neutral' && "bg-foreground/30"
                 )}
                 style={{ width: `${Math.min(100, Math.max(0, Number(value)))}%` }}
@@ -185,8 +185,8 @@ export function KpiTile({
         {/* Hover effect overlay */}
         {onClick && (
           <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="absolute inset-0 bg-gradient-to-r from-ai-teal-500/5 to-ai-gold-500/5 rounded-lg" />
-            <div className="absolute inset-0 border border-ai-teal-500/20 rounded-lg" />
+            <div className="absolute inset-0 bg-ai rounded-lg" />
+            <div className="absolute inset-0 border border-ai rounded-lg" />
           </div>
         )}
       </GlassCard>

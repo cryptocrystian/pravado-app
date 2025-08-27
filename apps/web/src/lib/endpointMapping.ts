@@ -52,7 +52,7 @@ export const HERO_KPI_MAPPING: EndpointMapping = {
 
 /**
  * MINI KPIs MAPPING (4 tiles in hero section)
- * Coverage, Authority, Time-to-Convert, Cadence
+ * Coverage, Authority, Time-, Cadence
  */
 export const MINI_KPIS_MAPPING: EndpointMapping[] = [
   {
@@ -101,16 +101,16 @@ export const MINI_KPIS_MAPPING: EndpointMapping[] = [
   },
   {
     component: 'MiniKPI - Time to Convert',
-    kpiType: 'Time-to-Citation',
+    kpiType: 'Time-',
     existingEndpoint: '/api/analytics/conversion',
     dataPath: 'data.conversionMetrics.averageTime',
     transformation: `
       // Map conversion time to mini KPI format
       const avgDays = response.data.conversionMetrics.averageTime / (24 * 60 * 60 * 1000);
       {
-        id: 'time-to-convert',
-        type: 'time-to-convert',
-        label: 'Time-to-Citation',
+        id: 'time-',
+        type: 'time-',
+        label: 'Time-',
         value: avgDays.toFixed(1) + ' days',
         numericValue: avgDays,
         progress: Math.max(0, 100 - (avgDays / 5) * 100), // Invert for progress

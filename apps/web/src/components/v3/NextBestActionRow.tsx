@@ -57,7 +57,7 @@ export function NextBestActionRow({
     <div className="p-4 bg-foreground/3 border border-foreground/5 rounded-lg hover:bg-foreground/5 transition-all group">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 space-y-2">
-          <h3 className="font-semibold text-foreground group-hover:text-ai-teal-300 transition-colors">
+          <h3 className="font-semibold text-foreground group-hover:text-ai transition-colors">
             {title}
           </h3>
           

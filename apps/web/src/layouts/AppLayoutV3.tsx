@@ -41,7 +41,7 @@ export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
             {/* Search/Command */}
             <button
               onClick={handleSearch}
-              className="flex items-center gap-2 px-3 py-1.5 bg-foreground/5 border border-foreground/10 rounded-lg text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500/70 focus-visible:ring-offset-2"
+              className="flex items-center gap-2 px-3 py-1.5 bg-foreground/5 border border-foreground/10 rounded-lg text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai/70 focus-visible:ring-offset-2"
             >
               <Search className="h-4 w-4" />
               <span>Search</span>
@@ -51,20 +51,20 @@ export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
             {/* AI Copilot - use tokens, not gradient */}
             <button
               onClick={handleCopilot}
-              className="flex items-center gap-2 px-3 py-1.5 bg-ai-teal-500/10 border border-ai-teal-500/30 rounded-lg text-sm font-medium text-ai-teal-300 hover:bg-ai-teal-500/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500/70 focus-visible:ring-offset-2"
+              className="flex items-center gap-2 px-3 py-1.5 bg-ai border border-ai rounded-lg text-sm font-medium text-ai hover:bg-ai transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai/70 focus-visible:ring-offset-2"
             >
               <Brain className="h-4 w-4" />
               AI Copilot
             </button>
 
             {/* Notifications */}
-            <button className="p-2 hover:bg-foreground/5 rounded-lg transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500/70 focus-visible:ring-offset-2">
+            <button className="p-2 hover:bg-foreground/5 rounded-lg transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai/70 focus-visible:ring-offset-2">
               <Bell className="h-5 w-5 text-foreground/70" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-ai-gold-500 rounded-full"></span>
+              <span className="absolute top-1 right-1 w-2 h-2 bg-premium rounded-full"></span>
             </button>
 
             {/* Profile */}
-            <button className="p-2 hover:bg-foreground/5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500/70 focus-visible:ring-offset-2">
+            <button className="p-2 hover:bg-foreground/5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai/70 focus-visible:ring-offset-2">
               <User className="h-5 w-5 text-foreground/70" />
             </button>
           </div>

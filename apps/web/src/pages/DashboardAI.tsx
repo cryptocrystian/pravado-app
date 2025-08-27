@@ -169,7 +169,7 @@ export function DashboardAI() {
     return (
       <div className="min-h-screen bg-background p-6 flex items-center justify-center">
         <div className="glass-card p-8 text-center max-w-md" data-surface="content">
-          <div className="text-ai-gold-300 mb-4">⚠️</div>
+          <div className="text-premium mb-4">⚠️</div>
           <h2 className="text-xl font-semibold text-foreground mb-2">Dashboard Unavailable</h2>
           <p className="text-foreground/60 mb-4">Unable to load dashboard data. Please try again.</p>
           <button 
@@ -192,8 +192,8 @@ export function DashboardAI() {
           <p className="text-foreground/60 mt-2">Automated insights, next-best actions, and intelligent operations</p>
           
           {/* Phase indicator with teal accent */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ai-teal-500/15 to-ai-gold-500/10 border border-ai-teal-500/30 rounded-lg text-sm text-ai-teal-300 mt-4">
-            <div className="w-2 h-2 bg-ai-teal-500 rounded-full animate-pulse"></div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-ai border border-ai rounded-lg text-sm text-ai mt-4">
+            <div className="w-2 h-2 bg-ai rounded-full animate-pulse"></div>
             AI-First Dashboard Active
           </div>
         </div>

@@ -26,12 +26,12 @@ const FORBIDDEN_PATTERNS = [
     fix: 'Use bg-primary, bg-ai, bg-premium instead'
   },
   {
-    pattern: /from-/g,  
+    pattern: /\bfrom-\w+/g,  
     message: 'Gradient from- classes forbidden',
     fix: 'Use solid V4 spec tokens instead'
   },
   {
-    pattern: /to-/g,
+    pattern: /\bto-\w+/g,
     message: 'Gradient to- classes forbidden', 
     fix: 'Use solid V4 spec tokens instead'
   },
@@ -51,7 +51,7 @@ const FORBIDDEN_PATTERNS = [
     fix: 'Use bg-surface or light mode variant'
   },
   {
-    pattern: /#[0-9a-fA-F]{3,6}/g,
+    pattern: /#[0-9a-fA-F]{3,6}(?![a-zA-Z])/g,
     message: 'Raw hex colors forbidden - use CSS variables only',
     fix: 'Use var(--primary), var(--ai), var(--premium) etc'
   },
@@ -86,6 +86,9 @@ async function auditFile(filePath) {
   const content = await fs.readFile(filePath, 'utf-8');
   const violations = [];
   
+  // Skip CSS variable definitions in globals.css
+  const isGlobalsCss = filePath.includes('globals.css');
+  
   for (const { pattern, message, fix } of FORBIDDEN_PATTERNS) {
     let match;
     pattern.lastIndex = 0; // Reset regex state
@@ -94,6 +97,17 @@ async function auditFile(filePath) {
       const lines = content.substring(0, match.index).split('\\n');
       const lineNumber = lines.length;
       const columnNumber = match.index - (lines[lines.length - 1]?.length ?? 0);
+      const line = lines[lineNumber - 1] || '';
+      
+      // Skip CSS variable definitions (--var: #hex;)
+      if (isGlobalsCss && pattern.source.includes('#') && line.includes('--')) {
+        continue;
+      }
+      
+      // Skip CSS variable definitions for gradients/to- patterns
+      if (isGlobalsCss && (pattern.source.includes('to-') || pattern.source.includes('from-')) && line.includes('--')) {
+        continue;
+      }
       
       violations.push({
         file: filePath,

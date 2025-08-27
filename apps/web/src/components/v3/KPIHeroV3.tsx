@@ -46,7 +46,7 @@ export function KPIHeroV3({
             <div className="flex items-baseline gap-4 mb-6">
               {/* Big score - 64px metric weight */}
               <div 
-                className="text-[64px] leading-[72px] font-metric text-ai-teal-300"
+                className="text-[64px] leading-[72px] font-metric text-ai"
                 aria-label={`Score: ${score}`}
               >
                 {score}
@@ -75,7 +75,7 @@ export function KPIHeroV3({
             
             <button
               onClick={handleBreakdown}
-              className="px-6 py-3 bg-foreground/5 border border-foreground/10 text-foreground rounded-lg font-medium hover:bg-foreground/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai-teal-500/70 focus-visible:ring-offset-2"
+              className="px-6 py-3 bg-foreground/5 border border-foreground/10 text-foreground rounded-lg font-medium hover:bg-foreground/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ai/70 focus-visible:ring-offset-2"
             >
               Breakdown
             </button>
@@ -108,7 +108,7 @@ function SparklineChart({ data }: { data: number[] }) {
   }).join(' ')
 
   return (
-    <svg width={width} height={height} className="text-ai-teal-300">
+    <svg width={width} height={height} className="text-ai">
       <polyline
         fill="none"
         stroke="currentColor"

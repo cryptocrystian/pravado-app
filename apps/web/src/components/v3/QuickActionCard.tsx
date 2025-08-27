@@ -31,11 +31,11 @@ export function QuickActionCard({
       <div className="flex items-start justify-between mb-4">
         <div className={cn(
           "p-3 rounded-lg",
-          accentColor === 'teal' ? "bg-ai-teal-500/10" : "bg-ai-gold-500/10"
+          accentColor === 'teal' ? "bg-ai" : "bg-premium"
         )}>
           <Icon className={cn(
             "h-6 w-6",
-            accentColor === 'teal' ? "text-ai-teal-300" : "text-ai-gold-300"
+            accentColor === 'teal' ? "text-ai" : "text-premium"
           )} />
         </div>
       </div>

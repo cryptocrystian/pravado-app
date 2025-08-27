@@ -72,11 +72,11 @@ export function AppLayout({ children }: AppLayoutProps) {
             {/* Command/Search */}
             <button
               onClick={() => setCopilotOpen(true)}
-              className="hidden md:flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-ai-teal-500/10 to-ai-gold-500/10 border border-ai-teal-500/30 rounded-lg text-sm hover:border-ai-teal-500/50 transition-all group focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
+              className="hidden md:flex items-center gap-2 px-3 py-2 bg-ai border border-ai rounded-lg text-sm hover:border-ai transition-all group focus:outline-2 focus:outline-ai-teal-500 focus:outline-offset-2"
             >
-              <Search className="h-4 w-4 text-ai-teal-300" />
-              <span className="text-ai-teal-300 font-medium">AI Copilot</span>
-              <kbd className="ml-4 text-xs font-medium text-ai-teal-300/70 bg-ai-teal-500/20 px-1.5 py-0.5 rounded group-hover:text-ai-teal-300">
+              <Search className="h-4 w-4 text-ai" />
+              <span className="text-ai font-medium">AI Copilot</span>
+              <kbd className="ml-4 text-xs font-medium text-ai/70 bg-ai px-1.5 py-0.5 rounded group-hover:text-ai">
                 ⌘K
               </kbd>
             </button>

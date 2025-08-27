@@ -27,8 +27,8 @@ export function KpiTile({
   className
 }: KpiTileProps) {
   const colorClasses = {
-    teal: 'text-ai-teal-300 border-ai-teal-300/20',
-    gold: 'text-ai-gold-500 border-ai-gold-500/20',
+    teal: 'text-ai border-ai',
+    gold: 'text-premium border-premium',
     neutral: 'text-foreground border-border',
     success: 'text-success border-success/20',
     warning: 'text-warning border-warning/20',
@@ -74,8 +74,8 @@ export function KpiTile({
             <div className={cn(
               "flex items-center gap-1 px-2 py-1 rounded text-xs font-medium",
               delta.positive
-                ? "text-ai-teal-300 bg-ai-teal-300/10 border border-ai-teal-300/20"
-                : "text-ai-gold-500 bg-ai-gold-500/10 border border-ai-gold-500/20"
+                ? "text-ai bg-ai border border-ai"
+                : "text-premium bg-premium border border-premium"
             )}>
               {delta.positive ? (
                 <TrendingUp className="h-3 w-3" />

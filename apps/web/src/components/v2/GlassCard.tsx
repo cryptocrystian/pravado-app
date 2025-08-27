@@ -14,7 +14,7 @@ export function GlassCard({
   const variantStyles = {
     default: 'glass-card',
     elevated: 'glass-card shadow-xl',
-    subtle: 'bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg'
+    subtle: 'bg-surface/5 backdrop-blur-sm border border-white/10 rounded-lg'
   };
 
   return (

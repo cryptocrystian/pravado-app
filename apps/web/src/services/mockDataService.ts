@@ -42,7 +42,7 @@ export class MockDataService {
   private initializeVariations(): void {
     // Initialize random variations for consistent but changing data
     const keys = [
-      'visibility-score', 'coverage', 'authority', 'time-to-convert', 'cadence',
+      'visibility-score', 'coverage', 'authority', 'time-', 'cadence',
       'content-velocity', 'audience-growth', 'engagement-rate', 'lead-quality',
       'wallet-balance', 'response-time', 'accuracy'
     ];
@@ -126,7 +126,7 @@ export class MockDataService {
   generateMiniKPIs(): MiniKPI[] {
     const coverage = Math.round(this.simulateTimeBasedValue(76, 'coverage'));
     const authority = Math.round(this.simulateTimeBasedValue(84, 'authority'));
-    const timeToConvert = this.simulateTimeBasedValue(2.4, 'time-to-convert');
+    const timeToConvert = this.simulateTimeBasedValue(2.4, 'time-');
     const cadence = this.simulateTimeBasedValue(3.2, 'cadence');
     
     return [
@@ -153,9 +153,9 @@ export class MockDataService {
         color: 'gold'
       },
       {
-        id: 'time-to-convert',
-        type: 'time-to-convert',
-        label: 'Time-to-Citation',
+        id: 'time-',
+        type: 'time-',
+        label: 'Time-',
         value: `${timeToConvert.toFixed(1)} days`,
         numericValue: timeToConvert,
         unit: 'days',
