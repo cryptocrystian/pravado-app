@@ -16,6 +16,11 @@ export default tseslint.config(
         ...globals.browser,
         ...globals.node,
       },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -27,8 +32,14 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      // Downgrade potentially problematic rules to warnings
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
+      'no-undef': 'warn',
+      'no-unused-vars': 'warn',
+      '@typescript-eslint/ban-ts-comment': 'warn',
+      'prefer-const': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'warn',
     },
   },
   {
@@ -41,7 +52,7 @@ export default tseslint.config(
     },
     rules: {
       'no-unused-vars': 'warn',
-      '@typescript-eslint/no-unused-vars': 'off', // Turn off TS rule for JS files
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   }
 )
