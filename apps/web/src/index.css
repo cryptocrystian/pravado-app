@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* UI V4 Color Tokens - HSL format for dark/light switching */
+    --bg-app-dark: 222 47% 6%;
+    --island-dark: 222 32% 14%;
+    --island-light: 42 25% 96%;
+    
+    /* Semantic Accents */
+    --ai-teal-300: 170 70% 58%;
+    --ai-teal-500: 170 72% 45%;
+    --ai-teal-700: 170 78% 34%;
+    
+    --premium-gold-300: 42 96% 65%;
+    --premium-gold-500: 42 96% 54%;
+    --premium-gold-700: 42 98% 40%;
+    
+    --success-500: 158 64% 45%;
+    --warning-500: 37 92% 55%;
+    --danger-500: 0 73% 52%;
+    
+    /* Typography */
+    --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Dark Mode Default */
+  html.dark body {
+    background: hsl(var(--bg-app-dark));
+    color: #E7EDF5;
+  }
+  
+  /* Dark Island Surfaces */
+  [data-surface="content"] {
+    background: hsl(var(--island-dark));
+    border: 1px solid color-mix(in oklab, white 12%, transparent);
+    box-shadow: 0 8px 24px hsl(222 55% 2% / .35);
+    border-radius: 16px;
+  }
+  
+  /* Light Island Surfaces (for editors) */
+  html[data-island="light"] [data-surface="content"] {
+    background: hsl(var(--island-light));
+    color: #0f172a;
+  }
+  
+  /* Semantic Link Styling */
+  a,
+  .link {
+    color: hsl(var(--ai-teal-300));
+  }
+  
+  a:hover,
+  .link:hover {
+    color: hsl(var(--ai-teal-500));
+  }
+  
+  /* Primary Button (solid teal) */
+  .btn-primary {
+    background: hsl(var(--ai-teal-500));
+    color: #fff;
+  }
+  
+  /* Semantic Chips */
+  .chip-confidence {
+    background: hsl(var(--ai-teal-700) / .16);
+    color: hsl(var(--ai-teal-300));
+  }
+  
+  .chip-impact {
+    background: hsl(var(--premium-gold-700) / .16);
+    color: hsl(var(--premium-gold-300));
+  }
+  
+  .chip-delta-up {
+    color: hsl(var(--success-500));
+  }
+  
+  .chip-delta-down {
+    color: hsl(var(--danger-500));
+  }
+}
+
+/* Font Face */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');
+}
+
+/* Ensure dark class is always applied */
+html {
+  @apply dark;
+}

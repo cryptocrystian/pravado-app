@@ -1,0 +1,27 @@
+{
+  "name": "pravado",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:ui": "playwright test",
+    "test:ui:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "@playwright/test": "^1.40.0",
+    "@axe-core/playwright": "^4.8.2"
+  },
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  }
+}
