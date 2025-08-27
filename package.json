@@ -14,14 +14,14 @@
     "test": "turbo run test",
     "test:ui": "playwright test",
     "test:ui:headed": "playwright test --headed",
-    "install:workspaces": "npm install --workspaces",
-    "postinstall": "npm run install:workspaces"
+    "install:workspaces": "npm install --workspaces"
   },
   "devDependencies": {
     "turbo": "latest",
     "@playwright/test": "^1.40.0",
     "@axe-core/playwright": "^4.8.2"
   },
+  "packageManager": "npm@9.8.1",
   "engines": {
     "node": ">=18",
     "npm": ">=9"
