@@ -165,10 +165,15 @@ async function auditColors() {
   console.log('🎨 Starting PRAVADO UI Color Audit...\n')
   
   // Scan TypeScript, JavaScript, CSS, and JSX files
-  const patterns = [
+  const isInAppsWeb = process.cwd().includes('apps/web')
+  const patterns = isInAppsWeb ? [
     'src/**/*.{ts,tsx,js,jsx,css,scss}',
     'tailwind.config.ts',
     'src/styles/*.css'
+  ] : [
+    'apps/web/src/**/*.{ts,tsx,js,jsx,css,scss}',
+    'apps/web/tailwind.config.ts', 
+    'apps/web/src/styles/*.css'
   ]
   
   const filesToScan = []
@@ -208,11 +213,9 @@ async function generateReport() {
   }
   
   // Save JSON report
-  await fs.mkdir('../../scripts/ui', { recursive: true })
-  await fs.writeFile(
-    '../../scripts/ui/audit-results.json', 
-    JSON.stringify(report, null, 2)
-  )
+  const outputPath = process.cwd().includes('apps/web') ? '../../scripts/ui/audit-results.json' : 'scripts/ui/audit-results.json'
+  await fs.mkdir(path.dirname(outputPath), { recursive: true })
+  await fs.writeFile(outputPath, JSON.stringify(report, null, 2))
   
   // Console output
   console.log('\n📊 UI Color Audit Results')

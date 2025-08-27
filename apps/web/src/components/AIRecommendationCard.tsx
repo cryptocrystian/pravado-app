@@ -112,7 +112,7 @@ export function AutomationBar({
         >
           View Queue
           {queueCount > 0 && (
-            <span className="ml-2 bg-white text-ai-teal px-2 py-0.5 rounded-full text-xs font-bold">
+            <span className="ml-2 bg-background text-ai-teal px-2 py-0.5 rounded-full text-xs font-bold">
               {queueCount}
             </span>
           )}

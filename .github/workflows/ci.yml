@@ -97,7 +97,7 @@ jobs:
 
       - name: Run unit tests
         working-directory: apps/web
-        run: npm run test -- --run --coverage
+        run: npm run test -- --run
         
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
@@ -126,9 +126,8 @@ jobs:
           path: apps/web/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('apps/web/package-lock.json') }}
 
-      - name: Run UI audit
-        working-directory: apps/web
-        run: npm run ui:audit
+      - name: Run UI audit  
+        run: node scripts/ui/audit-colors.mjs
 
       - name: Upload audit results
         uses: actions/upload-artifact@v4

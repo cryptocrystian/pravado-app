@@ -83,13 +83,13 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     port: 5173,
-    cwd: 'apps/web',
+    cwd: process.cwd().includes('apps/web') ? '.' : 'apps/web',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },
   
   /* Global setup */
-  globalSetup: require.resolve('./global-setup.ts'),
+  globalSetup: './global-setup.ts',
   
   /* Output directory for test artifacts */
   outputDir: 'scripts/mcp/test-results',
