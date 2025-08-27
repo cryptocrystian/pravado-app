@@ -20,11 +20,16 @@ export default {
         warning: "var(--warning)",     // #F59E0B Amber
         danger: "var(--danger)",       // #DC2626 Red
         
-        // Dark mode variants
+        // Dark mode variants (for direct usage)
+        'bg-dark': "var(--bg-dark)",        // #1E2A4A Deep Slate
+        'surface-dark': "var(--surface-dark)", // #2B3A67 Dark card
+        'text-dark': "var(--text-dark)",     // #FFFFFF Inverted text
+        
+        // Nested dark variants (legacy support)
         dark: { 
-          bg: "var(--bg-dark)",        // #1E2A4A Deep Slate
-          surface: "var(--surface-dark)", // #2B3A67 Dark card
-          text: "var(--text-dark)"     // #FFFFFF Inverted text
+          bg: "var(--bg-dark)",        
+          surface: "var(--surface-dark)", 
+          text: "var(--text-dark)"     
         }
       },
       fontFamily: {

@@ -167,7 +167,7 @@ export function DashboardV3() {
                   
                   {/* Auto-apply toggle (UI only) */}
                   <div className="flex items-center gap-3">
-                    <span className="text-sm text-foreground/60">Auto-apply ≥85%</span>
+                    <span className="text-sm text-foreground/60">Confidence gate ≥85% (approval required)</span>
                     <button
                       className="relative inline-flex h-6 w-11 items-center rounded-full bg-foreground/10 transition-colors"
                       disabled

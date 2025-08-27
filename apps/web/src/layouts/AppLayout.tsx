@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useTheme } from '../hooks/useTheme'
+import { useRouteTheme } from '../theme/routeTheme'
 import { CompactSidebar } from '../components/ai-first/CompactSidebar'
 import { CommandPalette } from '../components/CommandPalette'
 import { CopilotDrawer } from '../components/ai-first/CopilotDrawer'
@@ -25,6 +26,9 @@ export function AppLayout({ children }: AppLayoutProps) {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const [copilotOpen, setCopilotOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  
+  // Route-based theme toggle (dark shell + light islands)
+  useRouteTheme()
 
   // Handle keyboard shortcut for command palette
   useEffect(() => {
@@ -40,7 +44,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   }, [])
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-bg-dark text-text-dark">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div 
@@ -60,10 +64,10 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Main content */}
       <div className="lg:pl-60">
         {/* Top bar */}
-        <header className="h-16 bg-panel border-b border-border flex items-center justify-between px-4 lg:px-6">
+        <header className="h-16 bg-bg-dark border-b border-surface-dark/20 flex items-center justify-between px-4 lg:px-6">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 text-foreground hover:bg-panel-elevated rounded-lg"
+            className="lg:hidden p-2 text-text-dark hover:bg-surface-dark/50 rounded-lg"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -94,21 +98,23 @@ export function AppLayout({ children }: AppLayoutProps) {
             </button>
 
             {/* Notifications */}
-            <button className="p-2 text-foreground hover:bg-panel-elevated rounded-lg relative">
+            <button className="p-2 text-text-dark hover:bg-surface-dark/50 rounded-lg relative">
               <Bell className="h-5 w-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
+              <span className="absolute top-1 right-1 w-2 h-2 bg-ai rounded-full"></span>
             </button>
 
             {/* Profile */}
-            <button className="p-2 text-foreground hover:bg-panel-elevated rounded-lg">
+            <button className="p-2 text-text-dark hover:bg-surface-dark/50 rounded-lg">
               <User className="h-5 w-5" />
             </button>
           </div>
         </header>
 
-        {/* Page content */}
-        <main>
-          {children}
+        {/* Page content - Light islands on dark shell */}
+        <main className="p-6">
+          <div data-surface="content" className="min-h-screen bg-bg rounded-xl border border-surface/20 p-6">
+            {children}
+          </div>
         </main>
       </div>
 
@@ -116,7 +122,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {sidebarOpen && (
         <button
           onClick={() => setSidebarOpen(false)}
-          className="fixed top-4 right-4 z-50 p-2 bg-panel text-foreground rounded-lg lg:hidden"
+          className="fixed top-4 right-4 z-50 p-2 bg-surface-dark text-text-dark rounded-lg lg:hidden"
         >
           <X className="h-5 w-5" />
         </button>
