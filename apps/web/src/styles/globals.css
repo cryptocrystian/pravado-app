@@ -543,3 +543,79 @@ a:hover {
 }
 
 }
+
+/* ============================================= */
+/* V3 Canonical Brand & Theme - Single Source of Truth */
+/* ============================================= */
+:root {
+  /* neutrals (dark shell) - V3 override */
+  --bg: 222 47% 6%;
+  --fg: 210 20% 98%;
+  --panel: 222 22% 12%;
+  --panel-2: 222 18% 16%;
+  --border: 222 16% 26%;
+
+  /* content islands (light-ish panels inside dark shell) */
+  --island: 210 20% 98%;
+  --island-border: 214 17% 88%;
+
+  /* Pravado accents (brand) - V3 canonical */
+  --ai-teal-300: 170 70% 58%;
+  --ai-teal-500: 170 72% 45%;
+  --ai-teal-700: 170 78% 34%;
+  --ai-gold-300: 40 92% 66%;
+  --ai-gold-500: 40 92% 52%;
+  --ai-gold-700: 40 94% 40%;
+  --brand-grad: linear-gradient(90deg, hsl(var(--ai-teal-500)), hsl(var(--ai-gold-500)));
+
+  /* glass - V3 */
+  --glass-fill: 0 0% 100% / .03;
+  --glass-stroke: 210 18% 98% / .10;
+  --glass-stroke-strong: 210 18% 98% / .16;
+}
+
+/* V3 Global Brand Rules */
+a, .link { 
+  color: hsl(var(--ai-teal-300)) !important;
+}
+a:hover { 
+  color: hsl(var(--ai-teal-500)) !important;
+}
+.btn-primary { 
+  background: var(--brand-grad) !important;
+  color: #fff !important;
+}
+.chip-positive { 
+  background: hsl(var(--ai-teal-700) / .16) !important;
+  color: hsl(var(--ai-teal-300)) !important;
+}
+.chip-attention { 
+  background: hsl(var(--ai-gold-700) / .16) !important;
+  color: hsl(var(--ai-gold-300)) !important;
+}
+
+/* V3 Global Utility Classes */
+.glass-card {
+  position: relative;
+  background: hsl(var(--glass-fill));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--glass-stroke));
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: var(--brand-grad);
+  opacity: .18;
+  mask: linear-gradient(hsl(0 0% 0%), hsl(0 0% 0%)) content-box, linear-gradient(hsl(0 0% 0%), hsl(0 0% 0%));
+  -webkit-mask: linear-gradient(hsl(0 0% 0%), hsl(0 0% 0%)) content-box, linear-gradient(hsl(0 0% 0%), hsl(0 0% 0%));
+  padding: 1px;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}

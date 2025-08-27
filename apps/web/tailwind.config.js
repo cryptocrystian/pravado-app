@@ -39,6 +39,11 @@ export default {
             DEFAULT: 'hsl(var(--ai-gold-500))'
           }
         },
+        // V3 island colors
+        island: { 
+          DEFAULT: 'hsl(var(--island))', 
+          border: 'hsl(var(--island-border))' 
+        },
         glass: {
           bg: 'hsla(var(--glass-bg))',
           border: 'hsla(var(--glass-border))'
