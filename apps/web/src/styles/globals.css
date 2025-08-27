@@ -32,8 +32,8 @@
     line-height: 1.5;
   }
 
-  /* Dark mode application */
-  body.dark {
+  /* Dark mode application - when html has dark class */
+  .dark body {
     background-color: var(--bg-dark);
     color: var(--text-dark);
   }

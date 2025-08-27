@@ -28,14 +28,14 @@ export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen bg-bg-dark overflow-hidden">
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg-dark)' }}>
       {/* Sidebar - stays on dark shell */}
       <AppSidebarV3 />
       
       {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header bar */}
-        <header className="h-16 border-b border-surface-dark/20 flex items-center justify-between px-6">
+        <header className="h-16 border-b flex items-center justify-between px-6" style={{ borderBottomColor: 'rgba(43, 58, 103, 0.2)' }}>
           <div className="flex items-center gap-4">
             {/* Page title dynamically set by page components */}
             <div id="page-header" />

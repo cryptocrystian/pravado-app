@@ -9,6 +9,13 @@ export function useRouteTheme() {
   const isLight = LIGHT_ROUTES.some((re) => re.test(pathname));
   
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', !isLight);
-  }, [isLight]);
+    // TEMP: Force dark mode for testing
+    const shouldBeDark = true; // !isLight;
+    console.log('Route theme:', { pathname, isLight, shouldBeDark });
+    
+    document.documentElement.classList.toggle('dark', shouldBeDark);
+    
+    // Also apply to body as fallback
+    document.body.classList.toggle('dark', shouldBeDark);
+  }, [pathname]);
 }
