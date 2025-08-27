@@ -56,6 +56,6 @@ export interface ActivityEvent {
 
 export interface TelemetryEvent {
   event: string
-  properties?: Record<string, any>
+  properties?: Record<string, unknown>
   timestamp?: string
 }

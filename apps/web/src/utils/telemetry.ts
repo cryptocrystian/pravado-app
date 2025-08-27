@@ -3,7 +3,7 @@ import { TelemetryEvent } from '../types'
 class TelemetryService {
   private events: TelemetryEvent[] = []
   
-  emit(event: string, properties?: Record<string, any>) {
+  emit(event: string, properties?: Record<string, unknown>) {
     const telemetryEvent: TelemetryEvent = {
       event,
       properties,
