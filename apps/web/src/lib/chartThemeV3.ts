@@ -77,6 +77,13 @@ export const CHART_V3_DEFAULTS = {
   }
 }
 
+// Extend Window interface for Chart.js
+declare global {
+  interface Window {
+    Chart?: any
+  }
+}
+
 // Initialize Chart.js defaults
 export function initializeChartV3Defaults() {
   if (typeof window !== 'undefined' && window.Chart) {

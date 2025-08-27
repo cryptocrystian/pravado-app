@@ -180,7 +180,7 @@ class AnalyticsService {
   /**
    * Track user engagement metrics for dashboard optimization
    */
-  trackEngagement(event: 'page_view' | 'time_on_page' | 'scroll_depth' | 'hover' | 'focus', data: Record<string, any> = {}) {
+  trackEngagement(event: 'page_view' | 'time_on_page' | 'scroll_depth' | 'hover' | 'focus' | 'search_opened' | 'mini_kpi_click', data: Record<string, any> = {}) {
     if (this.isPostHogAvailable()) {
       window.posthog!.capture('user_engagement', {
         event,
@@ -256,7 +256,7 @@ export const trackFlow = {
   phase3: (component: 'kpi_hero' | 'quick_actions' | 'glass_card' | 'sidebar', interaction: string, props?: Record<string, any>) => 
     analyticsService.trackPhase3Interaction(component, interaction, props),
     
-  engagement: (event: 'page_view' | 'time_on_page' | 'scroll_depth' | 'hover' | 'focus', data?: Record<string, any>) => 
+  engagement: (event: 'page_view' | 'time_on_page' | 'scroll_depth' | 'hover' | 'focus' | 'search_opened' | 'mini_kpi_click', data?: Record<string, any>) => 
     analyticsService.trackEngagement(event, data)
 };
 

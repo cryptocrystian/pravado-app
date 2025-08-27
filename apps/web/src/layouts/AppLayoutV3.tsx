@@ -5,7 +5,7 @@ import { AppSidebarV3 } from '../components/v3'
 import { CommandPalette } from '../components/CommandPalette'
 import { trackFlow } from '../services/analyticsService'
 
-export function AppLayoutV3() {
+export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
   const [commandOpen, setCommandOpen] = useState(false)
 
   const handleSearch = () => {
@@ -72,7 +72,7 @@ export function AppLayoutV3() {
 
         {/* Page content */}
         <main className="flex-1 overflow-y-auto">
-          <Outlet />
+          {children || <Outlet />}
         </main>
       </div>
 

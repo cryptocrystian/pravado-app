@@ -1,4 +1,5 @@
-import { ArrowUpRight, LucideIcon } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { trackFlow } from '../../services/analyticsService'
 
