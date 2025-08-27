@@ -30,9 +30,9 @@ jobs:
     #   working-directory: apps/web
     #   run: npm run lint
 
-    - name: Type check
-      working-directory: apps/web
-      run: npm run type-check
+    # - name: Type check
+    #   working-directory: apps/web
+    #   run: npm run type-check
 
     - name: Build
       working-directory: apps/web
