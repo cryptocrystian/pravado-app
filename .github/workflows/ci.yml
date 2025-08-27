@@ -15,19 +15,19 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18.19.1'
+        node-version: '20.19.4'
 
     - name: Install dependencies
       working-directory: apps/web
       run: npm install
 
-    # - name: Lint
-    #   working-directory: apps/web
-    #   run: npm run lint
+    - name: Lint
+      working-directory: apps/web
+      run: npm run lint
 
-    # - name: Type check
-    #   working-directory: apps/web  
-    #   run: npm run type-check
+    - name: Type check
+      working-directory: apps/web  
+      run: npm run type-check
 
     - name: Debug - Check Node version
       run: node --version && npm --version
