@@ -93,8 +93,8 @@ export function Dashboard() {
   
   return (
     <div className="min-h-screen" data-testid="dashboard">
-      {/* Main grid container */}
-      <div className="grid grid-cols-12 gap-6 p-6" data-testid="dashboard-grid">
+      {/* Main grid container with data-surface for light island */}
+      <div className="grid grid-cols-12 gap-6" data-surface="content" data-testid="dashboard-grid">
         
         {/* Loading overlay */}
         {loading && (
@@ -114,8 +114,8 @@ export function Dashboard() {
             <h1 className="text-3xl font-bold text-foreground">🚀 Marketing Command Center</h1>
             <p className="text-foreground/60">Monitor your visibility and manage campaigns from your central dashboard</p>
             {/* Phase 3 QA Guardrails: Visual indicator for deployment verification */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-ai border border-ai rounded-lg text-sm text-ai mt-3 shadow-lg">
-              <div className="w-3 h-3 bg-ai rounded-full animate-pulse shadow-lg"></div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-ai border border-ai rounded-lg text-sm text-white mt-3 shadow-lg">
+              <div className="w-3 h-3 bg-surface rounded-full animate-pulse shadow-lg"></div>
               ✅ Phase 3 Complete: 90+ Tests | Analytics | A11y | Visual QA
             </div>
           </div>

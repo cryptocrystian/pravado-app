@@ -134,24 +134,24 @@ export const chartColors = {
 
 // Enhanced brand palette array for series with dark shell compatibility
 export const brandPalette = [
-  chartColors.aiTeal500,   // Primary AI brand color
-  chartColors.aiGold500,   // Secondary AI brand color
-  chartColors.aiTeal300,   // Lighter teal variant
-  chartColors.aiGold300,   // Lighter gold variant
+  'var(--ai)',                  // Primary AI teal
+  'var(--premium)',            // Premium gold  
+  'var(--ai-teal-300)',        // Light teal for strokes
+  'var(--success)',            // Green for positive deltas
+  'var(--danger)',             // Red for negative deltas/alerts
+  'var(--warning)',            // Amber for warnings
   'var(--text)',               // Text color
-  'var(--primary)',               // Primary color
-  'var(--surface)',               // Surface color
 ]
 
-// Brand palette with alpha variants for backgrounds
+// Brand palette with alpha variants for backgrounds (no gradients)
 export const brandPaletteAlpha = [
-  chartColors.aiTeal500 + '20',   // 12% opacity
-  chartColors.aiGold500 + '20',
-  chartColors.aiTeal300 + '20',
-  chartColors.aiGold300 + '20',
-  'rgba(var(--text-rgb), 0.2)',
-  'rgba(var(--primary-rgb), 0.2)',
-  'rgba(var(--surface-rgb), 0.2)',
+  'rgba(0, 168, 168, 0.12)',     // AI teal with 12% opacity
+  'rgba(212, 160, 23, 0.12)',    // Premium gold with 12% opacity  
+  'rgba(94, 234, 212, 0.12)',    // Light teal with 12% opacity
+  'rgba(34, 197, 94, 0.12)',     // Success green with 12% opacity
+  'rgba(220, 38, 38, 0.12)',     // Danger red with 12% opacity
+  'rgba(245, 158, 11, 0.12)',    // Warning amber with 12% opacity
+  'rgba(26, 26, 26, 0.12)',      // Text with 12% opacity
 ]
 
 // Enhanced chart configurations with dark shell theme and brand styling

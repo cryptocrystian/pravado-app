@@ -28,7 +28,7 @@ export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg-dark)' }}>
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg-app-dark)' }}>
       {/* Sidebar - stays on dark shell */}
       <AppSidebarV3 />
       
@@ -76,7 +76,15 @@ export function AppLayoutV3({ children }: { children?: React.ReactNode }) {
 
         {/* Page content - Light islands on dark shell */}
         <main className="flex-1 overflow-y-auto p-6">
-          <div data-surface="content" className="min-h-full bg-bg rounded-xl border border-surface/20 p-6 overflow-y-auto">
+          <div 
+            data-surface="content" 
+            className="min-h-full rounded-xl border shadow-lg p-6 overflow-y-auto"
+            style={{ 
+              backgroundColor: 'var(--bg-island)', 
+              borderColor: 'rgba(231, 236, 239, 0.2)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+            }}
+          >
             {children || <Outlet />}
           </div>
         </main>

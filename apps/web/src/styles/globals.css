@@ -14,10 +14,17 @@
     --warning: #F59E0B;      /* Amber */
     --danger: #DC2626;       /* Red */
 
-    /* Dark */
-    --bg-dark: #1E2A4A;      /* Deep Slate */
+    /* Dark Shell + Islands */
+    --bg-app-dark: #1E2A4A;  /* Deep Slate - Main shell */
+    --bg-panel: #2B3A67;     /* Dark panel backgrounds */
+    --bg-island: #F8F6F2;    /* Light content islands */
+    --bg-dark: #1E2A4A;      /* Legacy support */
     --surface-dark: #2B3A67; /* Dark card */
     --text-dark: #FFFFFF;    /* Inverted text */
+    
+    /* Semantic Accent Colors */
+    --ai-teal-300: #5EEAD4;  /* Light teal for strokes/active states */
+    --premium-gold: #D4A017; /* Premium/impact accent */
   }
 
   /* Base styles */

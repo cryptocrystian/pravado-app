@@ -20,10 +20,17 @@ export default {
         warning: "var(--warning)",     // #F59E0B Amber
         danger: "var(--danger)",       // #DC2626 Red
         
-        // Dark mode variants (for direct usage)
-        'bg-dark': "var(--bg-dark)",        // #1E2A4A Deep Slate
+        // Dark Shell + Islands
+        'bg-app-dark': "var(--bg-app-dark)", // #1E2A4A Main shell
+        'bg-panel': "var(--bg-panel)",       // #2B3A67 Dark panels  
+        'bg-island': "var(--bg-island)",     // #F8F6F2 Light islands
+        'bg-dark': "var(--bg-dark)",         // Legacy support
         'surface-dark': "var(--surface-dark)", // #2B3A67 Dark card
         'text-dark': "var(--text-dark)",     // #FFFFFF Inverted text
+        
+        // Semantic Accents
+        'ai-teal-300': "var(--ai-teal-300)", // Light teal strokes
+        'premium-gold': "var(--premium-gold)" // Premium/impact accent
         
         // Nested dark variants (legacy support)
         dark: { 

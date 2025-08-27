@@ -51,9 +51,9 @@ function SidebarItem({ icon: Icon, label, active = false, count, path }: Sidebar
       
       <span className="flex-1 text-left">{label}</span>
       
-      {/* Count badge - gold accent, no pill */}
+      {/* Count badge - gold background with dark text */}
       {count !== undefined && count > 0 && (
-        <div className="px-1.5 py-0.5 bg-premium text-premium text-xs font-medium rounded min-w-[1.25rem] text-center">
+        <div className="px-1.5 py-0.5 bg-premium text-white text-xs font-medium rounded min-w-[1.25rem] text-center">
           {count > 99 ? '99+' : count}
         </div>
       )}
