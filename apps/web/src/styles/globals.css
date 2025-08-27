@@ -3,28 +3,21 @@
 @layer base {
   /* V4 PRAVADO Master Spec Color Tokens - Single Source of Truth */
   :root {
-    /* Light (Beige-first) - pravado_master_spec.md */
-    --bg: 48 12% 95%;        /* Soft beige content background */
-    --surface: 210 20% 92%;  /* Elevated cards */
-    --text: 0 0% 10%;        /* Primary text */
-    --primary: 220 44% 29%;  /* Slate Blue */
-    --ai: 180 100% 33%;      /* AI Teal */
-    --premium: 45 88% 40%;   /* Gold */
-    --success: 142 76% 45%;  /* Green */
-    --warning: 32 95% 44%;   /* Amber */
-    --danger: 0 84% 60%;     /* Red */
-
-    /* Dark Shell + Islands */
-    --bg-app-dark: 218 44% 20%; /* Deep Slate - Main shell */
-    --bg-panel: 220 44% 29%;    /* Dark panel backgrounds */
-    --bg-island: 48 12% 95%;    /* Light content islands */
-    --bg-dark: 218 44% 20%;     /* Legacy support */
-    --surface-dark: 220 44% 29%; /* Dark card */
-    --text-dark: 0 0% 100%;     /* Inverted text */
+    /* V4 Spec: Dark Shell + Light Islands */
+    --bg-app-dark: 218 44% 12%;  /* Dark shell background */
+    --bg-island: 0 0% 98%;       /* Light content islands */
+    --text-on-island: 0 0% 13%;  /* Dark text on light islands */
+    --text-on-shell: 0 0% 85%;   /* Light text on dark shell */
     
-    /* Semantic Accent Colors */
-    --ai-teal-300: 174 83% 67%; /* Light teal for strokes/active states */
-    --premium-gold: 45 88% 40%; /* Premium/impact accent */
+    /* AI-Teal Only - No Other Colors */
+    --ai: 180 100% 33%;          /* Primary AI-Teal */
+    --ai-light: 174 83% 67%;     /* Light teal variant */
+    
+    /* Legacy support */
+    --bg: 0 0% 98%;              /* Island background */
+    --text: 0 0% 13%;            /* Island text */
+    --surface: 220 13% 91%;      /* Subtle surfaces */
+    --border: 220 13% 80%;       /* Borders */
   }
 
   /* Base styles */
@@ -33,16 +26,16 @@
   }
 
   body {
-    background-color: hsl(var(--bg));
-    color: hsl(var(--text));
+    background-color: hsl(var(--bg-app-dark));  /* Dark shell */
+    color: hsl(var(--text-on-shell));           /* Light text on shell */
     font-family: 'Inter', system-ui, -apple-system, 'sans-serif';
     line-height: 1.5;
   }
 
-  /* Dark mode application - when html has dark class */
-  .dark body {
-    background-color: hsl(var(--bg-dark));
-    color: hsl(var(--text-dark));
+  /* Islands have light background with dark text */
+  [data-surface="content"] {
+    background-color: hsl(var(--bg-island)) !important;
+    color: hsl(var(--text-on-island)) !important;
   }
 
   /* V4 Button Variants - Per Master Spec */
