@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Pravado Brand Compliance Check
+echo "🎨 Checking brand compliance..."
+
+cd apps/web
+
+# Run brand audit on staged files
+npm run audit:brand
+
+# Check if audit passed
+if [ $? -ne 0 ]; then
+  echo "❌ Brand compliance check failed!"
+  echo "Fix all brand violations before committing."
+  echo "Run 'npm run fix:links' to auto-fix link colors."
+  echo "Run 'npm run audit:brand' to see all violations."
+  exit 1
+fi
+
+echo "✅ Brand compliance check passed!"
