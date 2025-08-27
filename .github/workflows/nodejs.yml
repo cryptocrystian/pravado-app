@@ -35,10 +35,8 @@ jobs:
         run: npm run build
 
       - name: Upload artifact to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: pravado-app
-          directory: apps/web/dist
-          wranglerVersion: '3'
+        run: |
+          echo "Cloudflare deployment disabled - secrets not configured"
+          echo "To enable: Add CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID to repository secrets"
+          echo "Built files are ready in apps/web/dist/"
+          ls -la apps/web/dist/ || echo "No dist directory found"
