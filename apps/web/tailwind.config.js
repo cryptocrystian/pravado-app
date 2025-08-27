@@ -30,7 +30,7 @@ export default {
         
         // Semantic Accents
         'ai-teal-300': "var(--ai-teal-300)", // Light teal strokes
-        'premium-gold': "var(--premium-gold)" // Premium/impact accent
+        'premium-gold': "var(--premium-gold)", // Premium/impact accent
         
         // Nested dark variants (legacy support)
         dark: { 

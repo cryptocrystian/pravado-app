@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 1000",
     "preview": "vite preview",
     "test": "echo \"Tests configured for local development\" && exit 0",
     "test:playwright": "playwright test",

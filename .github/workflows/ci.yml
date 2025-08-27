@@ -18,13 +18,16 @@ jobs:
         node-version: '20.19.4'
 
     - name: Install dependencies
-      working-directory: apps/web
       run: npm install
 
+    - name: Lint
+      run: npm run lint
+
+    - name: Type check
+      run: npm run type-check
+
     - name: Build
-      working-directory: apps/web
       run: npm run build
 
     - name: Run tests
-      working-directory: apps/web
-      run: npm test
+      run: npm run test
