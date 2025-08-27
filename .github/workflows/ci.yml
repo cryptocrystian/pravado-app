@@ -19,9 +19,7 @@ jobs:
 
     - name: Install dependencies
       working-directory: apps/web
-      run: |
-        npm cache clean --force
-        npm ci --prefer-offline --no-audit
+      run: npm install
 
     - name: Lint
       working-directory: apps/web
