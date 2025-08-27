@@ -53,10 +53,10 @@ export function RightRailTile({
   className
 }: RightRailTileProps) {
   const categoryStyles = {
-    trending: 'border-ai bg-ai
-    optimization: 'border-premium bg-ai
-    alert: 'border-red-400/30 bg-ai
-    insight: 'border-white/10 bg-surface/5'
+    trending: 'border-ai bg-ai/10',
+    optimization: 'border-premium bg-premium/10',
+    alert: 'border-danger bg-danger/10',
+    insight: 'border-surface bg-surface/5'
   };
 
   return (
