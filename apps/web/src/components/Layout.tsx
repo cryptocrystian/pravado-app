@@ -7,10 +7,10 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="flex h-screen bg-bg-app-light dark:bg-bg-app-dark">
+    <div className="flex h-screen bg-background">
       <Sidebar />
       <main className="flex-1 overflow-auto">
-        <div className="island-surface min-h-full p-6">
+        <div className="min-h-full p-6">
           {children}
         </div>
       </main>

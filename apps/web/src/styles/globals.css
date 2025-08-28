@@ -5,18 +5,38 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light theme CSS variables */
+    --background: 43 33% 97%; /* hsl values without hsl() */
+    --surface: 207 20% 92%;
+    --island: 43 33% 97%;
+    --text-primary: 0 0% 10%;
+    --text-secondary: 0 0% 40%;
+    --border: 214.3 31.8% 91.4%;
+    --ai-teal: 180 100% 33%;
+    --premium-gold: 43 87% 45%;
+    --success: 142 76% 47%;
+    --warning: 38 92% 50%;
+    --danger: 0 84% 50%;
+  }
+  
+  .dark {
+    /* Dark theme CSS variables */
+    --background: 225 39% 22%;
+    --surface: 225 39% 30%;
+    --island: 225 39% 22%;
+    --text-primary: 0 0% 100%;
+    --text-secondary: 0 0% 70%;
+    --border: 225 39% 40%;
+  }
+  
   * {
     @apply border-border;
   }
   
   body {
-    @apply bg-bg-app-light text-text-primary font-sans;
+    @apply bg-background text-text-primary font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  
-  /* Dark theme overrides */
-  .dark body {
-    @apply bg-bg-app-dark text-text-primary-dark;
   }
   
   /* Island themes - override based on route */

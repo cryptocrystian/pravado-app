@@ -25,11 +25,11 @@ export function Sidebar() {
   return (
     <aside 
       data-testid="sidebar"
-      className="hidden md:block w-64 bg-surface-light dark:bg-surface-dark border-r border-border sticky top-0 h-screen">
+      className="hidden md:block w-64 bg-surface border-r border-border sticky top-0 h-screen">
       <div className="flex flex-col h-full">
         {/* Logo */}
         <div className="flex items-center px-6 py-4 border-b border-border">
-          <div className="text-xl font-bold text-text-primary dark:text-text-primary-dark">
+          <div className="text-xl font-bold text-text-primary">
             PRAVADO
           </div>
         </div>
@@ -46,7 +46,7 @@ export function Sidebar() {
                   group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors relative
                   ${isActive 
                     ? 'sidebar-item-active text-ai-teal bg-ai-teal/10 border-l-[3px] border-ai-teal' 
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 border-l-[3px] border-transparent'
+                    : 'text-text-secondary hover:text-text-primary hover:bg-surface/50 border-l-[3px] border-transparent'
                   }
                 `}
               >
@@ -67,8 +67,8 @@ export function Sidebar() {
               <span className="text-white text-sm font-medium">U</span>
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium text-text-primary dark:text-text-primary-dark">User</p>
-              <p className="text-xs text-gray-500">user@pravado.com</p>
+              <p className="text-sm font-medium text-text-primary">User</p>
+              <p className="text-xs text-text-secondary">user@pravado.com</p>
             </div>
           </div>
         </div>

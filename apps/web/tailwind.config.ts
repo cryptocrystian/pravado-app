@@ -28,20 +28,25 @@ export default {
         'surface-dark': 'hsl(225, 39%, 30%)',   // #2B3A67 Dark card
         'island-dark': 'hsl(225, 39%, 22%)',    // Dark islands for dashboard
         
+        // CSS Variable based colors
+        background: 'hsl(var(--background))',
+        surface: 'hsl(var(--surface))',
+        island: 'hsl(var(--island))',
+        
         // Text
-        'text-primary': 'hsl(0, 0%, 10%)',      // #1A1A1A Primary text
-        'text-primary-dark': 'hsl(0, 0%, 100%)', // #FFFFFF Inverted text
+        'text-primary': 'hsl(var(--text-primary))',
+        'text-secondary': 'hsl(var(--text-secondary))',
         
         // Semantic colors
         primary: 'hsl(225, 39%, 30%)',          // #2B3A67 Slate Blue
-        'ai-teal': 'hsl(180, 100%, 33%)',       // #00A8A8 AI Teal
-        'premium-gold': 'hsl(43, 87%, 45%)',    // #D4A017 Gold
-        success: 'hsl(142, 76%, 47%)',          // #22C55E Green
-        warning: 'hsl(38, 92%, 50%)',           // #F59E0B Amber
-        danger: 'hsl(0, 84%, 50%)',             // #DC2626 Red
+        'ai-teal': 'hsl(var(--ai-teal))',       // #00A8A8 AI Teal
+        'premium-gold': 'hsl(var(--premium-gold))',    // #D4A017 Gold
+        success: 'hsl(var(--success))',          // #22C55E Green
+        warning: 'hsl(var(--warning))',           // #F59E0B Amber
+        danger: 'hsl(var(--danger))',             // #DC2626 Red
         
         // Component colors
-        border: 'hsl(214.3, 31.8%, 91.4%)',
+        border: 'hsl(var(--border))',
         input: 'hsl(214.3, 31.8%, 91.4%)',
         ring: 'hsl(180, 100%, 33%)', // AI Teal for focus rings
         

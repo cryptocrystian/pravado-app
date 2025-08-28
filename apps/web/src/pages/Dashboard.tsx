@@ -186,7 +186,7 @@ export function Dashboard() {
 
       {/* Band B: AI Recommendations + Automation Bar */}
       <div className="space-y-4" data-surface="content">
-        <h2 className="text-xl font-semibold text-text-primary dark:text-text-primary-dark">
+        <h2 className="text-xl font-semibold text-text-primary">
           AI Recommendations
         </h2>
         

@@ -17,13 +17,13 @@ export function AIRecommendationCard({
   const { id, title, description, confidence, impact } = recommendation
 
   return (
-    <div data-testid="ai-recommendation-card" className="bg-background dark:bg-surface-dark rounded-lg p-4 shadow-sm border border-border">
+    <div data-testid="ai-recommendation-card" className="bg-surface rounded-lg p-4 shadow-sm border border-border">
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
-          <h3 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark mb-1">
+          <h3 className="text-sm font-semibold text-text-primary mb-1">
             {title}
           </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-text-secondary">
             {description}
           </p>
         </div>
@@ -51,7 +51,7 @@ export function AIRecommendationCard({
         
         <button 
           onClick={() => onAskCopilot?.(id)}
-          className="flex items-center px-3 py-1.5 bg-gray-100 text-gray-700 rounded text-sm font-medium hover:bg-gray-200 transition-colors"
+          className="flex items-center px-3 py-1.5 bg-surface text-text-primary rounded text-sm font-medium hover:bg-surface/80 transition-colors"
         >
           <MessageSquare className="w-4 h-4 mr-1" />
           Ask Copilot
@@ -59,7 +59,7 @@ export function AIRecommendationCard({
         
         <button 
           onClick={() => onQueue?.(id)}
-          className="flex items-center px-3 py-1.5 bg-gray-100 text-gray-700 rounded text-sm font-medium hover:bg-gray-200 transition-colors"
+          className="flex items-center px-3 py-1.5 bg-surface text-text-primary rounded text-sm font-medium hover:bg-surface/80 transition-colors"
         >
           <Clock className="w-4 h-4 mr-1" />
           Queue
@@ -86,10 +86,10 @@ export function AutomationBar({
   onViewQueue
 }: AutomationBarProps) {
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-border">
+    <div className="bg-surface/50 rounded-lg p-4 border border-border">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="text-sm text-text-secondary">
             Confidence gate ≥{confidenceThreshold}% (approval required)
           </div>
           
