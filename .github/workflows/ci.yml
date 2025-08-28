@@ -48,13 +48,7 @@ jobs:
 
       - name: Install Playwright browsers and dependencies
         working-directory: apps/web
-        run: |
-          # Always install system dependencies (they're not cached)
-          sudo npx playwright install-deps
-          # Install browsers only if not cached
-          if [[ "${{ steps.cache-playwright.outputs.cache-hit }}" != "true" ]]; then
-            npx playwright install chromium
-          fi
+        run: npx playwright install --with-deps chromium
 
   typecheck:
     name: TypeScript Type Checking
@@ -175,9 +169,9 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('apps/web/package-lock.json') }}
 
-      - name: Install Playwright system dependencies
+      - name: Install Playwright system dependencies  
         working-directory: apps/web
-        run: sudo npx playwright install-deps
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
         working-directory: apps/web
@@ -230,9 +224,9 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('apps/web/package-lock.json') }}
 
-      - name: Install Playwright system dependencies
+      - name: Install Playwright system dependencies  
         working-directory: apps/web
-        run: sudo npx playwright install-deps
+        run: npx playwright install --with-deps chromium
 
       - name: Run MCP assertions
         working-directory: apps/web

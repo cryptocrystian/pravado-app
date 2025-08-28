@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['html', { open: 'never' }],
-    ['json', { outputFile: 'test-results.json' }]
+    ['json', { outputFile: './test-results.json' }]
   ],
   use: {
     baseURL: 'http://localhost:5173',
