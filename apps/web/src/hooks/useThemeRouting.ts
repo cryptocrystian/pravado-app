@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from './useTheme'
 
 const DARK_ROUTES = ['/', '/dashboard', '/analytics', '/seo', '/copilot', '/security', '/campaigns']
 const LIGHT_ROUTES = ['/content', '/editor', '/brand']
