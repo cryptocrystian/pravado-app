@@ -143,6 +143,7 @@ jobs:
     name: Playwright E2E Tests
     runs-on: ubuntu-latest
     needs: install-and-cache
+    if: true
     strategy:
       fail-fast: false
       matrix:
@@ -163,10 +164,14 @@ jobs:
           path: apps/web/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('apps/web/package-lock.json') }}
 
-      - name: Install Playwright browsers and dependencies
+      - name: Install Playwright system dependencies
+        working-directory: apps/web
+        run: sudo npx playwright install-deps chromium
+        
+      - name: Install Playwright browsers
         working-directory: apps/web
         run: |
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           npx playwright --version
 
       - name: Run Playwright tests
@@ -198,6 +203,7 @@ jobs:
     name: MCP Contract Assertions
     runs-on: ubuntu-latest
     needs: install-and-cache
+    if: true
     steps:
       - uses: actions/checkout@v4
 
@@ -214,10 +220,14 @@ jobs:
           path: apps/web/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('apps/web/package-lock.json') }}
 
-      - name: Install Playwright browsers and dependencies
+      - name: Install Playwright system dependencies
+        working-directory: apps/web
+        run: sudo npx playwright install-deps chromium
+        
+      - name: Install Playwright browsers
         working-directory: apps/web
         run: |
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           npx playwright --version
 
       - name: Run MCP assertions
