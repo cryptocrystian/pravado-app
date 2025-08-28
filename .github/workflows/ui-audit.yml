@@ -1,18 +1,7 @@
 name: UI Style Audit
 
 on:
-  push:
-    branches: [ main ]
-    paths: 
-      - 'apps/web/src/**'
-      - 'apps/web/tailwind.config.ts'
-      - 'apps/web/src/styles/**'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'apps/web/src/**'
-      - 'apps/web/tailwind.config.ts'
-      - 'apps/web/src/styles/**'
+  workflow_dispatch: # Manual trigger only - disabled as UI audit is handled in main CI
 
 jobs:
   ui-audit:
