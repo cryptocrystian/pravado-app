@@ -17,7 +17,7 @@ export function AIRecommendationCard({
   const { id, title, description, confidence, impact } = recommendation
 
   return (
-    <div className="bg-white dark:bg-surface-dark rounded-lg p-4 shadow-sm border border-border">
+    <div data-testid="ai-recommendation-card" className="bg-background dark:bg-surface-dark rounded-lg p-4 shadow-sm border border-border">
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark mb-1">

@@ -23,7 +23,9 @@ const navigation = [
 
 export function Sidebar() {
   return (
-    <aside className="w-64 bg-surface-light dark:bg-surface-dark border-r border-border">
+    <aside 
+      data-testid="sidebar"
+      className="hidden md:block w-64 bg-surface-light dark:bg-surface-dark border-r border-border sticky top-0 h-screen">
       <div className="flex flex-col h-full">
         {/* Logo */}
         <div className="flex items-center px-6 py-4 border-b border-border">
@@ -43,8 +45,8 @@ export function Sidebar() {
                 className={({ isActive }) => `
                   group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors relative
                   ${isActive 
-                    ? 'sidebar-item-active text-ai-teal bg-ai-teal/10' 
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
+                    ? 'sidebar-item-active text-ai-teal bg-ai-teal/10 border-l-[3px] border-ai-teal' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 border-l-[3px] border-transparent'
                   }
                 `}
               >

@@ -205,7 +205,7 @@ export function Dashboard() {
           onViewQueue={() => console.log('View queue clicked')}
         />
         
-        <div className="grid gap-4" data-testid="ai-recommendations">
+        <div className="grid gap-4 lg:grid-cols-2" data-testid="ai-recommendations">
           {mockRecommendations.map(rec => (
             <AIRecommendationCard
               key={rec.id}
