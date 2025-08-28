@@ -163,15 +163,11 @@ jobs:
           path: apps/web/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('apps/web/package-lock.json') }}
 
-      - name: Restore Playwright cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('apps/web/package-lock.json') }}
-
-      - name: Install Playwright system dependencies  
+      - name: Install Playwright browsers and dependencies
         working-directory: apps/web
-        run: npx playwright install --with-deps chromium
+        run: |
+          npx playwright install --with-deps chromium
+          npx playwright --version
 
       - name: Run Playwright tests
         working-directory: apps/web
@@ -218,18 +214,14 @@ jobs:
           path: apps/web/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('apps/web/package-lock.json') }}
 
-      - name: Restore Playwright cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('apps/web/package-lock.json') }}
-
-      - name: Install Playwright system dependencies  
+      - name: Install Playwright browsers and dependencies
         working-directory: apps/web
-        run: npx playwright install --with-deps chromium
+        run: |
+          npx playwright install --with-deps chromium
+          npx playwright --version
 
       - name: Run MCP assertions
-        working-directory: apps/web
+        working-directory: apps/web  
         run: npm run mcp:run
         env:
           CI: true
