@@ -1,7 +1,7 @@
 {
-  "timestamp": "2025-08-27T21:58:49.358Z",
+  "timestamp": "2025-08-28T00:26:11.741Z",
   "summary": {
-    "filesScanned": 21,
+    "filesScanned": 22,
     "violationsFound": 0,
     "warningsFound": 40
   },
@@ -111,43 +111,6 @@
       ]
     },
     {
-      "file": "apps/web/src/components/PRQueue.tsx",
-      "issues": [
-        {
-          "file": "apps/web/src/components/PRQueue.tsx",
-          "line": 37,
-          "column": 32,
-          "pattern": "className=\"flex items-center space-x-3 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-",
-          "message": "Consider migrating gray-* classes to semantic theme tokens",
-          "context": "<div key={item.id} className=\"flex items-center space-x-3 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors\">"
-        },
-        {
-          "file": "apps/web/src/components/PRQueue.tsx",
-          "line": 38,
-          "column": 21,
-          "pattern": "className=\"w-4 h-4 text-gray-",
-          "message": "Consider migrating gray-* classes to semantic theme tokens",
-          "context": "<Icon className=\"w-4 h-4 text-gray-500\" />"
-        },
-        {
-          "file": "apps/web/src/components/PRQueue.tsx",
-          "line": 48,
-          "column": 27,
-          "pattern": "className=\"text-xs text-gray-",
-          "message": "Consider migrating gray-* classes to semantic theme tokens",
-          "context": "<span className=\"text-xs text-gray-500\">"
-        },
-        {
-          "file": "apps/web/src/components/PRQueue.tsx",
-          "line": 53,
-          "column": 27,
-          "pattern": "className=\"text-xs text-gray-",
-          "message": "Consider migrating gray-* classes to semantic theme tokens",
-          "context": "<span className=\"text-xs text-gray-500\">"
-        }
-      ]
-    },
-    {
       "file": "apps/web/src/components/SEOMovers.tsx",
       "issues": [
         {
@@ -178,6 +141,43 @@
           "file": "apps/web/src/components/SEOMovers.tsx",
           "line": 34,
           "column": 25,
+          "pattern": "className=\"text-xs text-gray-",
+          "message": "Consider migrating gray-* classes to semantic theme tokens",
+          "context": "<span className=\"text-xs text-gray-500\">"
+        }
+      ]
+    },
+    {
+      "file": "apps/web/src/components/PRQueue.tsx",
+      "issues": [
+        {
+          "file": "apps/web/src/components/PRQueue.tsx",
+          "line": 37,
+          "column": 32,
+          "pattern": "className=\"flex items-center space-x-3 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-",
+          "message": "Consider migrating gray-* classes to semantic theme tokens",
+          "context": "<div key={item.id} className=\"flex items-center space-x-3 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors\">"
+        },
+        {
+          "file": "apps/web/src/components/PRQueue.tsx",
+          "line": 38,
+          "column": 21,
+          "pattern": "className=\"w-4 h-4 text-gray-",
+          "message": "Consider migrating gray-* classes to semantic theme tokens",
+          "context": "<Icon className=\"w-4 h-4 text-gray-500\" />"
+        },
+        {
+          "file": "apps/web/src/components/PRQueue.tsx",
+          "line": 48,
+          "column": 27,
+          "pattern": "className=\"text-xs text-gray-",
+          "message": "Consider migrating gray-* classes to semantic theme tokens",
+          "context": "<span className=\"text-xs text-gray-500\">"
+        },
+        {
+          "file": "apps/web/src/components/PRQueue.tsx",
+          "line": 53,
+          "column": 27,
           "pattern": "className=\"text-xs text-gray-",
           "message": "Consider migrating gray-* classes to semantic theme tokens",
           "context": "<span className=\"text-xs text-gray-500\">"
@@ -231,6 +231,19 @@
           "pattern": "className=\"flex items-center text-xs text-gray-",
           "message": "Consider migrating gray-* classes to semantic theme tokens",
           "context": "<div className=\"flex items-center text-xs text-gray-500\">"
+        }
+      ]
+    },
+    {
+      "file": "apps/web/src/components/Alerts.tsx",
+      "issues": [
+        {
+          "file": "apps/web/src/components/Alerts.tsx",
+          "line": 40,
+          "column": 16,
+          "pattern": "className=\"text-center py-4 text-gray-",
+          "message": "Consider migrating gray-* classes to semantic theme tokens",
+          "context": "<div className=\"text-center py-4 text-gray-500\">"
         }
       ]
     },
@@ -325,19 +338,6 @@
       ]
     },
     {
-      "file": "apps/web/src/components/Alerts.tsx",
-      "issues": [
-        {
-          "file": "apps/web/src/components/Alerts.tsx",
-          "line": 40,
-          "column": 16,
-          "pattern": "className=\"text-center py-4 text-gray-",
-          "message": "Consider migrating gray-* classes to semantic theme tokens",
-          "context": "<div className=\"text-center py-4 text-gray-500\">"
-        }
-      ]
-    },
-    {
       "file": "apps/web/src/components/AIRecommendationCard.tsx",
       "issues": [
         {
@@ -383,5 +383,5 @@
       ]
     }
   ],
-  "passed": 8
+  "passed": 9
 }

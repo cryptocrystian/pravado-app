@@ -126,6 +126,9 @@ jobs:
           path: apps/web/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('apps/web/package-lock.json') }}
 
+      - name: Install Node.js dependencies for UI audit
+        run: npm install glob@^11.0.3
+
       - name: Run UI audit  
         run: node scripts/ui/audit-colors.mjs
 
@@ -179,8 +182,8 @@ jobs:
         with:
           name: playwright-results-${{ matrix.project }}
           path: |
-            scripts/mcp/test-results/
-            scripts/mcp/playwright-report/
+            apps/web/tests/
+            apps/web/playwright-report/
           retention-days: 7
 
       - name: Upload screenshots on failure
@@ -188,7 +191,7 @@ jobs:
         if: failure()
         with:
           name: playwright-screenshots-${{ matrix.project }}
-          path: scripts/mcp/test-results/*.png
+          path: apps/web/test-results/*.png
           retention-days: 7
 
   mcp-assertions:
