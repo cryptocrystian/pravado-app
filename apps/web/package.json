@@ -11,9 +11,9 @@
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "test": "vitest",
     "test:ui": "playwright test",
-    "test:e2e": "playwright test --config=../../scripts/mcp/playwright.config.ts",
+    "test:e2e": "playwright test --config=playwright-base.config.ts",
     "ui:audit": "cd ../.. && node scripts/ui/audit-colors.mjs",
-    "mcp:run": "playwright test ../../scripts/mcp/assertions.spec.ts --config=../../scripts/mcp/playwright.config.ts"
+    "mcp:run": "playwright test --config=playwright-mcp.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.0.3",
