@@ -1,10 +1,10 @@
 {
   "config": {
-    "configFile": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/playwright-mcp.config.ts",
+    "configFile": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/playwright-base.config.ts",
     "rootDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
     "forbidOnly": false,
     "fullyParallel": true,
-    "globalSetup": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/global-setup.ts",
+    "globalSetup": null,
     "globalTeardown": null,
     "globalTimeout": 0,
     "grep": {},
@@ -22,7 +22,7 @@
       [
         "json",
         {
-          "outputFile": "scripts/mcp/test-results.json"
+          "outputFile": "test-results.json"
         }
       ]
     ],
@@ -33,7 +33,7 @@
     "quiet": false,
     "projects": [
       {
-        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/test-results",
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
@@ -42,12 +42,12 @@
         "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
         "testIgnore": [],
         "testMatch": [
-          "**/mcp-assertions.spec.ts"
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
         "timeout": 30000
       },
       {
-        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/test-results",
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
@@ -56,12 +56,12 @@
         "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
         "testIgnore": [],
         "testMatch": [
-          "**/mcp-assertions.spec.ts"
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
         "timeout": 30000
       },
       {
-        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/test-results",
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
@@ -70,63 +70,7 @@
         "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
         "testIgnore": [],
         "testMatch": [
-          "**/mcp-assertions.spec.ts"
-        ],
-        "timeout": 30000
-      },
-      {
-        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {},
-        "id": "Mobile Chrome",
-        "name": "Mobile Chrome",
-        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "**/mcp-assertions.spec.ts"
-        ],
-        "timeout": 30000
-      },
-      {
-        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {},
-        "id": "Mobile Safari",
-        "name": "Mobile Safari",
-        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "**/mcp-assertions.spec.ts"
-        ],
-        "timeout": 30000
-      },
-      {
-        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {},
-        "id": "Microsoft Edge",
-        "name": "Microsoft Edge",
-        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "**/mcp-assertions.spec.ts"
-        ],
-        "timeout": 30000
-      },
-      {
-        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {},
-        "id": "Google Chrome",
-        "name": "Google Chrome",
-        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "**/mcp-assertions.spec.ts"
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
         "timeout": 30000
       }
@@ -139,12 +83,1133 @@
     "webServer": {
       "command": "npm run dev",
       "port": 5173,
-      "cwd": ".",
       "reuseExistingServer": true,
       "timeout": 120000
     }
   },
   "suites": [
+    {
+      "title": "a11y/accessibility.spec.ts",
+      "file": "a11y/accessibility.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Accessibility Tests - PRAVADO UI V4",
+          "file": "a11y/accessibility.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "/dashboard should pass axe AA accessibility checks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-2f66b85bde21ca9e6d80",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 5,
+              "column": 3
+            },
+            {
+              "title": "/content should pass axe AA accessibility checks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-0c4461b02bc18c1f54ed",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "Dashboard keyboard navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-4cb302f57b8bd1b10e82",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "Color contrast meets WCAG AA standards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-17be8d3a80060fc3750c",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "Screen reader landmarks and headings",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-bc3fac3dda6ca02bfe5d",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "ARIA labels and descriptions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-1ed50365514ae125566c",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 118,
+              "column": 3
+            },
+            {
+              "title": "/dashboard should pass axe AA accessibility checks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-4bfc37e0f46c5dc562c0",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 5,
+              "column": 3
+            },
+            {
+              "title": "/content should pass axe AA accessibility checks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-ca828e2a2c103eb417e7",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "Dashboard keyboard navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-598339414474e2c248f0",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "Color contrast meets WCAG AA standards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-85e2ffef053fde7a9004",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "Screen reader landmarks and headings",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-064c7f556f3af5e3016b",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "ARIA labels and descriptions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-a6d85e37f6b3f548011c",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 118,
+              "column": 3
+            },
+            {
+              "title": "/dashboard should pass axe AA accessibility checks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-5e3fbc29ee60da862734",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 5,
+              "column": 3
+            },
+            {
+              "title": "/content should pass axe AA accessibility checks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-a734fe78b2fa973fbcde",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "Dashboard keyboard navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-c64ae3b4ee3c0d8e7d77",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "Color contrast meets WCAG AA standards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-653be804fbd5180779a2",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "Screen reader landmarks and headings",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-a683ff7dbb2d51e3ef9c",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "ARIA labels and descriptions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0163b5c2b134f8786694-7a0eed0fc993c9c191ca",
+              "file": "a11y/accessibility.spec.ts",
+              "line": 118,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "basic.spec.ts",
+      "file": "basic.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "basic test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8946741c555a0c4515d8-b7449261bf9ae1736db0",
+          "file": "basic.spec.ts",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "basic test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8946741c555a0c4515d8-a4c2d2b3d0c340cb8e53",
+          "file": "basic.spec.ts",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "basic test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8946741c555a0c4515d8-f339baa7e78a99d690f7",
+          "file": "basic.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "contract/mcp-contract.spec.ts",
+      "file": "contract/mcp-contract.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "MCP Contract Tests - PRAVADO UI V4",
+          "file": "contract/mcp-contract.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Theme routing: /dashboard island luminance <0.2",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-2b8531b87f92323f22f4",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "Theme routing: /content island luminance >0.8",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-6a225ac7b756b41d0aac",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 22,
+              "column": 3
+            },
+            {
+              "title": "Palette: no computed background-image contains \"gradient\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-999e7ec3ddfbea899fb9",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "Palette: .btn-primary is solid AI-Teal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-d04748d97951a18a3300",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 61,
+              "column": 3
+            },
+            {
+              "title": "Palette: find .chip-confidence (teal) & .chip-impact (gold)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-18980dd4acda78a006a1",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "Palette: hero delta is green/red by sign",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-d28e725f3a9846a584a3",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 99,
+              "column": 3
+            },
+            {
+              "title": "Layout: Bands present A→B→C(8/4)→D",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-6735152158ea54e8bf09",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 114,
+              "column": 3
+            },
+            {
+              "title": "Layout: Quick Actions = 4",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-f1f1e651947b2df06384",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 139,
+              "column": 3
+            },
+            {
+              "title": "Layout: Automation Bar visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-a01b9352b8b4641d34ca",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 147,
+              "column": 3
+            },
+            {
+              "title": "HIL: no \"Auto-apply\" control",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-8a9d74079a00cdc56c25",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 161,
+              "column": 3
+            },
+            {
+              "title": "Sidebar: teal active bar + gold count badges",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-36158f5cab85d0e8b36f",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 172,
+              "column": 3
+            },
+            {
+              "title": "Theme routing: /dashboard island luminance <0.2",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-a47cf4a452c38a26c9b8",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "Theme routing: /content island luminance >0.8",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-823124f66d4a6859d037",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 22,
+              "column": 3
+            },
+            {
+              "title": "Palette: no computed background-image contains \"gradient\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-03e0c6f10eba2a6daa0d",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "Palette: .btn-primary is solid AI-Teal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-d8c1c448c7d2511d4792",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 61,
+              "column": 3
+            },
+            {
+              "title": "Palette: find .chip-confidence (teal) & .chip-impact (gold)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-7c8c74849f6187096306",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "Palette: hero delta is green/red by sign",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-08131cb5bdf3f8417603",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 99,
+              "column": 3
+            },
+            {
+              "title": "Layout: Bands present A→B→C(8/4)→D",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-defb2cb00425022c35de",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 114,
+              "column": 3
+            },
+            {
+              "title": "Layout: Quick Actions = 4",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-817d4530ebc1f274dc49",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 139,
+              "column": 3
+            },
+            {
+              "title": "Layout: Automation Bar visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-a66a8124418dea9a2263",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 147,
+              "column": 3
+            },
+            {
+              "title": "HIL: no \"Auto-apply\" control",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-fcd0a5d3fe37fd1865dd",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 161,
+              "column": 3
+            },
+            {
+              "title": "Sidebar: teal active bar + gold count badges",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-662fdba1611c1fe005ce",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 172,
+              "column": 3
+            },
+            {
+              "title": "Theme routing: /dashboard island luminance <0.2",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-bfeefeed90cf47641df9",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "Theme routing: /content island luminance >0.8",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-f31ef9b9484857627643",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 22,
+              "column": 3
+            },
+            {
+              "title": "Palette: no computed background-image contains \"gradient\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-abcb19eccbd2ee60c473",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "Palette: .btn-primary is solid AI-Teal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-ad5d8fdea3dd1507e931",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 61,
+              "column": 3
+            },
+            {
+              "title": "Palette: find .chip-confidence (teal) & .chip-impact (gold)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-24793c17afcc84727b1e",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "Palette: hero delta is green/red by sign",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-039b4c095bb9be6e6e2d",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 99,
+              "column": 3
+            },
+            {
+              "title": "Layout: Bands present A→B→C(8/4)→D",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-676f08182fcac2b5f3f4",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 114,
+              "column": 3
+            },
+            {
+              "title": "Layout: Quick Actions = 4",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-a5b8009cfbd812953076",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 139,
+              "column": 3
+            },
+            {
+              "title": "Layout: Automation Bar visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-307e96f074c0b789c29b",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 147,
+              "column": 3
+            },
+            {
+              "title": "HIL: no \"Auto-apply\" control",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-82bd8227d102b79b30d5",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 161,
+              "column": 3
+            },
+            {
+              "title": "Sidebar: teal active bar + gold count badges",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "abc1d00f0fdfa25ca4f8-096fd345ef8e63f97ff7",
+              "file": "contract/mcp-contract.spec.ts",
+              "line": 172,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
     {
       "title": "mcp-assertions.spec.ts",
       "file": "mcp-assertions.spec.ts",
@@ -697,726 +1762,6 @@
               "file": "mcp-assertions.spec.ts",
               "line": 216,
               "column": 3
-            },
-            {
-              "title": "Dashboard sections have data-surface=\"content\" markers",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-3d4e384eaf374f73e765",
-              "file": "mcp-assertions.spec.ts",
-              "line": 25,
-              "column": 3
-            },
-            {
-              "title": "Sticky ops rail positioning at lg breakpoint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-d8c5e009049e34873ea6",
-              "file": "mcp-assertions.spec.ts",
-              "line": 45,
-              "column": 3
-            },
-            {
-              "title": "AI recommendations grid becomes 2 columns at ≥1024px",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-62b6670f280332e18a55",
-              "file": "mcp-assertions.spec.ts",
-              "line": 70,
-              "column": 3
-            },
-            {
-              "title": "No blank islands - each band has visible content",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-24bfaf83eaef7f069f58",
-              "file": "mcp-assertions.spec.ts",
-              "line": 97,
-              "column": 3
-            },
-            {
-              "title": "Theme routing: dashboard has dark theme",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-caeb8c898ac327f142a7",
-              "file": "mcp-assertions.spec.ts",
-              "line": 127,
-              "column": 3
-            },
-            {
-              "title": "Navigation active states with 3px AI-Teal indicator",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-382abf71e4d8ed24e3bc",
-              "file": "mcp-assertions.spec.ts",
-              "line": 149,
-              "column": 3
-            },
-            {
-              "title": "Responsive breakpoint behavior",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-c16ae350e8f9929793f4",
-              "file": "mcp-assertions.spec.ts",
-              "line": 172,
-              "column": 3
-            },
-            {
-              "title": "Performance: Page load under 3 seconds",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-ad8a9607e3b1f1555df0",
-              "file": "mcp-assertions.spec.ts",
-              "line": 202,
-              "column": 3
-            },
-            {
-              "title": "Accessibility: Proper ARIA labels and keyboard navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-158b7c37579b5fc299eb",
-              "file": "mcp-assertions.spec.ts",
-              "line": 216,
-              "column": 3
-            },
-            {
-              "title": "Dashboard sections have data-surface=\"content\" markers",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-eb30ef895e430923f0e9",
-              "file": "mcp-assertions.spec.ts",
-              "line": 25,
-              "column": 3
-            },
-            {
-              "title": "Sticky ops rail positioning at lg breakpoint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-5fac195ddd893419de0a",
-              "file": "mcp-assertions.spec.ts",
-              "line": 45,
-              "column": 3
-            },
-            {
-              "title": "AI recommendations grid becomes 2 columns at ≥1024px",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-5a6eff91322ae00bfdd4",
-              "file": "mcp-assertions.spec.ts",
-              "line": 70,
-              "column": 3
-            },
-            {
-              "title": "No blank islands - each band has visible content",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-82813fc878cf7f5463c0",
-              "file": "mcp-assertions.spec.ts",
-              "line": 97,
-              "column": 3
-            },
-            {
-              "title": "Theme routing: dashboard has dark theme",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-8b1ce167f288c6db6295",
-              "file": "mcp-assertions.spec.ts",
-              "line": 127,
-              "column": 3
-            },
-            {
-              "title": "Navigation active states with 3px AI-Teal indicator",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-c703eb889de0623094e2",
-              "file": "mcp-assertions.spec.ts",
-              "line": 149,
-              "column": 3
-            },
-            {
-              "title": "Responsive breakpoint behavior",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-5064fb0a6f7f58be2ba2",
-              "file": "mcp-assertions.spec.ts",
-              "line": 172,
-              "column": 3
-            },
-            {
-              "title": "Performance: Page load under 3 seconds",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-a52734ac747563aedfbc",
-              "file": "mcp-assertions.spec.ts",
-              "line": 202,
-              "column": 3
-            },
-            {
-              "title": "Accessibility: Proper ARIA labels and keyboard navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-ef61749f0d926f938b71",
-              "file": "mcp-assertions.spec.ts",
-              "line": 216,
-              "column": 3
-            },
-            {
-              "title": "Dashboard sections have data-surface=\"content\" markers",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-0c01d1439911f58c63d6",
-              "file": "mcp-assertions.spec.ts",
-              "line": 25,
-              "column": 3
-            },
-            {
-              "title": "Sticky ops rail positioning at lg breakpoint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-6ccafbe42577ae102f9e",
-              "file": "mcp-assertions.spec.ts",
-              "line": 45,
-              "column": 3
-            },
-            {
-              "title": "AI recommendations grid becomes 2 columns at ≥1024px",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-f0fd3409063e3854b054",
-              "file": "mcp-assertions.spec.ts",
-              "line": 70,
-              "column": 3
-            },
-            {
-              "title": "No blank islands - each band has visible content",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-38b9bcf1881953bfc569",
-              "file": "mcp-assertions.spec.ts",
-              "line": 97,
-              "column": 3
-            },
-            {
-              "title": "Theme routing: dashboard has dark theme",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-11c57338612a0b1c6e8c",
-              "file": "mcp-assertions.spec.ts",
-              "line": 127,
-              "column": 3
-            },
-            {
-              "title": "Navigation active states with 3px AI-Teal indicator",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-80072bccf7d43e867c16",
-              "file": "mcp-assertions.spec.ts",
-              "line": 149,
-              "column": 3
-            },
-            {
-              "title": "Responsive breakpoint behavior",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-fed29525c7fc2690855d",
-              "file": "mcp-assertions.spec.ts",
-              "line": 172,
-              "column": 3
-            },
-            {
-              "title": "Performance: Page load under 3 seconds",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-adad27086f0fb7a5f7ea",
-              "file": "mcp-assertions.spec.ts",
-              "line": 202,
-              "column": 3
-            },
-            {
-              "title": "Accessibility: Proper ARIA labels and keyboard navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-8766128690d4e7453583",
-              "file": "mcp-assertions.spec.ts",
-              "line": 216,
-              "column": 3
-            },
-            {
-              "title": "Dashboard sections have data-surface=\"content\" markers",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-5534cc8e03b7b095f5de",
-              "file": "mcp-assertions.spec.ts",
-              "line": 25,
-              "column": 3
-            },
-            {
-              "title": "Sticky ops rail positioning at lg breakpoint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-218a23fd6536bde02d2a",
-              "file": "mcp-assertions.spec.ts",
-              "line": 45,
-              "column": 3
-            },
-            {
-              "title": "AI recommendations grid becomes 2 columns at ≥1024px",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-d91b7efacde1c664b94c",
-              "file": "mcp-assertions.spec.ts",
-              "line": 70,
-              "column": 3
-            },
-            {
-              "title": "No blank islands - each band has visible content",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-ba948289be5059dc9285",
-              "file": "mcp-assertions.spec.ts",
-              "line": 97,
-              "column": 3
-            },
-            {
-              "title": "Theme routing: dashboard has dark theme",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-b1fa77dab3b8c6b37ad5",
-              "file": "mcp-assertions.spec.ts",
-              "line": 127,
-              "column": 3
-            },
-            {
-              "title": "Navigation active states with 3px AI-Teal indicator",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-03de54ef47a56c60ecdf",
-              "file": "mcp-assertions.spec.ts",
-              "line": 149,
-              "column": 3
-            },
-            {
-              "title": "Responsive breakpoint behavior",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-9334aa85bbe6dae49843",
-              "file": "mcp-assertions.spec.ts",
-              "line": 172,
-              "column": 3
-            },
-            {
-              "title": "Performance: Page load under 3 seconds",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-89bcd50b7e7b11517e9d",
-              "file": "mcp-assertions.spec.ts",
-              "line": 202,
-              "column": 3
-            },
-            {
-              "title": "Accessibility: Proper ARIA labels and keyboard navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-9a19acb1bb64a879b4ab",
-              "file": "mcp-assertions.spec.ts",
-              "line": 216,
-              "column": 3
             }
           ]
         },
@@ -1545,166 +1890,6 @@
               "file": "mcp-assertions.spec.ts",
               "line": 264,
               "column": 3
-            },
-            {
-              "title": "No forbidden colors in dashboard",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-023b360a5bd6eb6f56b7",
-              "file": "mcp-assertions.spec.ts",
-              "line": 236,
-              "column": 3
-            },
-            {
-              "title": "AI-Teal and Premium-Gold usage",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Chrome",
-                  "projectName": "Mobile Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-476b8f5bca1a346aac8f",
-              "file": "mcp-assertions.spec.ts",
-              "line": 264,
-              "column": 3
-            },
-            {
-              "title": "No forbidden colors in dashboard",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-737326a5978898df2b86",
-              "file": "mcp-assertions.spec.ts",
-              "line": 236,
-              "column": 3
-            },
-            {
-              "title": "AI-Teal and Premium-Gold usage",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Mobile Safari",
-                  "projectName": "Mobile Safari",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-bd0b9590b5bf9f03a936",
-              "file": "mcp-assertions.spec.ts",
-              "line": 264,
-              "column": 3
-            },
-            {
-              "title": "No forbidden colors in dashboard",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-a54910f57d29e2bbba10",
-              "file": "mcp-assertions.spec.ts",
-              "line": 236,
-              "column": 3
-            },
-            {
-              "title": "AI-Teal and Premium-Gold usage",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Microsoft Edge",
-                  "projectName": "Microsoft Edge",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-8ecc675e497ad65f4011",
-              "file": "mcp-assertions.spec.ts",
-              "line": 264,
-              "column": 3
-            },
-            {
-              "title": "No forbidden colors in dashboard",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-a9efc78d72cc5fac1df8",
-              "file": "mcp-assertions.spec.ts",
-              "line": 236,
-              "column": 3
-            },
-            {
-              "title": "AI-Teal and Premium-Gold usage",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "Google Chrome",
-                  "projectName": "Google Chrome",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "71d195aebb81263551a1-81d8b8f0d14cd779913e",
-              "file": "mcp-assertions.spec.ts",
-              "line": 264,
-              "column": 3
             }
           ]
         }
@@ -1713,10 +1898,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-08-28T00:44:53.639Z",
-    "duration": 34.43599999999992,
+    "startTime": "2025-08-28T00:44:46.991Z",
+    "duration": 218.69299999999998,
     "expected": 0,
-    "skipped": 77,
+    "skipped": 87,
     "unexpected": 0,
     "flaky": 0
   }

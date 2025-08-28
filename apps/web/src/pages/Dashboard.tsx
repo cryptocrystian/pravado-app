@@ -177,13 +177,15 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Band A: KPI Hero */}
-      <KPIHero 
-        visibilityScore={mockVisibilityScore}
-        sparklineData={mockSparklineData}
-      />
+      <div data-surface="content">
+        <KPIHero 
+          visibilityScore={mockVisibilityScore}
+          sparklineData={mockSparklineData}
+        />
+      </div>
 
       {/* Band B: AI Recommendations + Automation Bar */}
-      <div className="space-y-4">
+      <div className="space-y-4" data-surface="content">
         <h2 className="text-xl font-semibold text-text-primary dark:text-text-primary-dark">
           AI Recommendations
         </h2>
@@ -203,7 +205,7 @@ export function Dashboard() {
           onViewQueue={() => console.log('View queue clicked')}
         />
         
-        <div className="grid gap-4">
+        <div className="grid gap-4" data-testid="ai-recommendations">
           {mockRecommendations.map(rec => (
             <AIRecommendationCard
               key={rec.id}
@@ -217,7 +219,7 @@ export function Dashboard() {
       </div>
 
       {/* Band C: 8/4 Grid */}
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-6" data-surface="content">
         {/* Left side - 8 columns */}
         <div className="col-span-8 grid grid-cols-2 gap-4">
           <ContentQueue items={mockContentQueue} />
@@ -240,7 +242,9 @@ export function Dashboard() {
       </div>
 
       {/* Band D: Activity Timeline */}
-      <ActivityTimeline events={mockActivityEvents} />
+      <div data-surface="content">
+        <ActivityTimeline events={mockActivityEvents} />
+      </div>
     </div>
   )
 }
