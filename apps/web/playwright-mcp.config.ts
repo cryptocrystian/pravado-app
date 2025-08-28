@@ -59,8 +59,8 @@ export default defineConfig({
     timeout: 120000,
   },
   
-  /* Global setup */
-  globalSetup: '../../scripts/mcp/global-setup.ts',
+  /* Global setup - disabled for now to avoid path issues */
+  // globalSetup: '../../scripts/mcp/global-setup.ts',
   
   /* Output directory for test artifacts */
   outputDir: '../../scripts/mcp/test-results',
