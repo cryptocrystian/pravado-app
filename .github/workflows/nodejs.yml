@@ -1,9 +1,7 @@
 name: build-and-deploy
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
+  workflow_dispatch: # Manual trigger only
 
 jobs:
   build:

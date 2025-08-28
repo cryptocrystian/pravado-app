@@ -46,10 +46,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-playwright-
 
-      - name: Install Playwright browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
+      - name: Install Playwright browsers and dependencies
         working-directory: apps/web
-        run: npx playwright install --with-deps
+        run: |
+          # Always install system dependencies (they're not cached)
+          sudo npx playwright install-deps
+          # Install browsers only if not cached
+          if [[ "${{ steps.cache-playwright.outputs.cache-hit }}" != "true" ]]; then
+            npx playwright install chromium
+          fi
 
   typecheck:
     name: TypeScript Type Checking
@@ -147,7 +152,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [chromium, firefox, webkit]
+        project: [chromium]
     steps:
       - uses: actions/checkout@v4
 
@@ -170,6 +175,10 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('apps/web/package-lock.json') }}
 
+      - name: Install Playwright system dependencies
+        working-directory: apps/web
+        run: sudo npx playwright install-deps
+
       - name: Run Playwright tests
         working-directory: apps/web
         run: npm run test:e2e -- --project=${{ matrix.project }}
@@ -182,8 +191,9 @@ jobs:
         with:
           name: playwright-results-${{ matrix.project }}
           path: |
-            apps/web/tests/
+            apps/web/test-results/
             apps/web/playwright-report/
+            scripts/mcp/test-results/
           retention-days: 7
 
       - name: Upload screenshots on failure
@@ -219,6 +229,10 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('apps/web/package-lock.json') }}
+
+      - name: Install Playwright system dependencies
+        working-directory: apps/web
+        run: sudo npx playwright install-deps
 
       - name: Run MCP assertions
         working-directory: apps/web

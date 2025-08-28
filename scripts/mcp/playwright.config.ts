@@ -7,7 +7,7 @@ import { defineConfig, devices } from '@playwright/test'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './scripts/mcp',
+  testDir: '.',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -83,13 +83,13 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     port: 5173,
-    cwd: process.cwd().includes('apps/web') ? '.' : 'apps/web',
+    cwd: 'apps/web',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },
   
   /* Global setup */
-  globalSetup: './global-setup.ts',
+  globalSetup: './scripts/mcp/global-setup.ts',
   
   /* Output directory for test artifacts */
   outputDir: 'scripts/mcp/test-results',
