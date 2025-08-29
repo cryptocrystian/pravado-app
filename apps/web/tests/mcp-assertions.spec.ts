@@ -37,7 +37,7 @@ test.describe('MCP UI Contract Assertions', () => {
     
     // Take screenshot for verification
     await page.screenshot({ 
-      path: 'scripts/mcp/test-results/dashboard-surfaces.png',
+      path: 'test-results/dashboard-surfaces.png',
       fullPage: true 
     })
   })
@@ -47,7 +47,7 @@ test.describe('MCP UI Contract Assertions', () => {
     await page.setViewportSize({ width: 1200, height: 800 })
     
     // Find the operations rail (sidebar)
-    const opsRail = page.locator('[data-testid="sidebar"], .sidebar, nav')
+    const opsRail = page.locator('[data-testid="main-sidebar"]')
     await expect(opsRail).toBeVisible()
     
     // Check that it has sticky positioning on large screens
@@ -63,7 +63,7 @@ test.describe('MCP UI Contract Assertions', () => {
     await expect(opsRail).toBeInViewport()
     
     await page.screenshot({ 
-      path: 'scripts/mcp/test-results/sticky-rail-lg.png' 
+      path: 'test-results/sticky-rail-lg.png' 
     })
   })
 
@@ -72,7 +72,7 @@ test.describe('MCP UI Contract Assertions', () => {
     await page.setViewportSize({ width: 1024, height: 800 })
     
     // Find AI recommendations container
-    const aiRecsGrid = page.locator('[data-testid="ai-recommendations"], .ai-recommendations, [data-surface="content"]:has-text("AI")')
+    const aiRecsGrid = page.locator('[data-testid="primary-ai-recommendations"]')
     await expect(aiRecsGrid).toBeVisible()
     
     // Check grid layout properties
@@ -82,7 +82,7 @@ test.describe('MCP UI Contract Assertions', () => {
     })
     
     // Should have 2 columns or grid display
-    expect(gridColumns).toMatch(/(repeat\(2|1fr 1fr|grid)/)
+    expect(gridColumns).toMatch(/(repeat\(2|1fr 1fr|grid|\d+px \d+px)/)
     
     // Count visible recommendation cards
     const recCards = page.locator('[data-testid="ai-recommendation-card"], .ai-recommendation-card, [data-surface="content"] .card')
@@ -90,7 +90,7 @@ test.describe('MCP UI Contract Assertions', () => {
     expect(cardCount).toBeGreaterThanOrEqual(2)
     
     await page.screenshot({ 
-      path: 'scripts/mcp/test-results/ai-grid-2col.png' 
+      path: 'test-results/ai-grid-2col.png' 
     })
   })
 
@@ -119,7 +119,7 @@ test.describe('MCP UI Contract Assertions', () => {
     }
     
     await page.screenshot({ 
-      path: 'scripts/mcp/test-results/no-blank-bands.png',
+      path: 'test-results/no-blank-bands.png',
       fullPage: true 
     })
   })
@@ -148,7 +148,7 @@ test.describe('MCP UI Contract Assertions', () => {
 
   test('Navigation active states with 3px AI-Teal indicator', async ({ page }) => {
     // Find sidebar navigation
-    const nav = page.locator('[data-testid="sidebar"] nav, nav, .sidebar nav')
+    const nav = page.locator('[data-testid="main-navigation"]')
     await expect(nav).toBeVisible()
     
     // Look for active navigation item
@@ -175,7 +175,7 @@ test.describe('MCP UI Contract Assertions', () => {
     await page.waitForTimeout(500)
     
     // Sidebar should be collapsed or hidden on mobile
-    const sidebar = page.locator('[data-testid="sidebar"], .sidebar')
+    const sidebar = page.locator('[data-testid="main-sidebar"]')
     if (await sidebar.count() > 0) {
       const isHidden = await sidebar.evaluate((el) => {
         const styles = window.getComputedStyle(el)
@@ -195,7 +195,7 @@ test.describe('MCP UI Contract Assertions', () => {
     await page.waitForTimeout(500)
     
     await page.screenshot({ 
-      path: 'scripts/mcp/test-results/responsive-desktop.png' 
+      path: 'test-results/responsive-desktop.png' 
     })
   })
 

@@ -176,6 +176,7 @@ export function Dashboard() {
 
   return (
     <div className="space-y-6">
+      <h1 className="sr-only">Dashboard</h1>
       {/* Band A: KPI Hero */}
       <div data-surface="content">
         <KPIHero 
@@ -205,7 +206,7 @@ export function Dashboard() {
           onViewQueue={() => console.log('View queue clicked')}
         />
         
-        <div className="grid gap-4 lg:grid-cols-2" data-testid="ai-recommendations">
+        <div className="grid gap-4 lg:grid-cols-2" data-testid="primary-ai-recommendations">
           {mockRecommendations.map(rec => (
             <AIRecommendationCard
               key={rec.id}

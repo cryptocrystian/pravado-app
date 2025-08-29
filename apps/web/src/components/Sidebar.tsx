@@ -24,7 +24,7 @@ const navigation = [
 export function Sidebar() {
   return (
     <aside 
-      data-testid="sidebar"
+      data-testid="main-sidebar"
       className="hidden md:block w-64 bg-surface border-r border-border sticky top-0 h-screen">
       <div className="flex flex-col h-full">
         {/* Logo */}
@@ -35,7 +35,7 @@ export function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-6 space-y-2">
+        <nav data-testid="main-navigation" className="flex-1 px-4 py-6 space-y-2">
           {navigation.map((item) => {
             const Icon = item.icon
             return (
