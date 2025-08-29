@@ -1,0 +1,162 @@
+{
+  "config": {
+    "configFile": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/playwright.config.ts",
+    "rootDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/global-setup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "scripts/mcp/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Microsoft Edge",
+        "name": "Microsoft Edge",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Google Chrome",
+        "name": "Google Chrome",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/scripts/mcp/scripts/mcp",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 6,
+    "webServer": {
+      "command": "npm run dev",
+      "port": 5173,
+      "cwd": ".",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "Error: Process from config.webServer was not able to start. Exit code: 254",
+      "stack": "Error: Process from config.webServer was not able to start. Exit code: 254"
+    }
+  ],
+  "stats": {
+    "startTime": "2025-08-28T00:24:33.540Z",
+    "duration": 470.4549999999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

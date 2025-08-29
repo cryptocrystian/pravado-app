@@ -1,0 +1,493 @@
+{
+  "config": {
+    "configFile": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/playwright-mcp.config.ts",
+    "rootDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 6
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/saipienlabs/projects/insightforge-pulse/pravado-app/apps/web/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/mcp-assertions.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 6,
+    "webServer": {
+      "command": "npm run dev",
+      "port": 5173,
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "mcp-assertions.spec.ts",
+      "file": "mcp-assertions.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "MCP UI Contract Assertions",
+          "file": "mcp-assertions.spec.ts",
+          "line": 14,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Dashboard sections have data-surface=\"content\" markers",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9383,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:25.310Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-dba1bcf328b2fdb2a029",
+              "file": "mcp-assertions.spec.ts",
+              "line": 25,
+              "column": 3
+            },
+            {
+              "title": "Sticky ops rail positioning at lg breakpoint",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 9368,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:25.318Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-67b495eff75ee2f6567f",
+              "file": "mcp-assertions.spec.ts",
+              "line": 45,
+              "column": 3
+            },
+            {
+              "title": "AI recommendations grid becomes 2 columns at ≥1024px",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 8983,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:25.328Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-21fc216a90b5aeec59b4",
+              "file": "mcp-assertions.spec.ts",
+              "line": 70,
+              "column": 3
+            },
+            {
+              "title": "No blank islands - each band has visible content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 9589,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Band 1: 1 visible items, preview: \"Visibility Score785vs. last periodView DetailsBrea...\"\n"
+                        },
+                        {
+                          "text": "Band 2: 5 visible items, preview: \"AI RecommendationsConfidence gate ≥85% (approval r...\"\n"
+                        },
+                        {
+                          "text": "Band 3: 2 visible items, preview: \"Content Queue2Q4 Product Roadmap Blog Postreview12...\"\n"
+                        },
+                        {
+                          "text": "Band 4: 1 visible items, preview: \"Activity TimelineView AllBlog post published\"AI Tr...\"\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:25.306Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-ca47fc88668a2248a9e3",
+              "file": "mcp-assertions.spec.ts",
+              "line": 97,
+              "column": 3
+            },
+            {
+              "title": "Theme routing: dashboard has dark theme",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 8832,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:25.322Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-670554e64ebd234ef01a",
+              "file": "mcp-assertions.spec.ts",
+              "line": 127,
+              "column": 3
+            },
+            {
+              "title": "Navigation active states with 3px AI-Teal indicator",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 8625,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:25.347Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-40435274978ae1bc2477",
+              "file": "mcp-assertions.spec.ts",
+              "line": 149,
+              "column": 3
+            },
+            {
+              "title": "Responsive breakpoint behavior",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 4755,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:34.477Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-fb72d262cec2c75aaf91",
+              "file": "mcp-assertions.spec.ts",
+              "line": 172,
+              "column": 3
+            },
+            {
+              "title": "Performance: Page load under 3 seconds",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 3551,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Dashboard loaded in 999ms\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:34.914Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-119b8c39288f8a5dbfc4",
+              "file": "mcp-assertions.spec.ts",
+              "line": 202,
+              "column": 3
+            },
+            {
+              "title": "Accessibility: Proper ARIA labels and keyboard navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2654,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:34.989Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-7da0067979e031d7ad7f",
+              "file": "mcp-assertions.spec.ts",
+              "line": 216,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "MCP Color Contract Enforcement",
+          "file": "mcp-assertions.spec.ts",
+          "line": 234,
+          "column": 6,
+          "specs": [
+            {
+              "title": "No forbidden colors in dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2327,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:35.018Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-da850ab2c79aab92a33a",
+              "file": "mcp-assertions.spec.ts",
+              "line": 236,
+              "column": 3
+            },
+            {
+              "title": "AI-Teal and Premium-Gold usage",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2403,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-28T17:10:35.042Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "71d195aebb81263551a1-120d29961d6b9eade316",
+              "file": "mcp-assertions.spec.ts",
+              "line": 264,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-08-28T17:10:21.209Z",
+    "duration": 18304.722999999998,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

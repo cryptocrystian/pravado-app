@@ -1,0 +1,59 @@
+# This is the permanent fix - install browser dependencies properly
+# Replace ci.yml with this file once tested
+
+name: Agentic CI Pipeline (Fixed)
+
+on:
+  push:
+    branches: [ main, 'feat/*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  install-and-cache:
+    name: Install Dependencies & Cache
+    runs-on: ubuntu-latest
+    outputs:
+      node-cache-key: ${{ steps.cache-node.outputs.cache-hit }}
+      playwright-cache-key: ${{ steps.cache-playwright.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Cache node_modules
+        id: cache-node
+        uses: actions/cache@v4
+        with:
+          path: apps/web/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('apps/web/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        if: steps.cache-node.outputs.cache-hit != 'true'
+        working-directory: apps/web
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        id: cache-playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('apps/web/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install system dependencies for Playwright
+        run: sudo npx playwright install-deps chromium
+
+      - name: Install Playwright browsers
+        working-directory: apps/web
+        run: npx playwright install chromium
+
+  # ... rest of the file stays the same, but with playwright-e2e and mcp-assertions re-enabled
