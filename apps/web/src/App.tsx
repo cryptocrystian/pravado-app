@@ -3,6 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { useThemeRouting } from './hooks/useThemeRouting'
 import { Layout } from './components/Layout'
 import { Dashboard } from './pages/Dashboard'
+import { MarketingDirectorDashboard } from './pages/MarketingDirectorDashboard'
 import { ContentStudio } from './pages/ContentStudio'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { ErrorBoundary } from './components/ErrorBoundary'
@@ -17,6 +18,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/director" element={<MarketingDirectorDashboard />} />
         <Route path="/content" element={<ContentStudio />} />
         <Route path="/editor" element={<ContentStudio />} />
         <Route path="/analytics" element={<div>Analytics (Coming Soon)</div>} />

@@ -20,7 +20,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html', { open: 'never' }],
-    ['json', { outputFile: 'scripts/mcp/test-results.json' }]
+    ['json', { outputFile: 'test-results.json' }]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
