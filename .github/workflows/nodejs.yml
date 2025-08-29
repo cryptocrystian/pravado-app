@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd apps/web
-          npm ci
+          npm install
 
       # Adjust the build path if you change your app location
       - name: Build web app
