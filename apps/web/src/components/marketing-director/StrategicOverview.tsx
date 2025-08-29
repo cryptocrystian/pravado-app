@@ -5,7 +5,7 @@ interface StrategicOverviewProps {
   onViewAnalysis?: () => void;
 }
 
-export function StrategicOverview({ recommendation, budget, onApproveReallocation, onViewAnalysis }: StrategicOverviewProps) {
+export function StrategicOverview({ recommendation, budget: _budget, onApproveReallocation, onViewAnalysis: _onViewAnalysis }: StrategicOverviewProps) {
   return (
     <div className="bg-surface rounded-lg p-6">
       <h2 className="text-2xl font-semibold mb-4 text-text-primary">Strategic Overview</h2>
