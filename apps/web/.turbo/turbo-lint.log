@@ -1,0 +1,4 @@
+
+> @pravado/web@0.1.0 lint
+> eslint . --report-unused-disable-directives --max-warnings 0
+
